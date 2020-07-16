@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ChapterMapper">
+
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Chapter">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="chapter_number" jdbcType="VARCHAR" property="chapterNumber" />
+    <result column="chapter_name" jdbcType="VARCHAR" property="chapterName" />
+    <result column="chapter_image_url" jdbcType="VARCHAR" property="chapterImageUrl" />
+    <result column="chapter_status" jdbcType="INTEGER" property="chapterStatus" />
+    <result column="chapter_desc" jdbcType="VARCHAR" property="chapterDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="video_status" jdbcType="INTEGER" property="videoStatus" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association property="course"
+                 column="fk_course_id"
+                 javaType="com.kclm.owep.entity.Course"
+                 select="com.kclm.owep.mapper.CourseMapper.selectById"
+                 fetchType="eager"/>
+  </resultMap>
+
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id, chapter_number, chapter_name,
+    chapter_image_url, chapter_status, chapter_desc,
+    create_time, video_status, fk_course_id, is_delete, version, last_access_time
+  </sql>
+
+  <!--添加章-->
+  <insert id="saveAllField" parameterType="Chapter">
+    insert into t_chapter (id, chapter_number, chapter_name,
+    chapter_image_url, chapter_status, chapter_desc,
+    create_time, video_status, fk_course_id,
+    is_delete, version, last_access_time
+    )
+    values (#{id,jdbcType=INTEGER}, #{chapterNumber,jdbcType=VARCHAR}, #{chapterName,jdbcType=VARCHAR},
+    #{
+chapterImageUrl,jdbcType=VARCHAR}, #{chapterStatus,jdbcType=INTEGER}, #{chapterDesc,jdbcType=VARCHAR},
+    #{
+createTime,jdbcType=TIMESTAMP}, #{videoStatus,jdbcType=INTEGER}, #{course.id,jdbcType=INTEGER},
+    #{delete,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <!--添加章-->
+  <insert id="save" parameterType="Chapter">
+    insert into t_chapter
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="chapterNumber != null">
+        chapter_number,
+      </if>
+      <if test="chapterName != null">
+        chapter_name,
+      </if>
+      <if test="chapterImageUrl != null">
+        chapter_image_url,
+      </if>
+      <if test="chapterStatus != null">
+        chapter_status,
+      </if>
+      <if test="chapterDesc != null">
+        chapter_desc,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="videoStatus != null">
+        video_status,
+      </if>
+      <if test="course.id != null">
+        fk_course_id,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="chapterNumber != null">
+        #{chapterNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null">
+        #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterImageUrl != null">
+        #{chapterImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterStatus != null">
+        #{chapterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="chapterDesc != null">
+        #{chapterDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoStatus != null">
+        #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        #{course.id,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!--更新章-->
+  <update id="update" parameterType="Chapter">
+    update t_chapter
+    <set>
+      <if test="chapterNumber != null">
+        chapter_number = #{chapterNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null">
+        chapter_name = #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterImageUrl != null">
+        chapter_image_url = #{chapterImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterStatus != null">
+        chapter_status = #{chapterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="chapterDesc != null">
+        chapter_desc = #{chapterDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="videoStatus != null">
+        video_status = #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        fk_course_id = #{course.id,jdbcType=INTEGER},
+      </if>
+        version = version + 1 ,
+        last_access_time = now(),
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--删除章-->
+ <!-- <delete id="deleteById1" parameterType="Integer">
+    delete from t_chapter
+    where id = #{id,jdbcType=INTEGER}
+  </delete>-->
+
+  <!--删除章 逻辑删除-->
+  <update id="deleteById" parameterType="Integer">
+    update t_chapter set is_delete = 0 where id = #{id}
+  </update>
+
+
+  <!--删除所选的章-->
+  <delete id="deleteSelect1" >
+    delete from t_chapter
+    where id in
+    <foreach collection="list" separator="," open="(" close=")" item="id">
+      ${id}
+    </foreach>
+  </delete>
+
+  <!--删除所选的章 逻辑删除-->
+  <update id="deleteSelect">
+    update t_chapter set is_delete = 0
+    where id in
+    <foreach collection="list" separator="," open="(" close=")" item="id">
+      ${id}
+    </foreach>
+  </update>
+
+  <!--通过id查询章-->
+  <select id="selectById" resultType="Chapter">
+    select
+    <include refid="Base_Column_List"/>
+    from t_chapter
+    where id = #{id,jdbcType=INTEGER} and is_delete = 1
+  </select>
+
+  <!--查询所有的章-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_chapter where is_delete = 1
+  </select>
+
+  <!--通过课程id 查询所有的章-->
+  <select id="selectAllById" resultType="chapter">
+    select <include refid="Base_Column_List"/>
+    from t_chapter where fk_course_id = #{id} and is_delete = 1
+  </select>
+
+
+
+  <!--查询章的总记录数-->
+  <select id="rowTotal" parameterType="chapter" resultType="java.lang.Long">
+    select count(*) from t_chapter where is_delete = 1
+  </select>
+
+
+</mapper>

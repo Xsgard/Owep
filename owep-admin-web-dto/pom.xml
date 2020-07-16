@@ -19,6 +19,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.klcm</groupId>
+            <artifactId>owep-admin-entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ReleaseMapper">
+
+    <!-- 定义列的sql片断 -->
+    <sql id="column_list">
+       id,
+       ver,
+       description,
+       create_time,
+       last_access_time
+    </sql>
+
+    <resultMap id="release_map" type="com.kclm.owep.entity.Release">
+        <id property="id" column="id"></id>
+        <result property="ver" column="ver"/>
+        <result property="description" column="description"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastAccessTime" column="last_access_time"/>
+        <!-- 关联查询 -->
+        <collection property="releaseLogList" ofType="releaselog" fetchType="lazy">
+            <id property="id" column="rg_id"/>
+            <result property="createTime" column="rg_create_time"/>
+            <result property="content" column="content"/>
+            <result property="seq" column="seq"/>
+            <result property="type" column="type"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectById" resultMap="release_map">
+        select r.*, rg.id rg_id,rg.create_time rg_create_time, rg.content, rg.seq, rg.type
+        from t_release r left join t_release_log rg on r.id = rg.fk_release_id
+        where r.id = #{value}
+    </select>
+
+    <select id="selectAll" resultMap="release_map">
+        select r.*, rg.id rg_id,rg.create_time rg_create_time, rg.content, rg.seq, rg.type
+        from t_release r left join t_release_log rg on r.id = rg.fk_release_id
+    </select>
+
+    <delete id="deleteById" parameterType="integer">
+        delete from t_release r where r.id = #{value}
+    </delete>
+
+    <delete id="deleteSelect" parameterType="list">
+        delete from t_release r where r.id in
+        <foreach collection="list" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="save" parameterType="release" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_release(
+        <include refid="column_list"></include>
+        ) values
+        (null, #{ver},#{description},now(),null)
+    </insert>
+
+    <update id="update" parameterType="release">
+        update t_release
+        <set>
+            <if test="ver != null">ver= #{ver,jdbcType=VARCHAR},</if>
+            <if test="description != null">description= #{description,jdbcType=VARCHAR},</if>
+             last_access_time= now(),
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

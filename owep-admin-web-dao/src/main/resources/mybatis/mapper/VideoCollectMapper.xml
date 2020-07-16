@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.VideoCollectMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.VideoCollect">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />
+    <result column="fk_section_id" jdbcType="INTEGER" property="fkSectionId" />
+    <result column="fk_video_id" jdbcType="INTEGER" property="fkVideoId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="chapter_name" jdbcType="VARCHAR" property="chapterName" />
+    <result column="section_name" jdbcType="VARCHAR" property="sectionName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <!--<sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>-->
+
+  <sql id="Base_Column_List">
+    id, fk_student_id, fk_section_id, fk_video_id, course_name, chapter_name, section_name, 
+    create_time, last_access_time, version
+  </sql>
+
+<!--  <select id="selectByExample" parameterType="com.kclm.owep.entity.VideoCollectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_video_collect
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>-->
+
+  <!--  通过id查找  -->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_video_collect
+    where id = #{value,jdbcType=INTEGER}
+  </select>
+
+  <!--  通过id删除视频收藏  -->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_video_collect
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--  添加视频收藏  -->
+  <insert id="save" parameterType="com.kclm.owep.entity.VideoCollect" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+    insert into t_video_collect (id)  values (null)
+  </insert>
+
+  <!--  保存  -->
+  <insert id="saveAll" parameterType="com.kclm.owep.entity.VideoCollect">
+    insert into t_video_collect (id, fk_student_id, fk_section_id, 
+      fk_video_id, course_name, chapter_name, 
+      section_name, create_time, last_access_time, 
+      version)
+    values (#{id,jdbcType=INTEGER}, #{fkStudentId,jdbcType=INTEGER}, #{fkSectionId,jdbcType=INTEGER}, 
+      #{fkVideoId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, #{chapterName,jdbcType=VARCHAR}, 
+      #{sectionName,jdbcType=VARCHAR}, now(), null , 1)
+  </insert>
+
+  <!--<insert id="insertSelective" parameterType="com.kclm.owep.entity.VideoCollect">
+    insert into t_video_collect
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkStudentId != null">
+        fk_student_id,
+      </if>
+      <if test="fkSectionId != null">
+        fk_section_id,
+      </if>
+      <if test="fkVideoId != null">
+        fk_video_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="chapterName != null">
+        chapter_name,
+      </if>
+      <if test="sectionName != null">
+        section_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fkStudentId != null">
+        #{fkStudentId,jdbcType=INTEGER},
+      </if>
+      <if test="fkSectionId != null">
+        #{fkSectionId,jdbcType=INTEGER},
+      </if>
+      <if test="fkVideoId != null">
+        #{fkVideoId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null">
+        #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionName != null">
+        #{sectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>-->
+
+  <!--  统计视频收藏数量  -->
+  <select id="countVideoCollect"  resultType="integer">
+    select count(*) from t_video_collect
+  </select>
+
+  <update id="update" parameterType="com.kclm.owep.entity.VideoCollect">
+    update t_video_collect
+    <set>
+      <if test="fkStudentId != null">
+        fk_student_id = #{fkStudentId,jdbcType=INTEGER},
+      </if>
+      <if test="fkSectionId != null">
+        fk_section_id = #{fkSectionId,jdbcType=INTEGER},
+      </if>
+      <if test="fkVideoId != null">
+        fk_video_id = #{fkVideoId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null">
+        chapter_name = #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionName != null">
+        section_name = #{sectionName,jdbcType=VARCHAR},
+      </if>
+      last_access_time = now(),
+      version  = version + 1
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <delete id="deleteSelect" parameterType="list">
+    delete from t_video_collect where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
+
+  <select id="selectAll" resultType="videoCollect">
+    select * from t_video_collect
+  </select>
+</mapper>

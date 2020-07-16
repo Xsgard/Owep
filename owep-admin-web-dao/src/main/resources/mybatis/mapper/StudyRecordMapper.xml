@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--/
+*******************
+ *Author:ZhongLei
+ *version:V1.0
+ *@Create: 2020/7/6 14:07
+ *@Description:学习记录映射文件
+ ***
+ /-->
+
+<mapper namespace="com.kclm.owep.mapper.StudyRecordMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.StudyRecord">
+    <!--  resultMap映射 -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="progress_status" jdbcType="INTEGER" property="progressStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />
+    <result column="fk_section_id" jdbcType="INTEGER" property="fkSectionId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="chapter_name" jdbcType="VARCHAR" property="chapterName" />
+    <result column="section_name" jdbcType="VARCHAR" property="sectionName" />
+    <result column="video_rate" jdbcType="DOUBLE" property="videoRate" />
+    <result column="video_length" jdbcType="INTEGER" property="videoLength" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+  </resultMap>
+
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from t_studyrecord
+    where id = #{value}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_studyrecord
+    where id = #{value}
+  </delete>
+
+
+
+  <insert id="save" parameterType="com.kclm.owep.entity.StudyRecord">
+    insert into t_studyrecord (id, progress_status, create_time, 
+      fk_student_id, fk_section_id, course_name, 
+      chapter_name, section_name, video_rate, 
+      video_length, version, last_access_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{progressStatus,jdbcType=INTEGER}, now(),
+      #{fkStudentId,jdbcType=INTEGER}, #{fkSectionId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, 
+      #{chapterName,jdbcType=VARCHAR}, #{sectionName,jdbcType=VARCHAR}, #{videoRate,jdbcType=DOUBLE}, 
+      #{videoLength,jdbcType=INTEGER}, 1, null )
+  </insert>
+
+  <!--<insert id="insertSelective" parameterType="com.kclm.owep.entity.StudyRecord">
+    insert into t_studyrecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="progressStatus != null">
+        progress_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="fkStudentId != null">
+        fk_student_id,
+      </if>
+      <if test="fkSectionId != null">
+        fk_section_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="chapterName != null">
+        chapter_name,
+      </if>
+      <if test="sectionName != null">
+        section_name,
+      </if>
+      <if test="videoRate != null">
+        video_rate,
+      </if>
+      <if test="videoLength != null">
+        video_length,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="progressStatus != null">
+        #{progressStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkStudentId != null">
+        #{fkStudentId,jdbcType=INTEGER},
+      </if>
+      <if test="fkSectionId != null">
+        #{fkSectionId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null">
+        #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionName != null">
+        #{sectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoRate != null">
+        #{videoRate,jdbcType=DOUBLE},
+      </if>
+      <if test="videoLength != null">
+        #{videoLength,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>-->
+
+  <update id="update" parameterType="com.kclm.owep.entity.StudyRecord">
+    update t_studyrecord
+    <set>
+      <if test="progressStatus != null">
+        progress_status = #{progressStatus,jdbcType=INTEGER},
+      </if>
+      <if test="fkStudentId != null">
+        fk_student_id = #{fkStudentId,jdbcType=INTEGER},
+      </if>
+      <if test="fkSectionId != null">
+        fk_section_id = #{fkSectionId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterName != null">
+        chapter_name = #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionName != null">
+        section_name = #{sectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoRate != null">
+        video_rate = #{videoRate,jdbcType=DOUBLE},
+      </if>
+      <if test="videoLength != null">
+        video_length = #{videoLength,jdbcType=INTEGER},
+      </if>
+      version = version + 1,
+      last_access_time = now()
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="countStudyRecord" resultType="integer">
+    select count(*) from t_studyrecord
+  </select>
+
+    <select id="selectAll" resultType="StudyRecord">
+        select * from t_studyrecord
+    </select>
+
+  <delete id="deleteSelect" parameterType="list">
+    delete from t_studyrecord where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
+</mapper>

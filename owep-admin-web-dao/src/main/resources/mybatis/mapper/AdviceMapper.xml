@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.AdviceMapper">
+
+<!--  映射select查询出来的结果，主要作用时间实体类中的字段与数据库表中的字段进行关联映射-->
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Advice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="advice_content" jdbcType="VARCHAR" property="adviceContent" />
+    <result column="suggest_name" jdbcType="INTEGER" property="suggestName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+
+<!--  根据名字查询-->
+  <select id="selectAll" parameterType="com.kclm.owep.entity.Advice" resultMap="BaseResultMap">
+    select * from t_advice
+  </select>
+
+<!--  根据id查询-->
+  <select id="selectById" parameterType="com.kclm.owep.entity.Advice" resultMap="BaseResultMap">
+    select * from t_advice where id = #{id}
+  </select>
+
+<!--  根据id删除-->
+  <delete id="deleteById" parameterType="com.kclm.owep.entity.Advice">
+    delete from t_advice where id = #{id}
+  </delete>
+
+<!--  根据所选项删除多条记录-->
+  <delete id="deleteSelect" parameterType="com.kclm.owep.entity.Advice">
+    delete  from t_advice where id in
+    <foreach collection="list" open="(" close = ")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
+
+<!--  添加记录-->
+  <insert id="save" parameterType="com.kclm.owep.entity.Advice">
+    insert into t_advice (id, email, advice_content,
+      suggest_name, create_time, last_access_time, 
+      version)
+    values (#{id}, #{email}, #{adviceContent},
+      #{suggestName}, #{createTime}, #{lastAccessTime},
+      #{version})
+  </insert>
+
+<!--  更新记录-->
+  <update id="update" parameterType="com.kclm.owep.entity.Advice">
+    update t_advice
+    <trim prefix="set" suffixOverrides=",">
+      <if test="email != null">email = #{email},</if>
+      <if test="adviceContent != null">advice_content = #{adviceContent},</if>
+      <if test="suggestName != null">suggest_name = #{suggestName},</if>
+      <if test="createTime != null">create_time = #{createTime},</if>
+      <if test="lastAccessTime != null">last_access_time = #{lastAccessTime},</if>
+      <if test="version != null">version = #{version},</if>
+    </trim>
+    where id = #{id}
+  </update>
+
+</mapper>

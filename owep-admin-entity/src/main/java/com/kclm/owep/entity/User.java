@@ -1,49 +1,131 @@
+/********************************
+ *版权所有 CopyRight(c) 快程乐码信息有限公司所有，未经授权，不得复制、转发
+ */
 package com.kclm.owep.entity;
 
-
-import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
-/******************
- * @Author yejf
- * @Description TODO
+/*********************
+ * @Author: ZhangShaowei
+ * @Version : v1.0
+ * @Create: 2020年7月06日
+ * @Description 用户实体类类
  */
-public class User implements Serializable {
 
+public class User {
+
+    /**
+     * 用户id
+     */
     private Integer id;
 
-    private String userName;  //登录用户名,唯一且非空
+    /**
+     * 用户名
+     */
+    private String userName;
 
-    private String password;  //登录密码
+    /**
+     * 用户密码
+     */
+    private String userPwd;
 
-    private String mobilePhone; //手机号，唯一且非空
+    /**
+     * 用户电话
+     */
+    private String userPhone;
 
-    private UserStatus status; //用户状态
+    /**
+     * 用户真实姓名
+     */
+    private String realName;
 
-    private String realName; //真实姓名
+    /**
+     * 用户邮箱
+     */
+    private String userEmail;
 
-    private LocalDateTime createDate;  //创建时间
+    /**
+     * 用户email密文
+     */
+    private String emailCode;
 
-    private LocalDateTime updateDate; //更新时间
+    /**
+     * 用户性别，1表示男，0表示女，-1 表示未知
+     */
+    private Integer gender;
 
-    private LocalDateTime lastLoginDate;  //最后一次登录时间
+    /**
+     * 用户身份证
+     */
+    private String cardNum;
 
-    private String avatarUrl;  //头像地址
+    /**
+     * 用户状态，1表示启用，0表示禁用
+     */
+    private Integer status;
 
-    public User() {
-    }
+    /**
+     * 用户截止有效期限
+     */
+    private LocalDateTime effectiveDate;
 
-    public User(String userName, String password, String mobilePhone, UserStatus status, String realName, LocalDateTime createDate, LocalDateTime updateDate, LocalDateTime lastLoginDate, String avatarUrl) {
-        this.userName = userName;
-        this.password = password;
-        this.mobilePhone = mobilePhone;
-        this.status = status;
-        this.realName = realName;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.lastLoginDate = lastLoginDate;
-        this.avatarUrl = avatarUrl;
-    }
+    /**
+     * 用户类型，采用枚举下标存储
+     */
+    private Integer userType;
+
+    /**
+     * 用户生日
+     */
+    private LocalDateTime birth;
+
+    /**
+     * 用户头像图片路径
+     */
+    private String imageUrl;
+
+    /**
+     * 用户描述
+     */
+    private String description;
+
+    /**
+     * 用户的职位
+     */
+    private String title;
+
+    /**
+     * 用户个人资料是否完善，1表示已完善，0表示未完善
+     */
+    private Integer perfectStatus;
+
+    /**
+     * 用户是否已经逻辑删除，1表示未删除，0表示已删除
+     */
+    private Integer isDelete;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 最后一次访问时间
+     */
+    private LocalDateTime lastAccessTime;
+
+    /**
+     * 版本号
+     */
+    private Integer version;
+
+    /**
+     * 用户组关联
+     */
+    private List<Group> groups;
 
     public Integer getId() {
         return id;
@@ -61,28 +143,20 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserPwd() {
+        return userPwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd;
     }
 
-    public String getMobilePhone() {
-        return mobilePhone;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
-    }
-
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public String getRealName() {
@@ -93,52 +167,188 @@ public class User implements Serializable {
         this.realName = realName;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    public LocalDateTime getUpdateDate() {
-        return updateDate;
+    public String getEmailCode() {
+        return emailCode;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
-        this.updateDate = updateDate;
+    public void setEmailCode(String emailCode) {
+        this.emailCode = emailCode;
     }
 
-    public LocalDateTime getLastLoginDate() {
-        return lastLoginDate;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setLastLoginDate(LocalDateTime lastLoginDate) {
-        this.lastLoginDate = lastLoginDate;
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getCardNum() {
+        return cardNum;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setCardNum(String cardNum) {
+        this.cardNum = cardNum;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(LocalDateTime effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    public LocalDateTime getBirth() {
+        return birth;
+    }
+
+    public void setBirth(LocalDateTime birth) {
+        this.birth = birth;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getPerfectStatus() {
+        return perfectStatus;
+    }
+
+    public void setPerfectStatus(Integer perfectStatus) {
+        this.perfectStatus = perfectStatus;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getLastAccessTime() {
+        return lastAccessTime;
+    }
+
+    public void setLastAccessTime(LocalDateTime lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
+        final StringBuffer sb = new StringBuffer("User{");
         sb.append("id=").append(id);
         sb.append(", userName='").append(userName).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", mobilePhone='").append(mobilePhone).append('\'');
-        sb.append(", status=").append(status);
+        sb.append(", userPwd='").append(userPwd).append('\'');
+        sb.append(", userPhone='").append(userPhone).append('\'');
         sb.append(", realName='").append(realName).append('\'');
-        sb.append(", createDate=").append(createDate);
-        sb.append(", updateDate=").append(updateDate);
-        sb.append(", lastLoginDate=").append(lastLoginDate);
-        sb.append(", avatarUrl='").append(avatarUrl).append('\'');
+        sb.append(", userEmail='").append(userEmail).append('\'');
+        sb.append(", emailCode='").append(emailCode).append('\'');
+        sb.append(", gender=").append(gender);
+        sb.append(", cardNum='").append(cardNum).append('\'');
+        sb.append(", status=").append(status);
+        sb.append(", effectiveDate=").append(effectiveDate);
+        sb.append(", userType=").append(userType);
+        sb.append(", birth=").append(birth);
+        sb.append(", imageUrl='").append(imageUrl).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", perfectStatus=").append(perfectStatus);
+        sb.append(", isDelete=").append(isDelete);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", lastAccessTime=").append(lastAccessTime);
+        sb.append(", version=").append(version);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
+        User user = (User) o;
+        return id.equals(user.id) &&
+                userName.equals(user.userName) &&
+                userPwd.equals(user.userPwd) &&
+                userPhone.equals(user.userPhone) &&
+                realName.equals(user.realName) &&
+                userEmail.equals(user.userEmail) &&
+                emailCode.equals(user.emailCode) &&
+                gender.equals(user.gender) &&
+                cardNum.equals(user.cardNum);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userName, userPwd, userPhone, realName, userEmail, emailCode, gender, cardNum);
     }
 }

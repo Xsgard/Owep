@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ChannelMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Channel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <!--channelType 外键-->
+    <association column="fk_channeltype_id"
+                 property="channelType"
+                 javaType="com.kclm.owep.entity.ChannelType"
+                 fetchType="eager"
+                 select="com.kclm.owep.mapper.ChannelTypeMapper.selectById"/>
+  </resultMap>
+
+  <!--所有的字段-->
+  <sql id="Base_Column_List">
+    id, channel_name, create_time, version, last_access_time, fk_channeltype_id
+  </sql>
+
+  <!--动态添加-->
+  <insert id="save" parameterType="Channel">
+    insert into t_channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="channelName != null">
+        channel_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="channelType.id != null">
+        fk_channeltype_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="channelName != null">
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelType.id != null">
+        #{channelType.id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <!--添加渠道-->
+  <insert id="saveAllField" parameterType="Channel">
+    insert into t_channel (id, channel_name, create_time,
+    version, last_access_time, fk_channeltype_id
+    )
+    values (#{id,jdbcType=INTEGER}, #{channelName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP}, #{fkChanneltypeId,jdbcType=INTEGER}
+    )
+  </insert>
+
+  <!--动态更新-->
+  <update id="update" parameterType="com.kclm.owep.entity.Channel">
+    update t_channel
+    <set>
+      <if test="channelName != null">
+        channel_name = #{channelName,jdbcType=VARCHAR},
+      </if>
+        version = version + 1,
+        last_access_time = now(),
+      <if test="channelType.id != null">
+        fk_channeltype_id = #{channelType.id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--更新-->
+  <update id="updateAllField" parameterType="Channel">
+    update t_channel
+    set channel_name = #{channelName,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    version = #{version,jdbcType=INTEGER},
+    last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+    fk_channeltype_id = #{channelType.id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过id删除-->
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from t_channel
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--删除所选-->
+  <delete id="deleteSelect">
+    delete from t_channel where id in
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+      ${id}
+    </foreach>
+  </delete>
+
+  <!--通过id查询-->
+  <select id="selectById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_channel where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--通过渠道类型id查询渠道名称-->
+  <select id="selectByChannelTypeId" resultType="channel">
+    select
+    <include refid="Base_Column_List"/>
+    from t_channel where fk_channeltype_id = #{id,javaType=INTEGER}
+  </select>
+
+
+
+
+</mapper>

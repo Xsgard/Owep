@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--/
+*******************
+ *Author:ZhongLei
+ *version:V1.0
+ *@Create: 2020/7/6 14:07
+ *@Description:教师考评映射文件
+ ***
+ /-->
+
+<mapper namespace="com.kclm.owep.mapper.TeacherPollMapper">
+
+  <!--  resultMap映射  -->
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.TeacherPoll">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="poll_address" jdbcType="VARCHAR" property="pollAddress" />
+    <result column="poll_grade" jdbcType="VARCHAR" property="pollGrade" />
+    <result column="effective_time" jdbcType="TIMESTAMP" property="effectiveTime" />
+    <result column="poll_status" jdbcType="VARCHAR" property="pollStatus" />
+    <result column="poll_count" jdbcType="INTEGER" property="pollCount" />
+    <result column="poll_suggest" jdbcType="VARCHAR" property="pollSuggest" />
+    <result column="fk_template_id" jdbcType="INTEGER" property="fkTemplateId" />
+    <result column="fk_user_id" jdbcType="INTEGER" property="fkUserId" />
+    <result column="fk_class_id" jdbcType="INTEGER" property="fkClassId" />
+    <result column="allow_ip" jdbcType="VARCHAR" property="allowIp" />
+    <result column="ip_limit" jdbcType="INTEGER" property="ipLimit" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <collection property="pollRecordList" ofType="com.kclm.owep.entity.PollRecord">
+      <id column="id" property="id"/>
+      <result column="ip_address" property="ipAddress" />
+      <result column="poll_score" property="pollScore" />
+      <result column="poll_count" property="pollCount" />
+      <result column="poll_suggest" property="pollSuggest" />
+      <result column="last_access_time" property="lastAccessTime" />
+      <result column="version" property="version" />
+      <result column="create_time" property="createTime" />
+      <result column="poll_status" property="pollStatus" />
+      <result column="fk_teacher_poll_id"  property="fkTeacherPollId" />
+      <result column="poll_item_1"  property="pollItem1" />
+      <result column="poll_item_2"  property="pollItem2" />
+      <result column="poll_item_3"  property="pollItem3" />
+      <result column="poll_item_4"  property="pollItem4" />
+      <result column="poll_item_5"  property="pollItem5" />
+      <result column="poll_item_6"  property="pollItem6" />
+      <result column="poll_item_7"  property="pollItem7" />
+      <result column="poll_item_8"  property="pollItem8" />
+      <result column="poll_item_9"  property="pollItem9" />
+      <result column="poll_item_10"  property="pollItem10" />
+      <result column="poll_item_11"  property="pollItem11" />
+      <result column="poll_item_12"  property="pollItem12" />
+      <result column="poll_item_13"  property="pollItem13" />
+      <result column="poll_item_14"  property="pollItem14" />
+      <result column="poll_item_15"  property="pollItem15" />
+    </collection>
+  </resultMap>
+
+  <!--  通过id删除教师考评记录  -->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_teacher_poll
+    where id = #{value}
+  </delete>
+
+  <!--  添加教师考评记录  -->
+  <insert id="save" parameterType="com.kclm.owep.entity.TeacherPoll">
+    insert into t_teacher_poll (id, teacher_name, class_name, 
+      poll_address, poll_grade, effective_time, 
+      poll_status, poll_count, poll_suggest, 
+      fk_template_id, fk_user_id, fk_class_id, 
+      allow_ip, ip_limit, start_time, 
+      end_time, create_time, version, 
+      last_access_time)
+    values (#{id,jdbcType=INTEGER}, #{teacherName,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{pollAddress,jdbcType=VARCHAR}, #{pollGrade,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=TIMESTAMP}, 
+      #{pollStatus,jdbcType=VARCHAR}, #{pollCount,jdbcType=INTEGER}, #{pollSuggest,jdbcType=VARCHAR}, 
+      #{fkTemplateId,jdbcType=INTEGER}, #{fkUserId,jdbcType=INTEGER}, #{fkClassId,jdbcType=INTEGER}, 
+      #{allowIp,jdbcType=VARCHAR}, #{ipLimit,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, now(), 1,null)
+  </insert>
+
+  <!-- 添加教师考评记录 -->
+  <insert id="insertSelective" parameterType="com.kclm.owep.entity.TeacherPoll">
+    insert into t_teacher_poll
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="teacherName != null">
+        teacher_name,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="pollAddress != null">
+        poll_address,
+      </if>
+      <if test="pollGrade != null">
+        poll_grade,
+      </if>
+      <if test="effectiveTime != null">
+        effective_time,
+      </if>
+      <if test="pollStatus != null">
+        poll_status,
+      </if>
+      <if test="pollCount != null">
+        poll_count,
+      </if>
+      <if test="pollSuggest != null">
+        poll_suggest,
+      </if>
+      <if test="fkTemplateId != null">
+        fk_template_id,
+      </if>
+      <if test="fkUserId != null">
+        fk_user_id,
+      </if>
+      <if test="fkClassId != null">
+        fk_class_id,
+      </if>
+      <if test="allowIp != null">
+        allow_ip,
+      </if>
+      <if test="ipLimit != null">
+        ip_limit,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="teacherName != null">
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="pollAddress != null">
+        #{pollAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pollGrade != null">
+        #{pollGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null">
+        #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pollStatus != null">
+        #{pollStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pollCount != null">
+        #{pollCount,jdbcType=INTEGER},
+      </if>
+      <if test="pollSuggest != null">
+        #{pollSuggest,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTemplateId != null">
+        #{fkTemplateId,jdbcType=INTEGER},
+      </if>
+      <if test="fkUserId != null">
+        #{fkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="fkClassId != null">
+        #{fkClassId,jdbcType=INTEGER},
+      </if>
+      <if test="allowIp != null">
+        #{allowIp,jdbcType=VARCHAR},
+      </if>
+      <if test="ipLimit != null">
+        #{ipLimit,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!--  统计教师考评记录数量  -->
+  <select id="countTeacherPoll" resultType="integer">
+    select count(*) from t_teacher_poll
+  </select>
+
+  <update id="update" parameterType="com.kclm.owep.entity.TeacherPoll">
+    update t_teacher_poll
+    <trim prefix="set" suffixOverrides=",">
+      <if test="teacherName != null">
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="pollAddress != null">
+        poll_address = #{pollAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pollGrade != null">
+        poll_grade = #{pollGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null">
+        effective_time = #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pollStatus != null">
+        poll_status = #{pollStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pollCount != null">
+        poll_count = #{pollCount,jdbcType=INTEGER},
+      </if>
+      <if test="pollSuggest != null">
+        poll_suggest = #{pollSuggest,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTemplateId != null">
+        fk_template_id = #{fkTemplateId,jdbcType=INTEGER},
+      </if>
+      <if test="fkUserId != null">
+        fk_user_id = #{fkUserId,jdbcType=INTEGER},
+      </if>
+      <if test="fkClassId != null">
+        fk_class_id = #{fkClassId,jdbcType=INTEGER},
+      </if>
+      <if test="allowIp != null">
+        allow_ip = #{allowIp,jdbcType=VARCHAR},
+      </if>
+      <if test="ipLimit != null">
+        ip_limit = #{ipLimit,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+        version = version + 1,
+        last_access_time = now()
+    </trim>
+    where id = #{id}
+  </update>
+
+  <!--  通过id批量删除  -->
+  <delete id="deleteSelect" parameterType="list">
+    delete from t_teacher_poll where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
+
+  <select id="selectById" parameterType="integer" resultMap="BaseResultMap">
+    select * from t_teacher_poll ttp left join t_poll_record tpr on ttp.id = tpr.fk_teacher_poll_id
+    where ttp.id = #{value}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from t_teacher_poll
+  </select>
+
+</mapper>

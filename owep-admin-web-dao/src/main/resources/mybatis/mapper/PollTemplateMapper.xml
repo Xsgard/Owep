@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--/*******************
+ *Author:ZhongLei
+ *version:V1.0
+ *@Create: 2020/7/6 14:07
+ *@Description:考评模板映射文件
+ ***/-->
+
+<mapper namespace="com.kclm.owep.mapper.PollTemplateMapper">
+  <!-- resultMap映射 -->
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.PollTemplate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="template_content" jdbcType="VARCHAR" property="templateContent" />
+    <result column="template_name" jdbcType="VARCHAR" property="templateName" />
+    <result column="template_num" jdbcType="VARCHAR" property="templateNum" />
+    <result column="template_status" jdbcType="INTEGER" property="templateStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <collection property="pollItemList" ofType="com.kclm.owep.entity.PollItem">
+      <id column="id" javaType="integer" property="id"/>
+      <result column="poll_num" property="pollNum"/>
+      <result column="poll_content" property="pollContent"/>
+      <result column="poll_status" property="pollStatus"/>
+      <result column="create_time" property="createTime"/>
+      <result column="version" property="version"/>
+      <result column="last_access_time" property="lastAccessTime"/>
+    </collection>
+  </resultMap>
+
+  <!--  通过id删除考评模板  -->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_poll_template where id = #{id}
+  </delete>
+
+  <!--  通过id删除多个考评模板  -->
+  <delete id="deleteSelect" parameterType="list">
+    delete from t_poll_template where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
+
+  <!--  添加考评模板  -->
+  <insert id="save" parameterType="com.kclm.owep.entity.PollTemplate" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into t_poll_template (id, template_content, template_name, 
+      template_num, template_status,create_time,version,last_access_time)
+    values (null,#{templateContent,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR},
+      #{templateNum,jdbcType=VARCHAR}, #{templateStatus,jdbcType=INTEGER},now(),1,null)
+  </insert>
+
+
+  <!--&lt;!&ndash;  添加考评模板  &ndash;&gt;
+  <insert id="insertSelective" parameterType="com.kclm.owep.entity.PollTemplate">
+    insert into t_poll_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="templateContent != null">
+        template_content,
+      </if>
+      <if test="templateName != null">
+        template_name,
+      </if>
+      <if test="templateNum != null">
+        template_num,
+      </if>
+      <if test="templateStatus != null">
+        template_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="templateContent != null">
+        #{templateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null">
+        #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="templateNum != null">
+        #{templateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="templateStatus != null">
+        #{templateStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>-->
+
+  <!-- 统计考评模板数量 -->
+  <select id="countPollTemplate" parameterType="com.kclm.owep.entity.PollTemplate" resultType="integer">
+    select count(*) from t_poll_template
+  </select>
+
+  <!--  修改考评模板  -->
+  <update id="update" parameterType="com.kclm.owep.entity.PollTemplate">
+    update t_poll_template
+    <set>
+      <if test="templateContent != null">
+        template_content = #{templateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null">
+        template_name = #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="templateNum != null">
+        template_num = #{templateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="templateStatus != null">
+        template_status = #{templateStatus,jdbcType=INTEGER},
+      </if>
+      version = version + 1,
+      last_access_time = now()
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--  通过关键字查找  -->
+  <select id="findByKeywords" resultMap="BaseResultMap" parameterType="string">
+    select * from t_poll_template
+    where template_name like concat('%',#{keyword},'%')
+  </select>
+
+  <!--  通过id查找  -->
+  <select id="selectById" parameterType="integer" resultMap="BaseResultMap">
+    select * from t_poll_template pt left join t_template_item tti on pt.id = tti.template_id
+    left join t_poll_ltem tpl on tti.poll_id = tpl.id
+    where pt.id = #{id}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from t_poll_template
+  </select>
+
+  <insert id="saveTemplateItem">
+    insert into t_template_item values (#{pid},#{tid})
+  </insert>
+
+  <delete id="deleteTemplateItem">
+    delete from t_template_item where poll_id = #{pid}
+  </delete>
+
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ProfessionMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Profession">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="prof_name" jdbcType="VARCHAR" property="profName" />
+    <result column="prof_desc" jdbcType="VARCHAR" property="profDesc" />
+    <result column="prof_status" jdbcType="INTEGER" property="profStatus" />
+    <result column="institute_name" jdbcType="VARCHAR" property="instituteName" />
+    <result column="institute_branch_name" jdbcType="VARCHAR" property="instituteBranchName" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="order_profe_name" jdbcType="VARCHAR" property="orderProfeName" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, prof_name, prof_desc, prof_status, institute_name, institute_branch_name, is_delete,
+    order_profe_name, version, create_time, last_access_time
+  </sql>
+  <!--根据id查询一条记录-->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_profession
+    where id = #{id,jdbcType=INTEGER} and is_delete=1
+  </select>
+  <!--查询所有的记录-->
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_profession
+    where is_delete=1
+  </select>
+  <!--根据id来删除一条记录-->
+  <update id="deleteById" parameterType="java.lang.Integer">
+   <!--实际上是将delete改为0-->
+    update t_profession
+    set is_delete=0
+    where id=#{id,jdbcType=INTEGER}
+  </update>
+  <!--删除多条记录-->
+  <update id="deleteSelect">
+   <!--实际上是将delete改为0-->
+    update t_profession
+    set is_delete=0
+    where id in
+    <foreach collection="idList" item="list" open="(" separator="," close=")">
+      #{list}
+    </foreach>
+
+  </update>
+
+  <!--插入一条记录-->
+  <insert id="save" parameterType="com.kclm.owep.entity.Profession">
+    insert into t_profession
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="profName != null">
+        prof_name,
+      </if>
+      <if test="profDesc != null">
+        prof_desc,
+      </if>
+      <if test="profStatus != null">
+        prof_status,
+      </if>
+      <if test="instituteName != null">
+        institute_name,
+      </if>
+      <if test="instituteBranchName != null">
+        institute_branch_name,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="orderProfeName != null">
+        order_profe_name,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="profName != null">
+        #{profName,jdbcType=VARCHAR},
+      </if>
+      <if test="profDesc != null">
+        #{profDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="profStatus != null">
+        #{profStatus,jdbcType=INTEGER},
+      </if>
+      <if test="instituteName != null">
+        #{instituteName,jdbcType=VARCHAR},
+      </if>
+      <if test="instituteBranchName != null">
+        #{instituteBranchName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="orderProfeName != null">
+        #{orderProfeName,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!--动态更新一条记录-->
+  <update id="update" parameterType="com.kclm.owep.entity.Profession">
+    update t_profession
+    <set>
+      <if test="profName != null">
+        prof_name = #{profName,jdbcType=VARCHAR},
+      </if>
+      <if test="profDesc != null">
+        prof_desc = #{profDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="profStatus != null">
+        prof_status = #{profStatus,jdbcType=INTEGER},
+      </if>
+      <if test="instituteName != null">
+        institute_name = #{instituteName,jdbcType=VARCHAR},
+      </if>
+      <if test="instituteBranchName != null">
+        institute_branch_name = #{instituteBranchName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+        order_profe_name = prof_name,
+        version = version+1,
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+        last_access_time = now(),
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据专业名称来模糊查询-->
+  <select id="selectByProName" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_profession where t_profession.prof_name like "%"#{proName,jdbcType=VARCHAR}"%"
+  </select>
+
+  <!--根据分支来精确查询-->
+  <select id="selectByBranchName" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_profession where t_profession.institute_branch_name=#{branName,jdbcType=VARCHAR}
+  </select>
+</mapper>

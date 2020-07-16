@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.EvaluateMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Evaluate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <!--<result column="fk_class_id" jdbcType="INTEGER" property="fkClassId" />-->
+    <!--<result column="fk_user_id" jdbcType="INTEGER" property="fkUserId" />
+    <result column="fk_student_id" jdbcType="INTEGER" property="fkStudentId" />-->
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="evaluate_status" jdbcType="INTEGER" property="evaluateStatus" />
+    <result column="evaluate" jdbcType="VARCHAR" property="evaluate" />
+    <association property="student" column="fk_student_id" javaType="com.kclm.owep.entity.Student" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,version,create_time,last_access_time,fk_class_id,fk_student_id,student_name,evaluate_status,evaluate
+  </sql>
+
+  <!--
+    通过班级id查找学生评价的数据
+  -->
+    <select id="selectByClassId"  parameterType="Integer" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" /> from t_evaluate where fk_class_id = #{classId}
+    </select>
+  <!--
+    更新评价内容
+  -->
+  <update id="update" parameterType="com.kclm.owep.entity.Evaluate">
+    update t_evaluate
+    <set>
+      <if test="studentName != null">
+        student_name = #{studentName},
+      </if>
+      <if test="evaluateStatus != null">
+        evaluate_status = #{evaluateStatus},
+      </if>
+      <if test="evaluate != null">
+        evaluate = #{evaluate},
+      </if>
+      version = version + 1,last_access_time = now()
+    </set>
+    where id = #{id}
+  </update>
+
+
+  <!--以下为没用到方法-->
+  <!--插入数据-->
+  <insert id="save" parameterType="com.kclm.owep.entity.Evaluate">
+    insert into t_evaluate(version,create_time,last_access_time,fk_user_id,fk_student_id,fk_class_id
+    ,student_name,evaluate_status,evaluate) values (#{version},#{createTime},#{lastAccessTime}
+    ,#{user.id},#{student.id},#{clazz.id},#{studentName},#{evaluateStatus},#{evaluate})
+  </insert>
+
+  <!--查找全部数据-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_evaluate
+  </select>
+
+  <!--通过id查找数据-->
+  <select id="selectById" parameterType="Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_evaluate where id = #{id}
+  </select>
+  <!--通过id删除数据-->
+  <delete id="deleteById" parameterType="int">
+    delete from t_evaluate where id = #{id}
+  </delete>
+
+  <!--删除选中数据-->
+  <delete id="deleteSelect" parameterType="List">
+    delete from t_evaluate where id in
+    <foreach collection="list" item="list" open="(" separator="," close=")">
+      #{list}
+    </foreach>
+  </delete>
+</mapper>

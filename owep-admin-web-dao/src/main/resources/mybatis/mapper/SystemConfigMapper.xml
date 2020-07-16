@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.SystemConfigMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.SystemConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="system_name" jdbcType="VARCHAR" property="systemName" />
+    <result column="copy_name" jdbcType="VARCHAR" property="copyName" />
+    <result column="login_page_logo" jdbcType="VARCHAR" property="loginPageLogo" />
+    <result column="system_page_logo" jdbcType="VARCHAR" property="systemPageLogo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="login_count" jdbcType="INTEGER" property="loginCount" />
+  </resultMap>
+<!--  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>-->
+  <!--基本字段-->
+  <sql id="Base_Column_List">
+    id, system_name, copy_name, login_page_logo, system_page_logo, create_time, version, 
+    last_access_time, login_count
+  </sql>
+  <!--持久化一个实体对象-->
+  <insert id="save" parameterType="com.kclm.owep.entity.SystemConfig">
+    insert into t_system_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="systemName != null">
+        system_name,
+      </if>
+      <if test="copyName != null">
+        copy_name,
+      </if>
+      <if test="loginPageLogo != null">
+        login_page_logo,
+      </if>
+      <if test="systemPageLogo != null">
+        system_page_logo,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="loginCount != null">
+        login_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="systemName != null">
+        #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="copyName != null">
+        #{copyName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPageLogo != null">
+        #{loginPageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="systemPageLogo != null">
+        #{systemPageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginCount != null">
+        #{loginCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <!--更新实体类对象-->
+  <update id="update" parameterType="com.kclm.owep.entity.SystemConfig">
+    update t_system_config
+    <set>
+      <if test="systemName != null">
+        system_name = #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="copyName != null">
+        copy_name = #{copyName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPageLogo != null">
+        login_page_logo = #{loginPageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="systemPageLogo != null">
+        system_page_logo = #{systemPageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <!--<if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>-->
+     <!-- <if test="lastAccessTime != null">
+        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>-->
+
+      <if test="loginCount != null">
+        login_count = #{loginCount,jdbcType=INTEGER},
+      </if>
+      version = version + 1,
+      last_access_time = now()
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--通过主键删除对象-->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_system_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--依多个主键值，删除多行记录-->
+  <delete id="deleteSelect" parameterType="list">
+    delete from  t_system_config where id in
+    <foreach collection="list" separator="," item="id" open="(" close=")">
+      #{id}
+    </foreach>
+  </delete>
+  <!--通过主键查询单个对象-->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_system_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--查询所有记录-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from t_system_config
+  </select>
+  <!--<select id="selectByExample" parameterType="com.kclm.owep.entity.SystemConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_system_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+
+  <delete id="deleteByExample" parameterType="com.kclm.owep.entity.SystemConfigExample">
+    delete from t_system_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kclm.owep.entity.SystemConfig">
+    insert into t_system_config (id, system_name, copy_name, 
+      login_page_logo, system_page_logo, create_time, 
+      version, last_access_time, login_count
+      )
+    values (#{id,jdbcType=INTEGER}, #{systemName,jdbcType=VARCHAR}, #{copyName,jdbcType=VARCHAR}, 
+      #{loginPageLogo,jdbcType=VARCHAR}, #{systemPageLogo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP}, #{loginCount,jdbcType=INTEGER}
+      )
+  </insert>
+
+
+  <select id="countByExample" parameterType="com.kclm.owep.entity.SystemConfigExample" resultType="java.lang.Long">
+    select count(*) from t_system_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_system_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.systemName != null">
+        system_name = #{record.systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.copyName != null">
+        copy_name = #{record.copyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginPageLogo != null">
+        login_page_logo = #{record.loginPageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.systemPageLogo != null">
+        system_page_logo = #{record.systemPageLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastAccessTime != null">
+        last_access_time = #{record.lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loginCount != null">
+        login_count = #{record.loginCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_system_config
+    set id = #{record.id,jdbcType=INTEGER},
+      system_name = #{record.systemName,jdbcType=VARCHAR},
+      copy_name = #{record.copyName,jdbcType=VARCHAR},
+      login_page_logo = #{record.loginPageLogo,jdbcType=VARCHAR},
+      system_page_logo = #{record.systemPageLogo,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      version = #{record.version,jdbcType=INTEGER},
+      last_access_time = #{record.lastAccessTime,jdbcType=TIMESTAMP},
+      login_count = #{record.loginCount,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.kclm.owep.entity.SystemConfig">
+    update t_system_config
+    set system_name = #{systemName,jdbcType=VARCHAR},
+      copy_name = #{copyName,jdbcType=VARCHAR},
+      login_page_logo = #{loginPageLogo,jdbcType=VARCHAR},
+      system_page_logo = #{systemPageLogo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=INTEGER},
+      last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+      login_count = #{loginCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>-->
+</mapper>

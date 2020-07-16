@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.PlanManagerMapper">
+    <resultMap id="BaseResultMap" type="com.kclm.owep.entity.PlanManager">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="plan_number" jdbcType="VARCHAR" property="planNumber"/>
+        <result column="plan_name" jdbcType="VARCHAR" property="planName"/>
+        <result column="plan_status" jdbcType="INTEGER" property="planStatus"/>
+        <result column="plan_desc" jdbcType="VARCHAR" property="planDesc"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
+    </resultMap>
+
+    <!--所有字段-->
+    <sql id="Base_Column_List">
+    id, plan_number, plan_name, plan_status, plan_desc, is_delete, create_time, version,
+    last_access_time
+  </sql>
+
+    <!--查询所有方案-->
+    <select id="selectAll" resultType="planManager">
+        select
+        <include refid="Base_Column_List"></include>
+        from t_planmanager
+    </select>
+
+    <select id="selectById" resultType="planManager">
+        select
+        <include refid="Base_Column_List"></include>
+         from  t_planmanager where id = #{id}
+    </select>
+
+    <!--通过属性查找方案-->
+    <select id="selectByField" parameterType="PlanManager" resultType="planManager">
+        select
+        <include refid="Base_Column_List"/>
+        from t_planmanager where
+        <trim  suffixOverrides="and">
+            <if test="planName != null">
+                plan_name = #{planName,jdbcType=VARCHAR} and
+            </if>
+            <if test="planNumber != null">
+                plan_number = #{planNumber,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </select>
+
+    <!--保存方案-->
+    <insert id="saveAllField" parameterType="PlanManager">
+        insert into t_planmanager (id, plan_number, plan_name,
+        plan_status, plan_desc, is_delete,
+        create_time, version, last_access_time
+        )
+        values (#{id,jdbcType=INTEGER}, #{planNumber,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
+        #{planStatus,jdbcType=INTEGER}, #{planDesc,jdbcType=VARCHAR}, #{delete,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!--保存方案 动态插入-->
+    <insert id="save" parameterType="PlanManager">
+        insert into t_planmanager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="planNumber != null">
+                plan_number,
+            </if>
+            <if test="planName != null">
+                plan_name,
+            </if>
+            <if test="planStatus != null">
+                plan_status,
+            </if>
+            <if test="planDesc != null">
+                plan_desc,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="lastAccessTime != null">
+                last_access_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="planNumber != null">
+                #{planNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="planName != null">
+                #{planName,jdbcType=VARCHAR},
+            </if>
+            <if test="planStatus != null">
+                #{planStatus,jdbcType=INTEGER},
+            </if>
+            <if test="planDesc != null">
+                #{planDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="lastAccessTime != null">
+                #{lastAccessTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--通过id删除方案-->
+    <delete id="deleteById" parameterType="integer">
+        delete from t_planmanager where id = #{id}
+    </delete>
+
+    <!--删除所选-->
+    <delete id="deleteSelect">
+        delete from t_planmanager where id in
+        <foreach collection="list" separator="," open="(" close=")" item="id">
+            ${id}
+        </foreach>
+    </delete>
+
+    <!--修改方案-->
+    <update id="update" parameterType="PlanManager">
+        update t_planmanager
+        <set>
+            <if test="planNumber != null">
+                plan_number = #{planNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="planName != null">
+                plan_name = #{planName,jdbcType=VARCHAR},
+            </if>
+            <if test="planStatus != null">
+                plan_status = #{planStatus,jdbcType=INTEGER},
+            </if>
+            <if test="planDesc != null">
+                plan_desc = #{planDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+                version = version + 1,
+                last_access_time = now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--查询总记录数-->
+    <select id="rowTotal" resultType="java.lang.Long">
+    select count(*) from t_planmanager where is_delete = 1
+  </select>
+
+</mapper>

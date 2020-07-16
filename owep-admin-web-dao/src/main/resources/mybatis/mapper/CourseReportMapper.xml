@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.CourseReportMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.CourseReport">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="course_learn_count" jdbcType="INTEGER" property="courseLearnCount" />
+    <result column="practice_count" jdbcType="INTEGER" property="practiceCount" />
+    <result column="notes_count" jdbcType="INTEGER" property="notesCount" />
+    <result column="sign_count" jdbcType="INTEGER" property="signCount" />
+    <result column="question_count" jdbcType="INTEGER" property="questionCount" />
+    <result column="video_play_count" jdbcType="INTEGER" property="videoPlayCount" />
+    <result column="answer_count" jdbcType="INTEGER" property="answerCount" />
+    <result column="test_count" jdbcType="INTEGER" property="testCount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="homework_count" jdbcType="INTEGER" property="homeworkCount" />
+    <result column="homework_finished_count" jdbcType="INTEGER" property="homeworkFinishedCount" />
+    <result column="video_count" jdbcType="INTEGER" property="videoCount" />
+    <result column="video_finished_count" jdbcType="INTEGER" property="videoFinishedCount" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association property="course"
+                 column="fk_course_id"
+                 javaType="com.kclm.owep.entity.Course"
+                 select="com.kclm.owep.mapper.CourseMapper.selectById"
+                 fetchType="eager"/>
+    <association property="student"
+                 column="fk_student_id"
+                 fetchType="eager"
+                 javaType="com.kclm.owep.entity.Student"
+                 select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+  </resultMap>
+
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id,
+    course_learn_count, practice_count, notes_count, sign_count, question_count,
+    video_play_count, answer_count, test_count, create_time, homework_count, homework_finished_count,
+    video_count, video_finished_count, fk_student_id, fk_course_id, version, last_access_time
+  </sql>
+
+  <!--添加课程统计-->
+  <insert id="save" parameterType="CourseReport">
+    insert into t_course_report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseLearnCount != null">
+        course_learn_count,
+      </if>
+      <if test="practiceCount != null">
+        practice_count,
+      </if>
+      <if test="notesCount != null">
+        notes_count,
+      </if>
+      <if test="signCount != null">
+        sign_count,
+      </if>
+      <if test="questionCount != null">
+        question_count,
+      </if>
+      <if test="videoPlayCount != null">
+        video_play_count,
+      </if>
+      <if test="answerCount != null">
+        answer_count,
+      </if>
+      <if test="testCount != null">
+        test_count,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="homeworkCount != null">
+        homework_count,
+      </if>
+      <if test="homeworkFinishedCount != null">
+        homework_finished_count,
+      </if>
+      <if test="videoCount != null">
+        video_count,
+      </if>
+      <if test="videoFinishedCount != null">
+        video_finished_count,
+      </if>
+      <if test="student.id != null">
+        fk_student_id,
+      </if>
+      <if test="course.id != null">
+        fk_course_id,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseLearnCount != null">
+        #{courseLearnCount,jdbcType=INTEGER},
+      </if>
+      <if test="practiceCount != null">
+        #{practiceCount,jdbcType=INTEGER},
+      </if>
+      <if test="notesCount != null">
+        #{notesCount,jdbcType=INTEGER},
+      </if>
+      <if test="signCount != null">
+        #{signCount,jdbcType=INTEGER},
+      </if>
+      <if test="questionCount != null">
+        #{questionCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoPlayCount != null">
+        #{videoPlayCount,jdbcType=INTEGER},
+      </if>
+      <if test="answerCount != null">
+        #{answerCount,jdbcType=INTEGER},
+      </if>
+      <if test="testCount != null">
+        #{testCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="homeworkCount != null">
+        #{homeworkCount,jdbcType=INTEGER},
+      </if>
+      <if test="homeworkFinishedCount != null">
+        #{homeworkFinishedCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoCount != null">
+        #{videoCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoFinishedCount != null">
+        #{videoFinishedCount,jdbcType=INTEGER},
+      </if>
+      <if test="student.id != null">
+        #{student.id,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        #{course.id,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!--修改课程统计-->
+  <update id="update" parameterType="CourseReport">
+    update t_course_report
+    <set>
+      <if test="courseLearnCount != null">
+        course_learn_count = #{courseLearnCount,jdbcType=INTEGER},
+      </if>
+      <if test="practiceCount != null">
+        practice_count = #{practiceCount,jdbcType=INTEGER},
+      </if>
+      <if test="notesCount != null">
+        notes_count = #{notesCount,jdbcType=INTEGER},
+      </if>
+      <if test="signCount != null">
+        sign_count = #{signCount,jdbcType=INTEGER},
+      </if>
+      <if test="questionCount != null">
+        question_count = #{questionCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoPlayCount != null">
+        video_play_count = #{videoPlayCount,jdbcType=INTEGER},
+      </if>
+      <if test="answerCount != null">
+        answer_count = #{answerCount,jdbcType=INTEGER},
+      </if>
+      <if test="testCount != null">
+        test_count = #{testCount,jdbcType=INTEGER},
+      </if>
+      <if test="homeworkCount != null">
+        homework_count = #{homeworkCount,jdbcType=INTEGER},
+      </if>
+      <if test="homeworkFinishedCount != null">
+        homework_finished_count = #{homeworkFinishedCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoCount != null">
+        video_count = #{videoCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoFinishedCount != null">
+        video_finished_count = #{videoFinishedCount,jdbcType=INTEGER},
+      </if>
+      <if test="student.id != null">
+        fk_student_id = #{student.id,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        fk_course_id = #{course.id,jdbcType=INTEGER},
+      </if>
+        version = version + 1,
+        last_access_time = now(),
+    </set>
+    where id = #{id,jdbcType=INTEGER} and fk_student_id = #{student.id} and fk_course_id = #{course.id}
+  </update>
+
+  <!--通过学生id删除该学生课程统计-->
+  <delete id="deleteByStudentId" parameterType="Integer">
+    delete from t_course_report where fk_student_id = #{studentId}
+  </delete>
+
+  <!--通过课程id查询所有课程统计-->
+  <select id="selectAllByCourseId" resultType="courseReport">
+    select <include refid="Base_Column_List"/>
+    from t_course_report
+    where fk_course_id = #{courseId}
+  </select>
+
+  <!--查询单个学生对单个课程的统计-->
+  <select id="selectAllByStudentIdAndCourseId" resultType="courseReport">
+    select <include refid="Base_Column_List"/>
+    from t_course_report where fk_course_id = #{courseId} and fk_student_id = #{studentId}
+  </select>
+
+</mapper>

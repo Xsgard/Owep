@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Course">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="course_number" jdbcType="VARCHAR" property="courseNumber" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="course_period" jdbcType="INTEGER" property="coursePeriod" />
+    <result column="course_status" jdbcType="VARCHAR" property="courseStatus" />
+    <result column="course_image" jdbcType="VARCHAR" property="courseImage" />
+    <result column="course_desc" jdbcType="VARCHAR" property="courseDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="course_open_status" jdbcType="INTEGER" property="courseOpenStatus" />
+    <result column="video_status" jdbcType="INTEGER" property="videoStatus" />
+    <result column="free" jdbcType="BIT" property="free" />
+    <result column="hot" jdbcType="BIT" property="hot" />
+    <result column="listener" jdbcType="BIT" property="listener" />
+    <result column="course_type" jdbcType="VARCHAR" property="courseType" />
+    <result column="course_send_type" jdbcType="VARCHAR" property="courseSendType" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association property="courseCategory"
+                 column="fk_courseCategory_id"
+                 javaType="com.kclm.owep.entity.CourseCategory"
+                 select="com.kclm.owep.mapper.CourseCategoryMapper.selectById"/>
+<!--    <collection property="chapterList"
+                ofType="com.kclm.owep.entity.Chapter"
+                column=""
+                select="com.kclm.owep.mapper.ChapterMapper.selectAllById"/>-->
+  </resultMap>
+
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id, course_number, course_name, start_time, end_time, course_period, course_status,
+    course_image, course_desc, create_time, course_open_status, video_status, free, hot,
+    listener, course_type, fk_course_category_id, course_send_type, is_delete, version,
+    last_access_time
+  </sql>
+
+  <!--添加课程-->
+  <insert id="save" parameterType="course">
+      insert into t_course
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          id,
+        </if>
+        <if test="courseNumber != null">
+          course_number,
+        </if>
+        <if test="courseName != null">
+          course_name,
+        </if>
+        <if test="startTime != null">
+          start_time,
+        </if>
+        <if test="endTime != null">
+          end_time,
+        </if>
+        <if test="coursePeriod != null">
+          course_period,
+        </if>
+        <if test="courseStatus != null">
+          course_status,
+        </if>
+        <if test="courseImage != null">
+          course_image,
+        </if>
+        <if test="courseDesc != null">
+          course_desc,
+        </if>
+        <if test="createTime != null">
+          create_time,
+        </if>
+        <if test="courseOpenStatus != null">
+          course_open_status,
+        </if>
+        <if test="videoStatus != null">
+          video_status,
+        </if>
+        <if test="free != null">
+          free,
+        </if>
+        <if test="hot != null">
+          hot,
+        </if>
+        <if test="listener != null">
+          listener,
+        </if>
+        <if test="courseType != null">
+          course_type,
+        </if>
+        <if test="courseCategory.id != null">
+          fk_course_category_id,
+        </if>
+        <if test="courseSendType != null">
+          course_send_type,
+        </if>
+        <if test="isDelete != null">
+          is_delete,
+        </if>
+        <if test="version != null">
+          version,
+        </if>
+        <if test="lastAccessTime != null">
+          last_access_time,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          #{id,jdbcType=INTEGER},
+        </if>
+        <if test="courseNumber != null">
+          #{courseNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="courseName != null">
+          #{courseName,jdbcType=VARCHAR},
+        </if>
+        <if test="startTime != null">
+          #{startTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="endTime != null">
+          #{endTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="coursePeriod != null">
+          #{coursePeriod,jdbcType=INTEGER},
+        </if>
+        <if test="courseStatus != null">
+          #{courseStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="courseImage != null">
+          #{courseImage,jdbcType=VARCHAR},
+        </if>
+        <if test="courseDesc != null">
+          #{courseDesc,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null">
+          #{createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="courseOpenStatus != null">
+          #{courseOpenStatus,jdbcType=INTEGER},
+        </if>
+        <if test="videoStatus != null">
+          #{videoStatus,jdbcType=INTEGER},
+        </if>
+        <if test="free != null">
+          #{free,jdbcType=BIT},
+        </if>
+        <if test="hot != null">
+          #{hot,jdbcType=BIT},
+        </if>
+        <if test="listener != null">
+          #{listener,jdbcType=BIT},
+        </if>
+        <if test="courseType != null">
+          #{courseType,jdbcType=VARCHAR},
+        </if>
+        <if test="courseCategory.id != null">
+          #{courseCategory.id,jdbcType=INTEGER},
+        </if>
+        <if test="courseSendType != null">
+          #{courseSendType,jdbcType=VARCHAR},
+        </if>
+        <if test="isDelete != null">
+          #{isDelete,jdbcType=INTEGER},
+        </if>
+        <if test="version != null">
+          #{version,jdbcType=INTEGER},
+        </if>
+        <if test="lastAccessTime != null">
+          #{lastAccessTime,jdbcType=TIMESTAMP},
+        </if>
+      </trim>
+  </insert>
+
+  <!--修改课程-->
+  <update id="update" parameterType="Course">
+    update t_course
+    <set>
+      <if test="courseNumber != null">
+        course_number = #{courseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coursePeriod != null">
+        course_period = #{coursePeriod,jdbcType=INTEGER},
+      </if>
+      <if test="courseStatus != null">
+        course_status = #{courseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="courseImage != null">
+        course_image = #{courseImage,jdbcType=VARCHAR},
+      </if>
+      <if test="courseDesc != null">
+        course_desc = #{courseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseOpenStatus != null">
+        course_open_status = #{courseOpenStatus,jdbcType=INTEGER},
+      </if>
+      <if test="videoStatus != null">
+        video_status = #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="free != null">
+        free = #{free,jdbcType=BIT},
+      </if>
+      <if test="hot != null">
+        hot = #{hot,jdbcType=BIT},
+      </if>
+      <if test="listener != null">
+        listener = #{listener,jdbcType=BIT},
+      </if>
+      <if test="courseType != null">
+        course_type = #{courseType,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCategory.id != null">
+        fk_course_category_id = #{courseCategory.id,jdbcType=INTEGER},
+      </if>
+      <if test="courseSendType != null">
+        course_send_type = #{courseSendType,jdbcType=VARCHAR},
+      </if>
+        version = version + 1,
+        last_access_time = now(),
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--删除课程-->
+  <!--<delete id="deleteById1" parameterType="integer" >
+    delete from t_course where id = #{id}
+  </delete>-->
+
+  <!--删除课程 逻辑删除-->
+  <update id="deleteById" parameterType="integer">
+    update t_course set is_delete = 0 where id = #{id}
+  </update>
+
+  <!--删除所选课程-->
+  <!--<delete id="deleteSelect1" >
+    delete from t_course where id in
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+      ${id}
+    </foreach>
+  </delete>-->
+
+  <!--删除所选课程  逻辑删除-->
+  <update id="deleteSelect" >
+    update t_course set is_delete = 0 where id in
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+      ${id}
+    </foreach>
+  </update>
+
+
+  <!--通过id查找课程-->
+  <select id="selectById" resultType="course" parameterType="Integer">
+    select <include refid="Base_Column_List"/>
+    from t_course where id = #{id} and is_delete = 1
+  </select>
+
+  <!--通过课程名查找-->
+  <select id="selectByCourseName" resultType="course" parameterType="String">
+    select <include refid="Base_Column_List"/>
+    from t_course where course_name = #{courseName} and is_delete = 1
+  </select>
+
+  <!--查询所有课程-->
+  <select id="selectAll" resultType="course">
+    select <include refid="Base_Column_List"/>
+    from t_course where is_delete = 1
+  </select>
+
+
+
+
+</mapper>

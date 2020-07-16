@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--/
+*******************
+ *Author:ZhongLei
+ *version:V1.0
+ *@Create: 2020/7/6 14:07
+ *@Description:考评记录映射文件
+ ***
+ /-->
+
+<mapper namespace="com.kclm.owep.mapper.PollRecordMapper">
+  <!--  resultMap映射  -->
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.PollRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ip_address" jdbcType="VARCHAR" property="ipAddress" />
+    <result column="poll_score" jdbcType="DOUBLE" property="pollScore" />
+    <result column="poll_count" jdbcType="INTEGER" property="pollCount" />
+    <result column="poll_suggest" jdbcType="VARCHAR" property="pollSuggest" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="poll_status" jdbcType="BIT" property="pollStatus" />
+    <result column="fk_teacher_poll_id" jdbcType="INTEGER" property="fkTeacherPollId" />
+    <result column="poll_item_1" jdbcType="VARCHAR" property="pollItem1" />
+    <result column="poll_item_2" jdbcType="VARCHAR" property="pollItem2" />
+    <result column="poll_item_3" jdbcType="VARCHAR" property="pollItem3" />
+    <result column="poll_item_4" jdbcType="VARCHAR" property="pollItem4" />
+    <result column="poll_item_5" jdbcType="VARCHAR" property="pollItem5" />
+    <result column="poll_item_6" jdbcType="VARCHAR" property="pollItem6" />
+    <result column="poll_item_7" jdbcType="VARCHAR" property="pollItem7" />
+    <result column="poll_item_8" jdbcType="VARCHAR" property="pollItem8" />
+    <result column="poll_item_9" jdbcType="VARCHAR" property="pollItem9" />
+    <result column="poll_item_10" jdbcType="VARCHAR" property="pollItem10" />
+    <result column="poll_item_11" jdbcType="VARCHAR" property="pollItem11" />
+    <result column="poll_item_12" jdbcType="VARCHAR" property="pollItem12" />
+    <result column="poll_item_13" jdbcType="VARCHAR" property="pollItem13" />
+    <result column="poll_item_14" jdbcType="VARCHAR" property="pollItem14" />
+    <result column="poll_item_15" jdbcType="VARCHAR" property="pollItem15" />
+  </resultMap>
+
+  <!--  通过id查找  -->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from t_poll_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--  通过id删除  -->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_poll_record
+    where id = #{value}
+  </delete>
+
+  <!--  添加考评记录  -->
+  <!--<insert id="save" parameterType="com.kclm.owep.entity.PollRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into t_poll_record (id, ip_address, poll_score,
+    poll_count, create_time,fk_teacher_poll_id)
+    values (null , #{ipAddress,jdbcType=VARCHAR}, #{pollScore,jdbcType=DOUBLE},
+    #{pollCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+    #{fkTeacherPollId,jdbcType=INTEGER})
+  </insert>-->
+
+  <!--  添加考评记录  -->
+  <insert id="save" parameterType="com.kclm.owep.entity.PollRecord">
+    insert into t_poll_record (id, ip_address, poll_score, 
+      poll_count, poll_suggest, last_access_time, 
+      version, create_time, poll_status, 
+      fk_teacher_poll_id, poll_item_1, poll_item_2, 
+      poll_item_3, poll_item_4, poll_item_5, 
+      poll_item_6, poll_item_7, poll_item_8, 
+      poll_item_9, poll_item_10, poll_item_11, 
+      poll_item_12, poll_item_13, poll_item_14, 
+      poll_item_15)
+    values (#{id,jdbcType=INTEGER}, #{ipAddress,jdbcType=VARCHAR}, #{pollScore,jdbcType=DOUBLE}, 
+      #{pollCount,jdbcType=INTEGER}, #{pollSuggest,jdbcType=VARCHAR}, null,
+      1, now(), #{pollStatus,jdbcType=BIT},
+      #{fkTeacherPollId,jdbcType=INTEGER}, #{pollItem1,jdbcType=VARCHAR}, #{pollItem2,jdbcType=VARCHAR}, 
+      #{pollItem3,jdbcType=VARCHAR}, #{pollItem4,jdbcType=VARCHAR}, #{pollItem5,jdbcType=VARCHAR}, 
+      #{pollItem6,jdbcType=VARCHAR}, #{pollItem7,jdbcType=VARCHAR}, #{pollItem8,jdbcType=VARCHAR}, 
+      #{pollItem9,jdbcType=VARCHAR}, #{pollItem10,jdbcType=VARCHAR}, #{pollItem11,jdbcType=VARCHAR}, 
+      #{pollItem12,jdbcType=VARCHAR}, #{pollItem13,jdbcType=VARCHAR}, #{pollItem14,jdbcType=VARCHAR}, 
+      #{pollItem15,jdbcType=VARCHAR})
+  </insert>
+
+  <!--&lt;!&ndash;  添加考评记录(可以为空)&ndash;&gt;
+  <insert id="insertSelective" parameterType="com.kclm.owep.entity.PollRecord">
+    insert into t_poll_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ipAddress != null">
+        ip_address,
+      </if>
+      <if test="pollScore != null">
+        poll_score,
+      </if>
+      <if test="pollCount != null">
+        poll_count,
+      </if>
+      <if test="pollSuggest != null">
+        poll_suggest,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="pollStatus != null">
+        poll_status,
+      </if>
+      <if test="fkTeacherPollId != null">
+        fk_teacher_poll_id,
+      </if>
+      <if test="pollItem1 != null">
+        poll_item_1,
+      </if>
+      <if test="pollItem2 != null">
+        poll_item_2,
+      </if>
+      <if test="pollItem3 != null">
+        poll_item_3,
+      </if>
+      <if test="pollItem4 != null">
+        poll_item_4,
+      </if>
+      <if test="pollItem5 != null">
+        poll_item_5,
+      </if>
+      <if test="pollItem6 != null">
+        poll_item_6,
+      </if>
+      <if test="pollItem7 != null">
+        poll_item_7,
+      </if>
+      <if test="pollItem8 != null">
+        poll_item_8,
+      </if>
+      <if test="pollItem9 != null">
+        poll_item_9,
+      </if>
+      <if test="pollItem10 != null">
+        poll_item_10,
+      </if>
+      <if test="pollItem11 != null">
+        poll_item_11,
+      </if>
+      <if test="pollItem12 != null">
+        poll_item_12,
+      </if>
+      <if test="pollItem13 != null">
+        poll_item_13,
+      </if>
+      <if test="pollItem14 != null">
+        poll_item_14,
+      </if>
+      <if test="pollItem15 != null">
+        poll_item_15,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ipAddress != null">
+        #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pollScore != null">
+        #{pollScore,jdbcType=DOUBLE},
+      </if>
+      <if test="pollCount != null">
+        #{pollCount,jdbcType=INTEGER},
+      </if>
+      <if test="pollSuggest != null">
+        #{pollSuggest,jdbcType=VARCHAR},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pollStatus != null">
+        #{pollStatus,jdbcType=BIT},
+      </if>
+      <if test="fkTeacherPollId != null">
+        #{fkTeacherPollId,jdbcType=INTEGER},
+      </if>
+      <if test="pollItem1 != null">
+        #{pollItem1,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem2 != null">
+        #{pollItem2,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem3 != null">
+        #{pollItem3,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem4 != null">
+        #{pollItem4,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem5 != null">
+        #{pollItem5,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem6 != null">
+        #{pollItem6,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem7 != null">
+        #{pollItem7,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem8 != null">
+        #{pollItem8,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem9 != null">
+        #{pollItem9,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem10 != null">
+        #{pollItem10,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem11 != null">
+        #{pollItem11,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem12 != null">
+        #{pollItem12,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem13 != null">
+        #{pollItem13,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem14 != null">
+        #{pollItem14,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem15 != null">
+        #{pollItem15,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>-->
+
+  <!--  统计考评记录数  -->
+  <select id="countPollRecord" parameterType="com.kclm.owep.entity.PollRecord" resultType="integer">
+    select count(*) from t_poll_record
+  </select>
+
+  <!--  修改考评记录  -->
+  <update id="update" parameterType="com.kclm.owep.entity.PollRecord">
+    update t_poll_record
+    <set>
+      <if test="ipAddress != null">
+        ip_address = #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="pollScore != null">
+        poll_score = #{pollScore,jdbcType=DOUBLE},
+      </if>
+      <if test="pollCount != null">
+        poll_count = #{pollCount,jdbcType=INTEGER},
+      </if>
+      <if test="pollSuggest != null">
+        poll_suggest = #{pollSuggest,jdbcType=VARCHAR},
+      </if>
+      now(),
+      version = version + 1,
+      <if test="pollStatus != null">
+        poll_status = #{pollStatus,jdbcType=BIT},
+      </if>
+      <if test="fkTeacherPollId != null">
+        fk_teacher_poll_id = #{fkTeacherPollId,jdbcType=INTEGER},
+      </if>
+      <if test="pollItem1 != null">
+        poll_item_1 = #{pollItem1,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem2 != null">
+        poll_item_2 = #{pollItem2,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem3 != null">
+        poll_item_3 = #{pollItem3,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem4 != null">
+        poll_item_4 = #{pollItem4,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem5 != null">
+        poll_item_5 = #{pollItem5,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem6 != null">
+        poll_item_6 = #{pollItem6,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem7 != null">
+        poll_item_7 = #{pollItem7,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem8 != null">
+        poll_item_8 = #{pollItem8,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem9 != null">
+        poll_item_9 = #{pollItem9,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem10 != null">
+        poll_item_10 = #{pollItem10,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem11 != null">
+        poll_item_11 = #{pollItem11,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem12 != null">
+        poll_item_12 = #{pollItem12,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem13 != null">
+        poll_item_13 = #{pollItem13,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem14 != null">
+        poll_item_14 = #{pollItem14,jdbcType=VARCHAR},
+      </if>
+      <if test="pollItem15 != null">
+        poll_item_15 = #{pollItem15,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+    <!--  查询所有  -->
+    <select id="selectAll" resultType="PollRecord">
+        select * from t_poll_record
+    </select>
+
+  <!--  批量删除  -->
+  <delete id="deleteSelect" parameterType="list">
+    delete from t_poll_record where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
+
+</mapper>

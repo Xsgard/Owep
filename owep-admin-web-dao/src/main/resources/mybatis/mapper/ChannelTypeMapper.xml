@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ChannelTypeMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.ChannelType">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="channel_type_name" jdbcType="VARCHAR" property="channelTypeName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <!--通过渠道类型id获取所有的渠道-->
+    <collection  property="channelList"
+                 javaType="java.util.ArrayList"
+                 ofType="com.kclm.owep.entity.Channel"
+                 fetchType="lazy"
+                 column="id"
+                 select="com.kclm.owep.mapper.ChannelMapper.selectByChannelTypeId"/>
+  </resultMap>
+
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id, channel_type_name, create_time,version, last_access_time
+  </sql>
+
+  <!--添加渠道类型-->
+  <insert id="saveAllField" parameterType="ChannelType">
+    insert into t_channel_type (id, channel_type_name, create_time,
+    version, last_access_time)
+    values (#{id,jdbcType=INTEGER}, #{channelTypeName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{version,jdbcType=INTEGER}, #{lastAccessTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <!--动态添加渠道类型-->
+  <insert id="save" parameterType="ChannelType">
+    insert into t_channel_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="channelTypeName != null">
+        channel_type_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="channelTypeName != null">
+        #{channelTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!--更新渠道类型-->
+  <update id="update" parameterType="channelType">
+    update t_channel_type
+    <set>
+      <if test="channelTypeName != null">
+        channel_type_name = #{channelTypeName,jdbcType=VARCHAR},
+      </if>
+        version = version + 1 ,
+        last_access_time = now() ,
+    </set>
+    where id = #{id,javaType=INTEGER}
+  </update>
+
+  <!--查询所有渠道类型-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_channel_type
+  </select>
+
+  <!--查询单个渠道类型-->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_channel_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--通过id删除渠道id-->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_channel_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+</mapper>

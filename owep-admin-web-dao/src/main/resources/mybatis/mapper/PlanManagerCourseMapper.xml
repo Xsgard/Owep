@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.PlanManagerCourseMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.PlanManagerCourse">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="stage_num" jdbcType="INTEGER" property="stageNum" />
+    <result column="stage_name" jdbcType="INTEGER" property="stageName" />
+    <result column="course_order" jdbcType="INTEGER" property="courseOrder" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <association column="fk_planmager_id"
+                 property="planManager"
+                 javaType="com.kclm.owep.entity.PlanManager"
+                 fetchType="eager"
+                 select="com.kclm.owep.mapper.PlanManagerMapper.selectById"/>
+    <association column="fk_course_id"
+                 property="course"
+                 javaType="com.kclm.owep.entity.Course"
+                 fetchType="eager" select="com.kclm.owep.mapper.CourseMapper.selectById"/>
+  </resultMap>
+
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id, fk_planmanager_id, fk_course_id, stage_num, stage_name, course_order, is_delete,
+    create_time, version
+  </sql>
+
+  <!--设置方案-->
+  <insert id="save" parameterType="PlanManagerCourse">
+    insert into t_planmanager_course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="planManager.id != null">
+        fk_planmanager_id,
+      </if>
+      <if test="course.id != null">
+        fk_course_id,
+      </if>
+      <if test="stageNum != null">
+        stage_num,
+      </if>
+      <if test="stageName != null">
+        stage_name,
+      </if>
+      <if test="courseOrder != null">
+        course_order,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="planManager.id != null">
+        #{planManager.id,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        #{course.id,jdbcType=INTEGER},
+      </if>
+      <if test="stageNum != null">
+        #{stageNum,jdbcType=INTEGER},
+      </if>
+      <if test="stageName != null">
+        #{stageName,jdbcType=INTEGER},
+      </if>
+      <if test="courseOrder != null">
+        #{courseOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <!--通过id 删除设置方案-->
+  <!--<delete id="deleteById1" parameterType="Integer">
+    delete from t_planmanager_course where id = #{id}
+  </delete>-->
+
+  <!--通过id 删除设置方案 逻辑删除-->
+  <update id="deleteById">
+    update t_planmanager_course set is_delete = 0 where id = #{id}
+  </update>
+
+  <!--修改设置方案-->
+  <update id="update" parameterType="PlanManagerCourse">
+    update t_planmanager_course
+    <set>
+      <if test="planManager.id != null">
+        fk_planmanager_id = #{planManager.id,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        fk_course_id = #{course.id,jdbcType=INTEGER},
+      </if>
+      <if test="stageNum != null">
+        stage_num = #{stageNum,jdbcType=INTEGER},
+      </if>
+      <if test="stageName != null">
+        stage_name = #{stageName,jdbcType=INTEGER},
+      </if>
+      <if test="courseOrder != null">
+        course_order = #{courseOrder,jdbcType=INTEGER},
+      </if>
+        version = version + 1,
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过方案id查询所有的课程-->
+  <select id="selectAllById" parameterType="integer" resultType="PlanManagerCourse">
+    select <include refid="Base_Column_List"/>
+    from t_planmanager_course
+    where id = #{id}
+  </select>
+
+
+
+
+
+</mapper>

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.SystLogMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.SystLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="ip_addr" jdbcType="VARCHAR" property="ipAddr" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="request_url" jdbcType="VARCHAR" property="requestUrl" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="login_user_name" jdbcType="VARCHAR" property="loginUserName" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+<!--  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>-->
+  <!--基本字段-->
+  <sql id="Base_Column_List">
+    id, title, module_name, menu_name, ip_addr, method, request_url, type, login_user_name, 
+    last_access_time, create_time, version
+  </sql>
+  <!--通过用户名和时间范围查询-->
+  <select id="findByTime" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_syslog
+    <where>
+        <if test="login_user_name!='%null '">
+          login_user_name like #{login_user_name}
+        </if>
+        <if test="start!=null ">
+          and create_time &gt;= #{start}
+        </if>
+      <if test="end!=null ">
+         and create_time &lt;= #{end}
+      </if>
+    </where>
+   <!-- login_user_name=#{username}
+    and (create_time between #{start} and #{end})-->
+  </select>
+  <!--BaseMapper-->
+  <!--持久化一个实体对象-->
+  <insert id="save" parameterType="com.kclm.owep.entity.SystLog">
+    insert into t_syslog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="moduleName != null">
+        module_name,
+      </if>
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="ipAddr != null">
+        ip_addr,
+      </if>
+      <if test="method != null">
+        method,
+      </if>
+      <if test="requestUrl != null">
+        request_url,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="loginUserName != null">
+        login_user_name,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null">
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddr != null">
+        #{ipAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null">
+        #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="loginUserName != null">
+        #{loginUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <!--更新实体对象-->
+  <update id="update" parameterType="com.kclm.owep.entity.SystLog">
+    update t_syslog
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null">
+        module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddr != null">
+        ip_addr = #{ipAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null">
+        request_url = #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="loginUserName != null">
+        login_user_name = #{loginUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      version = version + 1,
+      last_access_time = now()
+    </set>
+    where  id=#{id,jdbcType=INTEGER}
+  </update>
+  <!--通过主键删除实体对象-->
+  <delete id="deleteById" parameterType="Integer">
+    delete from t_syslog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--依多个主键值，删除多行记录-->
+  <!--<delete id="deleteSelect" parameterType="list">
+    delete form t_syslog where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>-->
+  <delete id="deleteSelect" parameterType="list">
+    delete from  t_syslog where id in
+    <foreach collection="list" separator="," item="id" open="(" close=")">
+      #{id}
+    </foreach>
+  </delete>
+  <!--依主键查询单个对象-->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_syslog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--查询所有记录-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from t_syslog
+  </select>
+<!--  <select id="selectByExample" parameterType="com.kclm.owep.entity.SystLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_syslog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_syslog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.kclm.owep.entity.SystLog">
+    insert into t_syslog (id, title, module_name, 
+      menu_name, ip_addr, method, 
+      request_url, type, login_user_name, 
+      last_access_time, create_time, version
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, 
+      #{menuName,jdbcType=VARCHAR}, #{ipAddr,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
+      #{requestUrl,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{loginUserName,jdbcType=VARCHAR}, 
+      #{lastAccessTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByExample" parameterType="map">
+    update t_syslog
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      module_name = #{record.moduleName,jdbcType=VARCHAR},
+      menu_name = #{record.menuName,jdbcType=VARCHAR},
+      ip_addr = #{record.ipAddr,jdbcType=VARCHAR},
+      method = #{record.method,jdbcType=VARCHAR},
+      request_url = #{record.requestUrl,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      login_user_name = #{record.loginUserName,jdbcType=VARCHAR},
+      last_access_time = #{record.lastAccessTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      version = #{record.version,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kclm.owep.entity.SystLog">
+    update t_syslog
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null">
+        module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddr != null">
+        ip_addr = #{ipAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null">
+        request_url = #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="loginUserName != null">
+        login_user_name = #{loginUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kclm.owep.entity.SystLog">
+    update t_syslog
+    set title = #{title,jdbcType=VARCHAR},
+      module_name = #{moduleName,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      ip_addr = #{ipAddr,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      request_url = #{requestUrl,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      login_user_name = #{loginUserName,jdbcType=VARCHAR},
+      last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>-->
+</mapper>

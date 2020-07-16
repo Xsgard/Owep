@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kclm.owep.mapper.VideoWatchHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.VideoWatchHistory">
+    <!--  resultMap映射  -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fk_study_record_id" jdbcType="INTEGER" property="fkStudyRecordId" />
+    <result column="watch_position" jdbcType="DOUBLE" property="watchPosition" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+
+  <!--  通过id查询视频观看历史记录  -->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from t_videowatch_history
+    where id = #{value}
+  </select>
+
+
+  <!--  通过id删除视频观看历史记录  -->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_videowatch_history
+    where id = #{value}
+  </delete>
+
+  <!--  添加视频观看历史记录  -->
+  <insert id="save" parameterType="com.kclm.owep.entity.VideoWatchHistory">
+    insert into t_videowatch_history (id, fk_study_record_id, watch_position,
+      create_time, last_access_time, version
+      )
+    values (#{id,jdbcType=INTEGER}, #{fkStudyRecordId,jdbcType=INTEGER}, #{watchPosition,jdbcType=DOUBLE},
+      now(), null, 1)
+  </insert>
+
+  <!--&lt;!&ndash;  添加视频观看历史记录  &ndash;&gt;
+  <insert id="insertSelective" parameterType="com.kclm.owep.entity.VideoWatchHistory">
+    insert into t_videowatch_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkStudyRecordId != null">
+        fk_study_record_id,
+      </if>
+      <if test="watchPosition != null">
+        watch_position,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fkStudyRecordId != null">
+        #{fkStudyRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="watchPosition != null">
+        #{watchPosition,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>-->
+
+    <!--  修改视频观看历史  -->
+  <update id="update" parameterType="com.kclm.owep.entity.VideoWatchHistory">
+    update t_videowatch_history
+    <set>
+      <if test="fkStudyRecordId != null">
+        fk_study_record_id = #{fkStudyRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="watchPosition != null">
+        watch_position = #{watchPosition,jdbcType=DOUBLE},
+      </if>
+      last_access_time = now(),
+      version = version + 1
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <!--  统计视频观看历史数量  -->
+  <select id="countVideoWatchHistory" resultType="integer">
+    select count(*) from t_videowatch_history
+  </select>
+
+    <!--  查找所有视频观看历史  -->
+    <select id="selectAll" resultType="VideoWatchRecord">
+        select * from t_videowatch_history
+    </select>
+
+    <!--  通过id批量删除  -->
+    <delete id="deleteSelect" parameterType="list">
+        delete from t_videowatch_history where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ClientNoteMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.ClientNote">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="client_state" jdbcType="INTEGER" property="clientState" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association column="fk_client_id"
+                 property="client"
+                 javaType="com.kclm.owep.entity.Client"
+                 select="com.kclm.owep.mapper.ClientMapper.selectById"/>
+  </resultMap>
+
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id, fk_client_id, client_state, create_time, version, last_access_time
+  </sql>
+
+  <!--添加客户跟进记录-->
+  <insert id="save" parameterType="ClientNote">
+    insert into t_client_note
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="client.id != null">
+        fk_client_id,
+      </if>
+      <if test="clientState != null">
+        client_state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="clientNote != null">
+        client_note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="client.id != null">
+        #{client.id,jdbcType=INTEGER},
+      </if>
+      <if test="clientState != null">
+        #{clientState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientNote != null">
+        #{clientNote,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!--更新客户跟进记录-->
+  <update id="update" parameterType="ClientNote">
+    update t_client_note
+    <set>
+      <if test="client.id != null">
+        fk_client_id = #{client.id,jdbcType=INTEGER},
+      </if>
+      <if test="clientState != null">
+        client_state = #{clientState,jdbcType=INTEGER},
+      </if>
+        version = version + 1,
+        last_access_time = now(),
+      <if test="clientNote != null">
+        client_note = #{clientNote,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--通过id删除跟进记录-->
+  <delete id="deleteById" parameterType="integer">
+    delete from t_client_note where id = #{id}
+  </delete>
+  
+  <select id="selectAllById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_client_note
+    where fk_client_id = #{id}
+  </select>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ResourceTypeMapper">
+      <resultMap id="BaseResultMap" type="com.kclm.owep.entity.ResourceType">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+        <result column="type_desc" jdbcType="VARCHAR" property="typeDesc" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+      </resultMap>
+
+      <sql id="Base_Column_List">
+        id, type_name, type_desc, create_time, is_delete, version, last_access_time
+      </sql>
+    <!--新增资源-->
+    <insert id="save" parameterType="com.kclm.owep.entity.ResourceType">
+        insert into t_resource_type(type_name, type_desc, create_time, is_delete, version)
+        values ( #{typeName}, #{typeDesc}, now(),#{isDelete}, #{version})
+    </insert>
+    <!--更新资源记录-->
+    <update id="update" parameterType="com.kclm.owep.entity.ResourceType">
+         update t_resource_type
+        <set>
+          <if test="typeName != null">
+            type_name = #{typeName,jdbcType=VARCHAR},
+          </if>
+          <if test="typeDesc != null">
+            type_desc = #{typeDesc,jdbcType=VARCHAR},
+          </if>
+          <if test="isDelete != null">
+          isdelete = #{isDelete,jdbcType=INTEGER},
+          </if>
+          last_access_time = now(),
+          version = version+1
+        </set>
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+    <!--根据ID删除-->
+    <delete id="deleteById" parameterType="com.kclm.owep.entity.ResourceType">
+         delete from t_resource_type where id = #{id}
+    </delete>
+    <!--根据所选项删除-->
+    <delete id="deleteSelect" parameterType="com.kclm.owep.entity.ResourceType">
+        delete from t_resource_type where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--根据ID查询-->
+    <select id="selectById" resultMap="BaseResultMap">
+        select * from t_resource_type where
+        id = #{id}
+        and is_delete=1
+    </select>
+    <!--查询所有记录-->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_resource_type
+        where
+        is_delete=1
+    </select>
+</mapper>

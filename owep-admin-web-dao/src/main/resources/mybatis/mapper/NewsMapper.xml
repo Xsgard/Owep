@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.NewsMapper">
+
+<!--  映射select查询的结果，主要作用是将实体类中的字段和数据库表中的字段进行关联映射-->
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.News">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="news_title" jdbcType="VARCHAR" property="newsTitle" />
+    <result column="news_content" jdbcType="VARCHAR" property="newsContent" />
+    <result column="news_type" jdbcType="INTEGER" property="newsType" />
+    <result column="news_publisher" jdbcType="VARCHAR" property="newsPublisher" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="news_url" jdbcType="VARCHAR" property="newsUrl" />
+    <result column="read_size" jdbcType="INTEGER" property="readSize" />
+  </resultMap>
+
+<!--  查询根据名字-->
+  <select id="selectAll" parameterType="com.kclm.owep.entity.News" resultMap="BaseResultMap">
+    select * from t_news
+  </select>
+
+<!--  根据id查询-->
+  <select id="selectById" parameterType="com.kclm.owep.entity.News" resultMap="BaseResultMap">
+    select * from t_news where id = #{id}
+  </select>
+
+<!--  根据id删除-->
+  <delete id="deleteById" parameterType="com.kclm.owep.entity.News">
+    delete from t_news where id = #{id}
+  </delete>
+
+<!--  根据所选项删除多条记录-->
+  <delete id="deleteSelect" parameterType="com.kclm.owep.entity.News">
+    delete  from where id in
+    <foreach collection="list" open="(" close= ")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
+
+<!--  添加记录-->
+  <insert id="save" parameterType="com.kclm.owep.entity.News">
+    insert into t_news (id, news_title, news_content,
+      news_type, news_publisher, create_time, 
+      version, last_access_time, news_url, 
+      read_size)
+    values (#{id}, #{newsTitle}, #{newsContent},
+      #{newsType}, #{newsPublisher}, #{createTime},
+      #{version}, #{lastAccessTime}, #{newsUrl},
+      #{readSize})
+  </insert>
+
+<!--  更新记录-->
+  <update id="update" parameterType="com.kclm.owep.entity.News">
+    update t_news
+    <trim prefix="set" suffixOverrides=",">
+      <if test="newsTitle != null">news_title = #{newsTitle},</if>
+      <if test="newsContent != null">news_content = #{newsContent},</if>
+      <if test="newsType != null">news_type = #{newsType},</if>
+      <if test="newsPublisher != null">news_publisher = #{newsPublisher},</if>
+      <if test="createTime != null">create_time = #{createTime},</if>
+      <if test="version != null">version = #{version},</if>
+      <if test="lastAccessTime != null">last_access_time = #{lastAccessTime},</if>
+      <if test="newsUrl != null">news_url = #{newsUrl},</if>
+      <if test="readSize != null">read_size = #{readSize},</if>
+    </trim>where id = #{id}</update>
+</mapper>

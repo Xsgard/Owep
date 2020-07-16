@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--消息表的Sql操作-->
+<mapper namespace="com.kclm.owep.mapper.MessageMapper">
+
+  <!--实体属性对应相应的表字段-->
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Message">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="read" jdbcType="INTEGER" property="read" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="from_user_name" jdbcType="VARCHAR" property="fromUserName" />
+    <result column="to_user_name" jdbcType="VARCHAR" property="toUserName" />
+    <association column="fk_from_student_id" javaType="com.kclm.owep.entity.Student"  property="fkFromStudent" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+    <association column="fk_to_student_id" javaType="com.kclm.owep.entity.Student" property="toFromStudent" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+  </resultMap>
+
+  <!--封装表字段名，方便后续简写使用-->
+  <sql id="Base_Column_List">
+    id,title,content,`read`,create_time,last_access_time,version,from_user_name,to_user_name
+  </sql>
+
+  <!--根据id查找记录-->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--查询所有记录-->
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_message
+  </select>
+
+  <!--根据id删除记录-->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete
+    from t_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <!--删除查询出来集合里的记录-->
+  <delete id="deleteSelect" parameterType="java.lang.Integer">
+    delete
+    from t_message
+    where id in <foreach collection="idList" item="list" open="(" separator="," close=")"> #{list} </foreach>
+  </delete>
+
+  <!--插入一条记录-->
+  <insert id="save" parameterType="com.kclm.owep.entity.Message">
+    insert into t_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="read != null">
+        `read`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="fromUserName != null">
+        from_user_name,
+      </if>
+      <if test="toUserName != null">
+        to_user_name,
+      </if>
+      <if test="fkFromStudent.id != null">
+        fk_from_student_id,
+      </if>
+      <if test="toFromStudent.id != null">
+        fk_to_student_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="read != null">
+        #{read,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="fromUserName != null">
+        #{fromUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserName != null">
+        #{toUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFromStudent.id != null">
+        #{fkFromStudent.id,jdbcType=INTEGER},
+      </if>
+      <if test="toFromStudent.id != null">
+        #{toFromStudent.id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <!--根据id更新记录-->
+  <update id="update" parameterType="com.kclm.owep.entity.Message">
+    update t_message
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="read != null">
+        read = #{read,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="fromUserName != null">
+        from_user_name = #{fromUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserName != null">
+        to_user_name = #{toUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkFromStudent.id != null">
+        fk_from_student_id = #{fkFromStudent.id,jdbcType=INTEGER},
+      </if>
+      <if test="toFromStudent != null">
+        fk_to_student_id = #{toFromStudent.id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

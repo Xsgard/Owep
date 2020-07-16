@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.SectionMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Section">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="section_name" jdbcType="VARCHAR" property="sectionName" />
+    <result column="section_number" jdbcType="VARCHAR" property="sectionNumber" />
+    <result column="section_desc" jdbcType="VARCHAR" property="sectionDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="video_status" jdbcType="INTEGER" property="videoStatus" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="experiment_ducument_file" jdbcType="VARCHAR" property="experimentDucumentFile" />
+    <result column="experiment_environment_addr" jdbcType="VARCHAR" property="experimentEnvironmentAddr" />
+    <result column="experiment" jdbcType="INTEGER" property="experiment" />
+    <result column="look_video_status" jdbcType="INTEGER" property="lookVideoStatus" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association property="chapter"
+                 javaType="com.kclm.owep.entity.Chapter"
+                 column="fk_chapter_id"
+                 fetchType="eager"
+                 select="com.kclm.owep.mapper.ChapterMapper.selectById"/>
+  </resultMap>
+
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id,section_name, section_number, section_desc, create_time, video_status, fk_chapter_id,
+    is_delete, experiment_ducument_file, experiment_environment_addr, experiment, look_video_status,
+    version, last_access_time
+  </sql>
+
+  <!--添加节-->
+  <insert id="save" parameterType="Section">
+    insert into t_section
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sectionName != null">
+        section_name,
+      </if>
+      <if test="sectionNumber != null">
+        section_number,
+      </if>
+      <if test="sectionDesc != null">
+        section_desc,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="videoStatus != null">
+        video_status,
+      </if>
+      <if test="chapter.id != null">
+        fk_chapter_id,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="experimentDucumentFile != null">
+        experiment_ducument_file,
+      </if>
+      <if test="experimentEnvironmentAddr != null">
+        experiment_environment_addr,
+      </if>
+      <if test="experiment != null">
+        experiment,
+      </if>
+      <if test="lookVideoStatus != null">
+        look_video_status,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="experimentInstrusction != null">
+        experiment_instrusction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sectionName != null">
+        #{sectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionNumber != null">
+        #{sectionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionDesc != null">
+        #{sectionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="videoStatus != null">
+        #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="chapter.id != null">
+        #{chapter.id,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="experimentDucumentFile != null">
+        #{experimentDucumentFile,jdbcType=VARCHAR},
+      </if>
+      <if test="experimentEnvironmentAddr != null">
+        #{experimentEnvironmentAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="experiment != null">
+        #{experiment,jdbcType=INTEGER},
+      </if>
+      <if test="lookVideoStatus != null">
+        #{lookVideoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="experimentInstrusction != null">
+        #{experimentInstrusction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!--查询所有的节-->
+  <select id="selectAllById" resultType="section">
+    select <include refid="Base_Column_List"/>
+    from t_section where fk_chapter_id = #{id}
+  </select>
+
+  <select id="selectById"  resultType="section">
+    select <include refid="Base_Column_List"/> from t_section where id = #{id} and is_delete = 1
+  </select>
+
+  <!--修改节-->
+  <update id="update" parameterType="Section">
+    update t_section
+    <set>
+      <if test="sectionName != null">
+        section_name = #{sectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionNumber != null">
+        section_number = #{sectionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionDesc != null">
+        section_desc = #{sectionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="videoStatus != null">
+        video_status = #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="chapter.id != null">
+        fk_chapter_id = #{chapter.id,jdbcType=INTEGER},
+      </if>
+      <if test="experimentDucumentFile != null">
+        experiment_ducument_file = #{experimentDucumentFile,jdbcType=VARCHAR},
+      </if>
+      <if test="experimentEnvironmentAddr != null">
+        experiment_environment_addr = #{experimentEnvironmentAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="experiment != null">
+        experiment = #{experiment,jdbcType=INTEGER},
+      </if>
+      <if test="lookVideoStatus != null">
+        look_video_status = #{lookVideoStatus,jdbcType=INTEGER},
+      </if>
+        version = version + 1,
+        last_access_time = now(),
+      <if test="experimentInstrusction != null">
+        experiment_instrusction = #{experimentInstrusction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+</mapper>

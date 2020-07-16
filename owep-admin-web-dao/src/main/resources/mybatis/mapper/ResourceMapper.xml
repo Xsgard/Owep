@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.ResourceMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Resource">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="resource_name" jdbcType="VARCHAR" property="resourceName" />
+    <result column="resource_type" jdbcType="INTEGER" property="type"/>
+    <result column="resource_suffix" jdbcType="VARCHAR" property="resourceSuffix" />
+    <result column="resource_size" jdbcType="INTEGER" property="resourceSize" />
+    <result column="resource_title" jdbcType="VARCHAR" property="resourceTitle" />
+    <result column="resource_path" jdbcType="VARCHAR" property="resourcePath" />
+    <result column="resource_label" jdbcType="VARCHAR" property="resourceLabel" />
+    <result column="resource_desc" jdbcType="VARCHAR" property="resourceDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+    <result column="old_resourcename" jdbcType="INTEGER" property="oldResourcename"/>
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <association column="fk_section_id" property="section" javaType="com.kclm.owep.entity.Section" select="com.kclm.owep.mapper.SectionMapper.selectById"/>
+    <association property="course" column="fk_course_id" javaType="com.kclm.owep.entity.Course" select="com.kclm.owep.mapper.CourseMapper.selectById"/>
+    <association property="chapter" column="fk_chapter_id" javaType="com.kclm.owep.entity.Chapter" select="com.kclm.owep.mapper.ChapterMapper.selectById"/>
+    <association property="resourceType" column="fk_resource_type_id" javaType="com.kclm.owep.entity.ResourceType" select="com.kclm.owep.mapper.ResourceTypeMapper.selectById"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, resource_name, resource_type, resource_suffix, resource_size, resource_title,
+    resource_path, resource_label, resource_desc, create_time, is_delete,fk_section_id,fk_chapter_id,fk_course_id,fk_resource_type_id,
+    old_resourcename, version, last_access_time
+  </sql>
+<!--新增文档-->
+<insert id="save" parameterType="com.kclm.owep.entity.Resource">
+   insert into t_resource(resource_name,resource_type,resource_suffix,resource_size,resource_title,resource_path,resource_label,resource_desc,create_time,
+   is_delete,fk_section_id,fk_chapter_id,fk_course_id,fk_resource_type_id,version)
+
+    values (#{resourceName}, #{type},
+      #{resourceSuffix}, #{resourceSize}, #{resourceTitle},
+      #{resourcePath}, #{resourceLabel}, #{resourceDesc},now(),
+      #{isDelete},#{section.id},#{chapter.id},#{course.id},#{resourceType.id},#{version})
+</insert>
+<!--更新文档管理记录-->
+<update id="update" parameterType="com.kclm.owep.entity.Resource">
+     update t_resource
+    <set>
+      <if test="resourceName != null">
+        resource_name = #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceType != null">
+      resource_type = #{resourcetype,jdbcType=INTEGER},
+      </if>
+      <if test="resourceSuffix != null">
+      resource_suffix = #{resourceSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceSize != null">
+      resource_size = #{resourceSize,jdbcType=INTEGER},
+      </if>
+      <if test="resourceTitle != null">
+      resource_title = #{resourceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcePath != null">
+      resource_path = #{resourcePath,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceLabel != null">
+      resource_label = #{resourceLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceDesc != null">
+      resource_desc = #{resourceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+      isdelete = #{delete,jdbcType=INTEGER},
+      </if>
+      <if test="section != null">
+      fk_section_id = #{section.id,jdbcType=INTEGER},
+      </if>
+      <if test="chapter != null">
+      fk_chapter_id = #{chapter.id,jdbcType=INTEGER},
+      </if>
+      <if test="course != null">
+      fk_course_id = #{course.id,jdbcType=INTEGER},
+      </if>
+      <if test="resourceType != null">
+      fk_resource_type_id = #{resourceType.id,jdbcType=INTEGER},
+      </if>
+      <if test="oldResourcename != null">
+      old_resourcename = #{oldResourcename,jdbcType=INTEGER},
+      </if>
+      last_access_time = now(),
+      version = version+1
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+</update>
+<!--根据ID删除-->
+<delete id="deleteById" parameterType="com.kclm.owep.entity.Resource">
+    delete from t_resource where id =#{id}
+</delete>
+<!--根据所选项删除-->
+<delete id="deleteSelect" parameterType="com.kclm.owep.entity.Resource">
+    delete from t_resource where id in
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+    #{id}
+ </foreach>
+</delete>
+<!--依主键查询单个对象-->
+<select id="selectById" resultType="com.kclm.owep.entity.Resource">
+ select * from t_resource where id=#{id}
+</select>
+<!--查询多个对象-->
+<select id="selectAll" resultType="com.kclm.owep.entity.Resource">
+ select
+ <include refid="Base_Column_List"/>
+ from t_resource
+ where
+ is_delete=1
+</select>
+</mapper>

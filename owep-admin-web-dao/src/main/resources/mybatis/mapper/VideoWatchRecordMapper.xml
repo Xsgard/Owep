@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--/
+*******************
+ *Author:ZhongLei
+ *version:V1.0
+ *@Create: 2020/7/6 14:07
+ *@Description:视频观看记录映射文件
+ ***
+ /-->
+
+<mapper namespace="com.kclm.owep.mapper.VideoWatchRecordMapper">
+  <!--  resultMap映射  -->
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.VideoWatchRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="start_position" jdbcType="VARCHAR" property="startPosition" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="end_position" jdbcType="VARCHAR" property="endPosition" />
+    <result column="fk_video_id" jdbcType="INTEGER" property="fkVideoId" />
+    <result column="fk_studyrecord_id" jdbcType="INTEGER" property="fkStudyrecordId" />
+    <result column="current_progress" jdbcType="DOUBLE" property="currentProgress" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+
+  <!--  通过id查找视频观看记录  -->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from t_videowatch_record
+    where id = #{value}
+  </select>
+
+  <!--  通过id删除视频观看记录  -->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_videowatch_record
+    where id = #{value}
+  </delete>
+
+
+
+  <!--  添加视频观看记录  -->
+  <insert id="save" parameterType="com.kclm.owep.entity.VideoWatchRecord">
+    insert into t_videowatch_record (id, start_time, start_position, 
+      end_time, end_position, fk_video_id, 
+      fk_studyrecord_id, current_progress, create_time, 
+      last_access_time, version)
+    values (#{id,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{startPosition,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{endPosition,jdbcType=VARCHAR}, #{fkVideoId,jdbcType=INTEGER}, 
+      #{fkStudyrecordId,jdbcType=INTEGER}, #{currentProgress,jdbcType=DOUBLE}, now(),
+      null , 1)
+  </insert>
+
+  <!--<insert id="insertSelective" parameterType="com.kclm.owep.entity.VideoWatchRecord">
+    insert into t_videowatch_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="startPosition != null">
+        start_position,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="endPosition != null">
+        end_position,
+      </if>
+      <if test="fkVideoId != null">
+        fk_video_id,
+      </if>
+      <if test="fkStudyrecordId != null">
+        fk_studyrecord_id,
+      </if>
+      <if test="currentProgress != null">
+        current_progress,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPosition != null">
+        #{startPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endPosition != null">
+        #{endPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="fkVideoId != null">
+        #{fkVideoId,jdbcType=INTEGER},
+      </if>
+      <if test="fkStudyrecordId != null">
+        #{fkStudyrecordId,jdbcType=INTEGER},
+      </if>
+      <if test="currentProgress != null">
+        #{currentProgress,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>-->
+
+  <!--  更新视频观看记录  -->
+  <update id="update" parameterType="com.kclm.owep.entity.VideoWatchRecord">
+    update t_videowatch_record
+    <set>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPosition != null">
+        start_position = #{startPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endPosition != null">
+        end_position = #{endPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="fkVideoId != null">
+        fk_video_id = #{fkVideoId,jdbcType=INTEGER},
+      </if>
+      <if test="fkStudyrecordId != null">
+        fk_studyrecord_id = #{fkStudyrecordId,jdbcType=INTEGER},
+      </if>
+      <if test="currentProgress != null">
+        current_progress = #{currentProgress,jdbcType=DOUBLE},
+      </if>
+      last_access_time = now(),
+      version = version + 1
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--  统计视频观看记录数量  -->
+  <select id="countVideoWatchRecord" parameterType="VideoWatchRecord" resultType="integer">
+    select count(*) from t_videowatch_record
+  </select>
+
+  <!--  查询所有视频观看记录  -->
+  <select id="selectAll" resultType="VideoWatchRecord">
+    select * from t_videowatch_record
+  </select>
+
+  <delete id="deleteSelect" parameterType="list">
+    delete from t_videowatch_record where id in
+    <foreach collection="list" open="(" close=")" item="id">
+      #{id}
+    </foreach>
+  </delete>
+
+</mapper>

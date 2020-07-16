@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.CourseCommentMapper">
+  <resultMap id="BaseResultMap" type="com.kclm.owep.entity.CourseComment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <association property="student"
+                 column="fk_student_id"
+                 javaType="com.kclm.owep.entity.Student"
+                 select="com.kclm.owep.mapper.StudentMapper.selectById"
+                 fetchType="eager"/>
+    <association property="course"
+                 column="fk_course_id"
+                 javaType="com.kclm.owep.entity.Course"
+                 select="com.kclm.owep.mapper.CourseMapper.selectById"
+                 fetchType="eager"/>
+  </resultMap>
+
+  <!--所有字段-->
+  <sql id="Base_Column_List">
+    id, comment_content, create_time, last_access_time, version, fk_student_id, fk_course_id
+  </sql>
+
+  <!--添加课程评价-->
+  <insert id="save" parameterType="CourseComment">
+    insert into t_course_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastAccessTime != null">
+        last_access_time,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="student.id != null">
+        fk_student_id,
+      </if>
+      <if test="course.id != null">
+        fk_course_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastAccessTime != null">
+        #{lastAccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="student.id != null">
+        #{student.id,jdbcType=INTEGER},
+      </if>
+      <if test="course.id != null">
+        #{course.id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <!--查询单个学生对单个课程所有的评价-->
+  <select id="selectByStuIdAndCourseId" parameterType="Integer" resultType="courseComment">
+    select
+    <include refid="Base_Column_List"/>
+    from t_course_comment where fk_student_id = #{studentId} and fk_course_id = #{courseId}
+  </select>
+
+  <!--查询单个课程的所有学生评价-->
+  <select id="selectByCourseId" parameterType="Integer" resultType="courseComment">
+    select <include refid="Base_Column_List"/>
+    from t_course_comment where fk_course_id = #{courseId}
+  </select>
+
+  <!--查询单个学生对所有的课程评价-->
+  <select id="selectByStudentId" parameterType="Integer" resultType="courseComment">
+    select <include refid="Base_Column_List"/>
+    from t_course_comment
+    where fk_student_id = #{studentId}
+  </select>
+
+
+
+</mapper>

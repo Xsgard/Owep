@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.QuestionMapper">
+  <resultMap id="BaseResultMap" type="question">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="question_content" jdbcType="VARCHAR" property="questionContent" />
+    <result column="question_type" jdbcType="INTEGER" property="questionType" />
+    <result column="question_author" jdbcType="VARCHAR" property="questionAuthor" />
+    <result column="favour_count" jdbcType="INTEGER" property="favourCount" />
+    <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <association property="student" column="fk_student_id" javaType="student" select="com.kclm.owep.mapper.StudentMapper.selectById"/>
+    <association property="video" column="fk_video_id" javaType="video" select="com.kclm.owep.mapper.VideoMapper.selectById"/>
+    <association property="clazz" column="fk_class_id" javaType="video" select="com.kclm.owep.mapper.ClazzMapper.selectById"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, create_time, question_content, question_type, question_author,favour_count,
+    last_access_time, version, fk_video_id, fk_student_id, fk_class_id
+  </sql>
+  <!--通过id来查询一条记录-->
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--查询所有的记录-->
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_question
+  </select>
+  <!--通过id来删除一条记录-->
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from t_question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--刪除多条记录-->
+  <delete id="deleteSelect">
+    delete from t_question
+    where id in
+    <foreach collection="idList" item="list" open="(" separator="," close=")">
+      #{list}
+    </foreach>
+  </delete>
+  <!--动态保存一条记录-->
+  <insert id="save" parameterType="com.kclm.owep.entity.Question">
+    insert into t_question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="questionContent != null">
+        question_content,
+      </if>
+      <if test="questionType != null">
+        question_type,
+      </if>
+      <if test="questionAuthor != null">
+        question_author,
+      </if>
+      <if test="favourCount != null">
+        favour_count,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="video != null">
+        fk_video_id,
+      </if>
+      <if test="student != null">
+        fk_student_id,
+      </if>
+      <if test="clazz != null">
+        fk_class_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="questionContent != null">
+        #{questionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="questionType != null">
+        #{questionType,jdbcType=INTEGER},
+      </if>
+      <if test="questionAuthor != null">
+        #{questionAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="favourCount != null">
+        #{favourCount,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="video != null">
+        #{video.id,jdbcType=INTEGER},
+      </if>
+      <if test="student != null">
+        #{student.id,jdbcType=INTEGER},
+      </if>
+      <if test="clazz != null">
+        #{clazz.id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <!--动态更新一条记录-->
+  <update id="update" parameterType="com.kclm.owep.entity.Question">
+    update t_question
+    <set>
+      <if test="questionContent != null">
+        question_content = #{questionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="questionType != null">
+        question_type = #{questionType,jdbcType=INTEGER},
+      </if>
+      <if test="questionAuthor != null">
+        question_author = #{questionAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="favourCount != null">
+        favour_count = #{favourCount,jdbcType=INTEGER},
+      </if>
+        last_access_time = now(),
+        version = version+1,
+      <if test="video != null">
+        fk_video_id = #{video.id,jdbcType=INTEGER},
+      </if>
+      <if test="student != null">
+        fk_student_id = #{student.id,jdbcType=INTEGER},
+      </if>
+      <if test="clazz != null">
+        fk_class_id = #{clazz.id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
