@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
     <!-- 全局设置 -->
     <settings>
         <!-- 全局启用或禁用延迟加载。当禁用时, 所有关联对象都会即时加载。 开启延迟加载,设置为true -->
@@ -14,6 +15,10 @@
         <!-- 在持久层中单元测试时，临时使用，通过控制器启动时，此行需要去掉 -->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
+
+    <typeAliases>
+        <typeAlias type="com.kclm.owep.entity.User" alias="user"/>
+    </typeAliases>
 
 
     <plugins>
