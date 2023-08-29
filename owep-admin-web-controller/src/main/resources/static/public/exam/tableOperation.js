@@ -183,13 +183,13 @@ function queryRecords(eventParentName, dataList, success) {
              async: true,
              //sidePagination:'client',
              data:formData,
-             dataType: "text",   //期望服务端返回的数据类型
+             dataType: "json",   //期望服务端返回的数据类型
              contentType: "application/json",
              success: function (data) {
                  console.log(data.toString());
                  //重新加载页面
                  console.log($('#tb_departments'));
-                 $('#tb_departments').bootstrapTable("load", data);
+                 $('#tb_departments').bootstrapTable("load", data.data);
              },
              error: function (jqXHR) {
                  swal("搜索失败！", "未知错误", "error");
