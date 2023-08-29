@@ -4,6 +4,7 @@
 package com.kclm.owep.entity;
 
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +21,13 @@ public class User {
     /**
      * 用户id
      */
+
     private Integer id;
 
     /**
      * 用户名
      */
+    @NotEmpty(message = "用户名不能为空")
     private String userName;
 
     /**
