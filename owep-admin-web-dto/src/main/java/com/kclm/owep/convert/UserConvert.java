@@ -14,7 +14,7 @@ import org.mapstruct.factory.Mappers;
 public interface UserConvert {
 
     /** 实例:用spring IOC管理时，此句可以不用写 */
-    UserConvert instance = Mappers.getMapper(UserConvert.class);
+//    UserConvert instance = Mappers.getMapper(UserConvert.class);
 
     /*************************************************************
      *
