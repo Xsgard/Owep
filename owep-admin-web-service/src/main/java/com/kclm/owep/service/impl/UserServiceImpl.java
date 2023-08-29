@@ -12,10 +12,12 @@ import com.kclm.owep.service.GroupService;
 import com.kclm.owep.service.PermissionService;
 import com.kclm.owep.service.RoleService;
 import com.kclm.owep.service.UserService;
+import com.kclm.owep.utils.exceptions.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,7 +32,6 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private UserConvert userConvert;
-
     @Autowired
     private GroupService groupService;
     @Autowired
@@ -40,13 +41,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto selectByName(String name) {
-        try{
+        try {
             User user = userMapper.selectByName(name);
             log.info("user: {}", user);
             UserDto userDto = userConvert.toUserDto(user);
             log.info("userDto: {}", userDto);
             return userDto;
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;
         }
@@ -57,10 +58,10 @@ public class UserServiceImpl implements UserService {
         List<Integer> groupIds = userMapper.getGroupId(userId);
         log.debug("用户{}的groupIds是:{}", userId, groupIds);
         Set<Integer> roleIds = new HashSet<>();
-        for (Integer groupId : groupIds){
+        for (Integer groupId : groupIds) {
             GroupRoleDTO groupRoleDTO = groupService.selectRolesByGroupId(groupId);
             List<Integer> roleIds1 = groupRoleDTO.getRoleIds();
-            if (roleIds1!=null &&roleIds1.size() > 0 ){
+            if (roleIds1 != null && !roleIds1.isEmpty()) {
                 //从用户组id到角色id
                 roleIds.addAll(roleIds1);
             }
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
             RolePermissionDTO rolePermissionDTO = roleService.selectPermissionByRoleId(roleId);
             log.debug("---- 角色拥有的权限有：{}", rolePermissionDTO);
             List<Integer> permissionIds = rolePermissionDTO.getPermissionIds();
-            if(permissionIds!=null) {
+            if (permissionIds != null) {
                 permissionIdList.addAll(permissionIds);
             }
         }
@@ -83,7 +84,7 @@ public class UserServiceImpl implements UserService {
             PermissionDTO permissionDTO = permissionService.selectById(permissionId);
             permissionList.add(permissionDTO);
         }//由id取权限信息
-        log.debug("---- PermissionList: {}",permissionList);
+        log.debug("---- PermissionList: {}", permissionList);
         //返回权限集合
         return permissionList;
     }
@@ -91,19 +92,59 @@ public class UserServiceImpl implements UserService {
     @Override
     public int refreshLoginTime(Integer userId) {
 
-        try{
+        try {
             //
             User user = userMapper.selectById(userId);
             //
-            if(user != null) {
+            if (user != null) {
                 user.setLastAccessTime(LocalDateTime.now());
                 return userMapper.update(user);
             }
             //
             return -1;
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
         return -2;
     }
+
+    /**
+     * 查询所有的User
+     *
+     * @return
+     */
+    @Override
+    public List<User> getAllAdmin() {
+        return userMapper.selectAll();
+    }
+
+    /**
+     * 根据user对象进行精确查询
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public List<User> selectUserByCond(User user) {
+        return userMapper.selectByCond(user);
+    }
+
+    @Override
+    public boolean saveUser(User user) {
+        user.setCreateTime(LocalDateTime.now());
+        int i = userMapper.save(user);
+        return i > 0;
+    }
+
+    //修改用户状态
+    @Override
+    public void activeUser(Integer userId, Integer status) {
+        User user = userMapper.selectById(userId);
+        user.setStatus(status);
+        int update = userMapper.update(user);
+        if (update<1)
+            throw new BusinessException("修改状态失败！");
+    }
+
+
 }

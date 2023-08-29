@@ -2,6 +2,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.UserDto;
 import com.kclm.owep.entity.Permission;
+import com.kclm.owep.entity.User;
 
 import java.util.List;
 
@@ -17,4 +18,11 @@ public interface UserService {
 
     int refreshLoginTime(Integer userId);
 
+    List<User> getAllAdmin();
+
+    List<User> selectUserByCond(User user);
+
+    boolean saveUser(User user);
+
+    void activeUser(Integer userId, Integer status);
 }
