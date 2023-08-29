@@ -56,4 +56,18 @@ public interface BaseMapper<T> {
      */
     List<T> selectAll();
 
+    /**
+     * 精确查询
+     * @param t
+     * @return
+     */
+    List<T> selectByCond(T t);
+
+    /**
+     * 模糊查询
+     * @param t
+     * @return
+     */
+    List<T> selectByLike(T t);
+
 }

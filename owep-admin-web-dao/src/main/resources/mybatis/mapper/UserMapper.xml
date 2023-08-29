@@ -67,7 +67,7 @@
     </update>
 
     <!--插入一条记录-->
-    <insert id="save" parameterType="com.kclm.owep.entity.User">
+    <insert id="save" useGeneratedKeys = "true" keyProperty = "id" parameterType="com.kclm.owep.entity.User">
         insert into t_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -299,6 +299,20 @@
         from t_user
         where user_type =  #{type}
     </select>
+
+    <select id="selectByCond" parameterType="user" resultMap="BaseResultMap">
+        select a.* from t_user a where a.is_delete= 1
+        <if test="userName != null and '' != userName">
+            and a.user_name = #{userName}
+        </if>
+        <if test="userPwd != null and '' != userPwd">
+            and a.user_pwd = #{userPwd}
+        </if>
+        <if test="realName != null and '' !=realName">
+            and a.real_name = #{realName}
+        </if>
+    </select>
+
 
 
 </mapper>

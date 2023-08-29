@@ -16,13 +16,37 @@ public interface UserMapper extends BaseMapper<User> {
      * @param userName
      * @return
      */
-    User selectByName(@Param("userName")String userName );
+    User selectByName(@Param("userName") String userName);
 
     List<User> selectByType(@Param("type") Integer type);
 
     List<Integer> getGroupId(Serializable id);
 
-    int attachGroupToUser( Serializable uid ,  Serializable gid);
+    int attachGroupToUser(Serializable uid, Serializable gid);
 
-    int deleteUserGroupAllocation( Serializable id);
+    int deleteUserGroupAllocation(Serializable id);
+
+    @Override
+    List<User> selectByCond(User user);
+
+    @Override
+    List<User> selectByLike(User user);
+
+    @Override
+    int save(User entity);
+
+    @Override
+    int update(User entity);
+
+    @Override
+    int deleteById(Serializable id);
+
+    @Override
+    int deleteSelect(List<Serializable> idList);
+
+    @Override
+    User selectById(Serializable id);
+
+    @Override
+    List<User> selectAll();
 }
