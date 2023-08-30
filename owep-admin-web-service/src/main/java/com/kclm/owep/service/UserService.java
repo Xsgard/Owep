@@ -18,7 +18,7 @@ public interface UserService {
 
     int refreshLoginTime(Integer userId);
 
-    List<User> getAllAdmin();
+    List<User> getAllAdmin(Integer limit,Integer offset);
 
     List<User> selectUserByCond(User user);
 

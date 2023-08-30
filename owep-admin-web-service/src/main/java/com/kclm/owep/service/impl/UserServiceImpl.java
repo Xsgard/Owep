@@ -1,5 +1,6 @@
 package com.kclm.owep.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.kclm.owep.convert.UserConvert;
 import com.kclm.owep.dto.GroupRoleDTO;
 import com.kclm.owep.dto.PermissionDTO;
@@ -114,7 +115,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<User> getAllAdmin() {
+    public List<User> getAllAdmin(Integer limit, Integer offset) {
+        PageHelper.offsetPage(offset, limit);
         return userMapper.selectAll();
     }
 
