@@ -31,13 +31,19 @@ public class NodeDTO {
 
 
     private State state;
+
     private class State {
         private Boolean checked = false;
-        private Boolean expanded = true;
-        State(){}
+        private Boolean expanded = false;
+
+        State() {
+        }
+
         public void checkedNode() {
             this.checked = true;
+            this.expanded = true;
         }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -46,12 +52,14 @@ public class NodeDTO {
             if (checked != null ? !checked.equals(state.checked) : state.checked != null) return false;
             return expanded != null ? expanded.equals(state.expanded) : state.expanded == null;
         }
+
         @Override
         public int hashCode() {
             int result = checked != null ? checked.hashCode() : 0;
             result = 31 * result + (expanded != null ? expanded.hashCode() : 0);
             return result;
         }
+
         @Override
         public String toString() {
             return "State{" +
@@ -59,15 +67,19 @@ public class NodeDTO {
                     ", expanded=" + expanded +
                     '}';
         }
+
         public Boolean getChecked() {
             return checked;
         }
+
         public void setChecked(Boolean checked) {
             this.checked = checked;
         }
+
         public Boolean getExpanded() {
             return expanded;
         }
+
         public void setExpanded(Boolean expanded) {
             this.expanded = expanded;
         }
