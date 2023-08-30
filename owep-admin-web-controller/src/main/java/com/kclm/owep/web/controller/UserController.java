@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.util.List;
 
 @Controller
@@ -22,7 +23,12 @@ public class UserController {
 
     @GetMapping("/adminList")
     public String toAdminList() {
-        return "/user/adminList";
+        return "user/adminList";
+    }
+
+    @GetMapping("/stuList")
+    public String toStuList() {
+        return "user/stuList";
     }
 
     @ResponseBody
@@ -35,6 +41,13 @@ public class UserController {
     @GetMapping("/adminList/search")
     public R getUserByNameAndRealName(User user) {
         return R.ok().put("data", userService.selectUserByCond(user));
+    }
+
+    @GetMapping("/stuList/getTable")
+    @ResponseBody
+    public R getStudentList() {
+
+        return null;
     }
 
     @GetMapping("/adminList/switch")
@@ -87,5 +100,16 @@ public class UserController {
     public R getUserGroup(Integer id) {
         List<NodeDTO> userGroup = userService.getUserGroup(id);
         return R.ok().put("data", userGroup);
+    }
+
+    @PostMapping("/adminList/deleteByGroup")
+    @ResponseBody
+    public R deleteByIds(@RequestBody List<Serializable> ids) {
+        try {
+            userService.deleteByIds(ids);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("删除成功！");
     }
 }
