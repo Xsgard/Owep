@@ -5,6 +5,7 @@ import com.kclm.owep.dto.UserDto;
 import com.kclm.owep.entity.Permission;
 import com.kclm.owep.entity.User;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**********************************8
@@ -32,4 +33,6 @@ public interface UserService {
     void deleteById(Integer userId);
 
     List<NodeDTO> getUserGroup(Integer userId);
+
+    void deleteByIds(List<Serializable> ids);
 }

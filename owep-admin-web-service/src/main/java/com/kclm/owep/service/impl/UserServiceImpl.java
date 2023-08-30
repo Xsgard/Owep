@@ -13,12 +13,14 @@ import com.kclm.owep.service.PermissionService;
 import com.kclm.owep.service.RoleService;
 import com.kclm.owep.service.UserService;
 import com.kclm.owep.utils.exceptions.BusinessException;
+import com.kclm.owep.utils.exceptions.DeleteFailureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -171,7 +173,8 @@ public class UserServiceImpl implements UserService {
         List<Group> allUserGroup = userMapper.getAllUserGroup();
         //选中的用户组的Id
         List<Integer> groupIds = userMapper.selectGroupIds(userId);
-        List<NodeDTO> collect = allUserGroup.stream().map(item -> {
+
+        return allUserGroup.stream().map(item -> {
             //组信息Dto
             NodeDTO dto = new NodeDTO();
             //设置文本信息
@@ -201,8 +204,17 @@ public class UserServiceImpl implements UserService {
 
             return dto;
         }).collect(Collectors.toList());
+    }
 
-        return collect;
+    @Override
+    public void deleteByIds(List<Serializable> ids) {
+        if (!ids.isEmpty()) {
+            int i = userMapper.deleteSelect(ids);
+            if (i < 1) {
+                throw new DeleteFailureException();
+            }
+        } else
+            throw new BusinessException("未选中用户Id");
     }
 
 
