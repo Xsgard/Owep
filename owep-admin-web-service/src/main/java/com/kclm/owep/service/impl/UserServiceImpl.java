@@ -131,6 +131,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean saveUser(User user) {
+        User select = userMapper.selectByName(user.getUserName());
+        if (select != null)
+            throw new BusinessException("用户名重复！");
         user.setCreateTime(LocalDateTime.now());
         int i = userMapper.save(user);
         return i > 0;
@@ -142,7 +145,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectById(userId);
         user.setStatus(status);
         int update = userMapper.update(user);
-        if (update<1)
+        if (update < 1)
             throw new BusinessException("修改状态失败！");
     }
 
