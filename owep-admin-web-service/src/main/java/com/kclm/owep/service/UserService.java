@@ -25,4 +25,6 @@ public interface UserService {
     boolean saveUser(User user);
 
     void activeUser(Integer userId, Integer status);
+
+    void updateUser(User user);
 }

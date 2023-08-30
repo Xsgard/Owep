@@ -17,6 +17,7 @@ import com.kclm.owep.utils.exceptions.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -149,6 +150,15 @@ public class UserServiceImpl implements UserService {
         int update = userMapper.update(user);
         if (update < 1)
             throw new BusinessException("修改状态失败！");
+    }
+
+    //修改用户信息
+    @Override
+    public void updateUser(User user) {
+        int update = userMapper.update(user);
+        if (update < 1) {
+            throw new BusinessException("更新失败");
+        }
     }
 
 
