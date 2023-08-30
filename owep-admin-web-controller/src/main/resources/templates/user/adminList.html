@@ -81,7 +81,7 @@
                 <h4 class="modal-title">添加管理</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/adminList/addAdmin}" class="form-horizontal" id="form_add">
+                <form class="form-horizontal" id="form_add">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
@@ -172,7 +172,7 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/adminList/edit}" class="form-horizontal" id="form_modification">
+                <form class="form-horizontal" id="form_modification">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             <input type="text" id="edit_id" name="id" hidden>
@@ -427,13 +427,14 @@
             let status = $("#edit_status").val();
 
             console.log("status:" + status);
-            if (status === 1 || status === 0) {
+            // if (status === 1 || status === 0) {
+            //
+            // } else if (status === "on") {
+            //     status = 1;
+            // } else {
+            //     status = 0;
+            // }
 
-            } else if (status === "on") {
-                status = 1;
-            } else {
-                status = 0;
-            }
             let userData = {
                 id: id,
                 userName: userName,
@@ -445,7 +446,7 @@
                 effectiveData: effectiveDate,
                 status: status
             };
-            console.log(userData);
+            console.log(userData.status);
             let userJson = JSON.stringify(userData);
             $.ajax({
                 method: "post",
@@ -593,7 +594,7 @@
 
                         'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
                             //回显数据
-                            echoDataForm('form[id="form_modification"]', ['id', 'userName', 'userPwd', 'realName', 'userPhone', 'userEmail', 'lastAccessDate', 'status', 'gender'], row);
+                            echoDataForm('form[id="form_modification"]', ['id', 'userName', 'userPwd', 'realName', 'userPhone', 'userEmail', 'lastAccessDate', 'status', 'gender', 'effectiveDate'], row);
                             $('#modal_modification').modal();
                         },
 
@@ -660,7 +661,7 @@
                 console.log("user status:" + html.checked);
                 let userId = $(this).attr("userId");
                 let status;
-                if (html.checked == true) {
+                if (html.checked === true) {
                     // alert("用户启用" + userId);
                     status = 1;
                 } else {
@@ -684,6 +685,9 @@
                             setTimeout(function () {
                                 swal("修改成功！", data.msg, "success")
                             }, 100);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
                         } else {
                             setTimeout(function () {
                                 swal("修改失败！", data.msg, "success")
@@ -703,7 +707,7 @@
     //页面如何有多个互动按钮必须需要这些js代码
     let switchery;
     let elems = Array.prototype.slice.call($('.js-switch'));
-    elems.forEach(function (index, row, html) {
+    elems.forEach(function (html) {
         /* size: 'normal' 控制大小*/
         switchery = new Switchery(html);
         html.onchange = function () {

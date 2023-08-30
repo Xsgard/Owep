@@ -38,30 +38,30 @@ function deleteRecord(e, value, row, index, url, event) {
     }, function () {
         var id = row.id;
         //alert(id);
-         //发送ajax 删除
-              $.ajax({
-                  url: url+"?id="+id,
-                  method: "get",
-                  async: true,
-                  data: id,
-                  dataType: "text",   //期望服务端返回的数据类型
-                  contentType: "application/json",
-                  success: function (data) {
-                      console.log(data.toString());
-                      swal("删除成功！", "您已经永久删除已选信息", "success");
-                      //window.location.reload();
-                      $(event).bootstrapTable("refresh");
+        //发送ajax 删除
+        $.ajax({
+            url: url + "?id=" + id,
+            method: "get",
+            async: true,
+            data: id,
+            dataType: "text",   //期望服务端返回的数据类型
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data.toString());
+                swal("删除成功！", "您已经永久删除已选信息", "success");
+                //window.location.reload();
+                $(event).bootstrapTable("refresh");
 
-                      //根据Id字段删除对应的数据
-                      $(event).bootstrapTable('removeByUniqueId', id);
+                //根据Id字段删除对应的数据
+                $(event).bootstrapTable('removeByUniqueId', id);
 
-                  },
+            },
 
-                  error: function (jqXHR) {
-                      swal("删除失败！", "未知错误", "error");
-                  }
+            error: function (jqXHR) {
+                swal("删除失败！", "未知错误", "error");
+            }
 
-              });
+        });
 
 
         swal("删除成功！", "您已经永久删除信息", "success");
@@ -93,7 +93,7 @@ function deleteAllRecords(url, event) {
         closeOnConfirm: false
     }, function () {
         alert(userIds);
-         //发送ajax 删除
+        //发送ajax 删除
         $.ajax({
             url: url,
             method: "post",
@@ -171,39 +171,39 @@ function queryRecords(eventParentName, dataList, success) {
             : queryMap.set(event.attr('name'), event.val());
     })
 
-    let formData="";
-        queryMap.forEach(function (value, key){
-        formData += key +'='+value +'&';
+    let formData = "";
+    queryMap.forEach(function (value, key) {
+        formData += key + '=' + value + '&';
     });
-        formData = formData.substr(0,formData.length - 1);
-     //发送ajax 查询
-         $.ajax({
-             url: "/owep/user/adminList/search",
-             method: "get",
-             async: true,
-             //sidePagination:'client',
-             data:formData,
-             dataType: "json",   //期望服务端返回的数据类型
-             contentType: "application/json",
-             success: function (data) {
-                 console.log(data.toString());
-                 //重新加载页面
-                 console.log($('#tb_departments'));
-                 $('#tb_departments').bootstrapTable("load", data.data);
-             },
-             error: function (jqXHR) {
-                 swal("搜索失败！", "未知错误", "error");
-             }
-         });
+    formData = formData.substr(0, formData.length - 1);
+    //发送ajax 查询
+    $.ajax({
+        url: "/owep/user/adminList/search",
+        method: "get",
+        async: true,
+        //sidePagination:'client',
+        data: formData,
+        dataType: "json",   //期望服务端返回的数据类型
+        contentType: "application/json",
+        success: function (data) {
+            console.log(data.toString());
+            //重新加载页面
+            console.log($('#tb_departments'));
+            $('#tb_departments').bootstrapTable("load", data.data);
+        },
+        error: function (jqXHR) {
+            swal("搜索失败！", "未知错误", "error");
+        }
+    });
     if (queryNullList.length > 0) {
         swal("搜索失败", "搜索数据不允许为空", "error");
     } else {
         swal("搜索成功！", "已为你重新加载数据", "success")
     }
-        queryMap.forEach(function (key,value) {
-            console.log(value);
-            $(''+eventParentName+' input[name='+value+']').css('border-color',"");
-        })
+    queryMap.forEach(function (key, value) {
+        console.log(value);
+        $('' + eventParentName + ' input[name=' + value + ']').css('border-color', "");
+    })
 }
 
 /*创建最基本的bootstrap-table表格(通用，使用案例在考试汇总中表创建操作)*/
@@ -245,29 +245,31 @@ function echoDataForm(eventParentName, echoDataList, row) {
     // console.log(row);
 
     function value(item, row) {
-        console.log("item:"+item);
+        console.log("item:" + item);
         let value = "";
         for (let i in row) {
 
-            if(i === item ){
-                console.log("i："+i);
+            if (i === item) {
+                console.log("i：" + i);
                 value = row[i];
             } //从row中找item,找到则复制值
         }
         value === "" ? value = item : "";//值若为空(row中没有对应值)，用item顶位
-        console.log("value"+value);
+        console.log("value" + value);
         return value;
     }
 
     echoDataList.forEach(function (item, index) {
-        if(item === "gender"){//性别特别处理
-            $(eventParentName + 'input[value='+value("gender",row)+' ]').prop("checked", true)//单选value对应的gender框
+        if (item === "gender") {//性别特别处理
+            $(eventParentName + ' input[value=' + value("gender", row) + ']').prop("checked", true)//单选value对应的gender框
         }
-        if(item === "status"){//用户状态特别处理
-            let status_val =value(item[1], row);
+        if (item === "status") {//用户状态特别处理
+            // $(eventParentName + ' input[name=\"' + item + '\"]').removeAttr("checked");
+            let status_val = value(item[1], row);
+            console.log($(eventParentName+ ' #edit_status').val(),"========")
             console.log(status_val);
-            if (status_val==1){
-                item[0].setPosition(true);
+            if (status_val === '1') {
+                $(eventParentName+ ' #edit_status').checked
             }
         }
         $(eventParentName + ' input[name=\"' + item + '\"]').val(value(item, row));//其他普通文本
@@ -304,37 +306,39 @@ function getAjaxSynchronousData(url, type) {
 }
 
 /*获取json数据的方法，通过异步请求*/
-function getAjaxAsynchronousData(url, type , ceshi) {
-        let pageData = '';
-        (function () {
-            getPageData(function (result) {
-                console.log("已经回调方法")
-                ceshi(result);
-            });
-        })();
-        function getPageData(callbackData) {
-            $.ajax({
-                url: url,
-                type: type,
-                dataType: "json",
-                async: true,
-                success: function(result) {
-                    pageData = result;
-                    callbackData(pageData);
-                    console.log("获取json数据的方法成功(异步)")
-                },
-                error: function () {
-                    console.log("获取json数据的方法失败(异步)")
-                }
-            })
-        }
-        return pageData;
+function getAjaxAsynchronousData(url, type, ceshi) {
+    let pageData = '';
+    (function () {
+        getPageData(function (result) {
+            console.log("已经回调方法")
+            ceshi(result);
+        });
+    })();
+
+    function getPageData(callbackData) {
+        $.ajax({
+            url: url,
+            type: type,
+            dataType: "json",
+            async: true,
+            success: function (result) {
+                pageData = result;
+                callbackData(pageData);
+                console.log("获取json数据的方法成功(异步)")
+            },
+            error: function () {
+                console.log("获取json数据的方法失败(异步)")
+            }
+        })
+    }
+
+    return pageData;
 }
 
 //获取主观题的方法,为考试管理的考试记录中批改试卷做准备(不通用)
-function getSubjectiveItem(data,pageNumber) {
-    console.log("data.length"+data.length,"pageNumber:"+pageNumber);
-    if(pageNumber<0||pageNumber>data.length-1){
+function getSubjectiveItem(data, pageNumber) {
+    console.log("data.length" + data.length, "pageNumber:" + pageNumber);
+    if (pageNumber < 0 || pageNumber > data.length - 1) {
         pageNumber = 0;
     }
     parent.layer.open({
@@ -352,11 +356,11 @@ function getSubjectiveItem(data,pageNumber) {
             body.find('.buttons').fadeIn(1000);
             body.find('.tabs-container').slideUp(1000);
             //表头个人信息
-            body.find('table').attr('students_tag',data[pageNumber]['id'])
-            body.find('table').attr('pageNumber',pageNumber)
-            body.find('table').attr('index',index)
-            console.log(layero,index);
-            body.find('input[name=current_page]').attr('placeholder',data[pageNumber]['id'])
+            body.find('table').attr('students_tag', data[pageNumber]['id'])
+            body.find('table').attr('pageNumber', pageNumber)
+            body.find('table').attr('index', index)
+            console.log(layero, index);
+            body.find('input[name=current_page]').attr('placeholder', data[pageNumber]['id'])
             body.find('a[name=total_pages]').text(data.length)
             getAjaxAsynchronousData('../../static/js/demo/exam/testQuestionsListTest.json', 'get', function (result) {
                 body.find('table a[name=testSubjects]').text(result[0]['testSubjects']);
@@ -367,12 +371,13 @@ function getSubjectiveItem(data,pageNumber) {
                                   body.find('table a[name=' + item + ']').text(row[item]);
                               });*/
             //试题部分
-            getData(body,data[pageNumber]);
+            getData(body, data[pageNumber]);
             //关闭上一层
-            index>1?parent.layer.close(index-1):"";
+            index > 1 ? parent.layer.close(index - 1) : "";
         }
     });
-    function getData(body,result) {
+
+    function getData(body, result) {
         let mapData = new Map();
         mapData.set(result['value'][0]['question_types'], new Array(result['value'][0]));
         //将得到的数据进行分类
@@ -398,8 +403,8 @@ function getSubjectiveItem(data,pageNumber) {
             body.find('.tabs-container .tab-content .tab-pane:last').after(
                 body.find('.tabs-container .tab-content .tab-pane:first').clone()
             );
-            body.find('.tabs-container li:last a').attr('href','#tab-'+tab_id).text(key);
-            body.find('.tabs-container .tab-content .tab-pane:last').attr('id','tab-'+tab_id);
+            body.find('.tabs-container li:last a').attr('href', '#tab-' + tab_id).text(key);
+            body.find('.tabs-container .tab-content .tab-pane:last').attr('id', 'tab-' + tab_id);
             for (let i in value) {
                 question_types_number++;
                 //动态生成题目
@@ -436,28 +441,33 @@ function getSubjectiveItem(data,pageNumber) {
                             body.find('div[sign=' + value[i]["id"] + '] a[name=' + key + ']').text(value[i][key]);
                         }
                     })
-                }
-                else {
+                } else {
                     Object.keys(value[i]).forEach(function (key) {
                         //往样式里传值
                         body.find('div[sign=' + value[i]["id"] + '] a[name=' + key + ']').text(value[i][key]);
                     })
                 }
                 //动态生成按钮
-                body.find('#tab-'+tab_id+' .col-md-1:last').after(
-                    body.find('#tab-'+tab_id+' .col-md-1:first').clone()
+                body.find('#tab-' + tab_id + ' .col-md-1:last').after(
+                    body.find('#tab-' + tab_id + ' .col-md-1:first').clone()
                 )
-                value[i]['points_scored'] == "0"?
-                    body.find('#tab-'+tab_id+' .col-md-1:last button').attr({'butMark':question_types_number,'class':'btn btn-danger'}).text(question_types_number):
-                    body.find('#tab-'+tab_id+' .col-md-1:last button').attr({'butMark':question_types_number,'class':'btn btn-success'}).text(question_types_number);
+                value[i]['points_scored'] == "0" ?
+                    body.find('#tab-' + tab_id + ' .col-md-1:last button').attr({
+                        'butMark': question_types_number,
+                        'class': 'btn btn-danger'
+                    }).text(question_types_number) :
+                    body.find('#tab-' + tab_id + ' .col-md-1:last button').attr({
+                        'butMark': question_types_number,
+                        'class': 'btn btn-success'
+                    }).text(question_types_number);
                 //给定id
                 body.find('div[sign=' + value[i]["id"] + '] .points_scored').attr('id', value[i]["id"]);
                 //改变样式
-                value[i]['points_scored'] == "0"?body.find('div[sign=' + value[i]["id"] + '] a[name=points_scored]').attr('class','text-danger'):"";
-                value[i]['stu_answer'] == "未作答"?body.find('div[sign=' + value[i]["id"] + '] a[name=stu_answer]').attr('class','text-danger'):"";
+                value[i]['points_scored'] == "0" ? body.find('div[sign=' + value[i]["id"] + '] a[name=points_scored]').attr('class', 'text-danger') : "";
+                value[i]['stu_answer'] == "未作答" ? body.find('div[sign=' + value[i]["id"] + '] a[name=stu_answer]').attr('class', 'text-danger') : "";
             }
             //隐藏第一个参考按钮
-            body.find('#tab-'+tab_id+' .col-md-1:first').css('display', 'none');
+            body.find('#tab-' + tab_id + ' .col-md-1:first').css('display', 'none');
             tab_id++;
         });
         //隐藏参考数据
@@ -467,14 +477,15 @@ function getSubjectiveItem(data,pageNumber) {
         body.find('pre:last').css('display', 'none');
         body.find('.tabs-container .tab-content .tab-pane:first').css('display', 'none');
         body.find('.tabs-container li:first').css('display', 'none');
-        body.find('.tabs-container li:eq(1)').attr('class','active');
-        body.find('.tabs-container .tab-pane:eq(1)').attr('class','tab-pane active');
+        body.find('.tabs-container li:eq(1)').attr('class', 'active');
+        body.find('.tabs-container .tab-pane:eq(1)').attr('class', 'tab-pane active');
         //给定序号
         console.log(question_types_number)
-        for(let i = 0;i <= question_types_number;i++){
-            body.find('button[name=number]:eq('+i+')').text(i);
-            body.find('button[name=number]:eq('+i+')').attr('number',i);
+        for (let i = 0; i <= question_types_number; i++) {
+            body.find('button[name=number]:eq(' + i + ')').text(i);
+            body.find('button[name=number]:eq(' + i + ')').attr('number', i);
         }
+
         function getData(gather, character, keyword) {
             let judge = false;
             mapData.forEach(function (value, key) {
@@ -491,9 +502,9 @@ function getSubjectiveItem(data,pageNumber) {
 }
 
 //产生唯一性id
-function  guid(){
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        let r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+function guid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
