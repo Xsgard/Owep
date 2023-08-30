@@ -240,49 +240,31 @@ function createTable(event, url, toolbar, search, data, method) {
 * 使用按钮详见exam->paperManagementList页面
 * */
 function echoDataForm(eventParentName, echoDataList, row) {
-    // console.log(eventParentName);
-    // console.log(echoDataList);
-    // console.log(row);
-
     function value(item, row) {
-        console.log("item:" + item);
         let value = "";
         for (let i in row) {
 
             if (i === item) {
-                console.log("i：" + i);
                 value = row[i];
             } //从row中找item,找到则复制值
         }
-        value === "" ? value = item : "";//值若为空(row中没有对应值)，用item顶位
-        console.log("value" + value);
         return value;
     }
 
     echoDataList.forEach(function (item, index) {
         if (item === "gender") {//性别特别处理
-            $(eventParentName + ' input[value=' + value("gender", row) + ']').prop("checked", true)//单选value对应的gender框
+            $(eventParentName + ' input[value=' + value("gender", row) + ']')
+                .prop("checked", true)//单选value对应的gender框
         }
         if (item === "status") {//用户状态特别处理
-            // $(eventParentName + ' input[name=\"' + item + '\"]').removeAttr("checked");
-            let status_val = value(item[1], row);
-            console.log($(eventParentName+ ' #edit_status').val(),"========")
+            let status_val = value(item, row);
             console.log(status_val);
-            if (status_val === '1') {
-                $(eventParentName+ ' #edit_status').checked
+            if ((status_val === 1 && !switchery.isChecked()) || (status_val === 0 && switchery.isChecked)) {
+                switchery.setPosition(true);
+                // switchery.handleOnchange(true);
             }
         }
         $(eventParentName + ' input[name=\"' + item + '\"]').val(value(item, row));//其他普通文本
-
-
-        //这个不对应
-        // (typeof item) == "object" ?
-        //     item.length == "3" && item[2] == "sweetalert" ?
-        //         (value(item[1], row) == '启用' && !item[0].isChecked()) || (value(item[1], row) == '禁用' && item[0].isChecked()) ?
-        //             item[0].setPosition(true) : ""
-        //         : item[1] == "sex" ? $(eventParentName + ' input[value=\"' + value(item[0], row) + '\"]').prop("checked", true) :
-        //         $(eventParentName + ' input[name=\"' + item[0] + '\"]').val(value(item[1], row)) :
-        //     $(eventParentName + ' input[name=\"' + item + '\"]').val(value(item, row));
     })
 }
 

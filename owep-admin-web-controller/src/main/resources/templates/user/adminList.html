@@ -355,13 +355,12 @@
             let gender = $("input[name='add_gender']:checked").val();
             let effectiveDate = $("#add_effectiveDate").val();
             let status = $("#add_status").val();
-
-            console.log("status:" + status);
-            if (status === "on") {
+            if (switchery.isChecked()) {
                 status = 1;
             } else {
                 status = 0;
             }
+            console.log("status:" + status);
             let userData = {
                 userName: userName,
                 realName: realName,
@@ -427,13 +426,6 @@
             let status = $("#edit_status").val();
 
             console.log("status:" + status);
-            // if (status === 1 || status === 0) {
-            //
-            // } else if (status === "on") {
-            //     status = 1;
-            // } else {
-            //     status = 0;
-            // }
 
             let userData = {
                 id: id,
