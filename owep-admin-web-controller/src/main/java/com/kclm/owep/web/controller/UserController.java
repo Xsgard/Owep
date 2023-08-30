@@ -26,7 +26,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/adminList/getTable")
-    public R getAdminList(Integer limit,Integer offset) {
+    public R getAdminList(Integer limit, Integer offset) {
         return R.ok().put("data", userService.getAllAdmin(limit, offset));
     }
 
@@ -44,11 +44,11 @@ public class UserController {
         } catch (BusinessException e) {
             return R.error(e.getMessage());
         }
-        return R.ok("修改成功！");
+        return R.ok("状态修改成功！");
     }
 
-    @ResponseBody
     @PostMapping("/adminList/addAdmin")
+    @ResponseBody
     public R addUser(@RequestBody User user) {
         try {
             userService.saveUser(user);
@@ -59,9 +59,14 @@ public class UserController {
 
     }
 
+    @PostMapping("/adminList/edit")
+    @ResponseBody
     public R editUser(@RequestBody User user) {
-
-        return null;
+        try {
+            userService.updateUser(user);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("修改成功！");
     }
-
 }
