@@ -50,10 +50,13 @@ public class UserController {
     @ResponseBody
     @PostMapping("/adminList/addAdmin")
     public R addUser(@RequestBody User user) {
-        if (userService.saveUser(user))
-            return R.ok("添加成功");
-        else
-            return R.error("添加失败");
+        try {
+            userService.saveUser(user);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("添加成功！");
+
     }
 
 
