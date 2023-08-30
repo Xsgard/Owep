@@ -27,4 +27,6 @@ public interface UserService {
     void activeUser(Integer userId, Integer status);
 
     void updateUser(User user);
+
+    void deleteById(Integer userId);
 }

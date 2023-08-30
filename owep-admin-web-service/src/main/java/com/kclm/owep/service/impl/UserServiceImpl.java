@@ -157,8 +157,15 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) {
         int update = userMapper.update(user);
         if (update < 1) {
-            throw new BusinessException("更新失败");
+            throw new BusinessException("更新失败！");
         }
+    }
+
+    @Override
+    public void deleteById(Integer userId) {
+        int i = userMapper.deleteById(userId);
+        if (i < 1)
+            throw new BusinessException("删除失败！");
     }
 
 
