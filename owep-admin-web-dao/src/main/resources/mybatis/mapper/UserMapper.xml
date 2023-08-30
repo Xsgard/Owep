@@ -62,8 +62,8 @@
     <update id="deleteSelect" parameterType="java.lang.Integer">
         update t_user set is_delete = 0
         where id in
-        <foreach collection="idList" item="list" open="(" separator="," close=")">
-            #{list}
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
         </foreach>
     </update>
 
