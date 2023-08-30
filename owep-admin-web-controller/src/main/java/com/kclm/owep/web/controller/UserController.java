@@ -1,5 +1,6 @@
 package com.kclm.owep.web.controller;
 
+import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.service.UserService;
 import com.kclm.owep.utils.exceptions.BusinessException;
@@ -79,5 +80,12 @@ public class UserController {
             return R.error(e.getMessage());
         }
         return R.ok("修改成功！");
+    }
+
+    @GetMapping("/adminList/treeCheck")
+    @ResponseBody
+    public R getUserGroup(Integer id) {
+        List<NodeDTO> userGroup = userService.getUserGroup(id);
+        return R.ok().put("data", userGroup);
     }
 }
