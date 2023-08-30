@@ -6,27 +6,27 @@
 
     <!--实体属性对应相应的表字段-->
     <resultMap id="BaseResultMap" type="com.kclm.owep.entity.User">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="user_name" jdbcType="VARCHAR" property="userName" />
-        <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
-        <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
-        <result column="real_name" jdbcType="VARCHAR" property="realName" />
-        <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
-        <result column="email_code" jdbcType="VARCHAR" property="emailCode" />
-        <result column="gender" jdbcType="INTEGER" property="gender" />
-        <result column="card_num" jdbcType="VARCHAR" property="cardNum" />
-        <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="effective_date" jdbcType="DATE" property="effectiveDate" />
-        <result column="user_type" jdbcType="INTEGER" property="userType" />
-        <result column="birth" jdbcType="DATE" property="birth" />
-        <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
-        <result column="description" jdbcType="VARCHAR" property="description" />
-        <result column="title" jdbcType="VARCHAR" property="title" />
-        <result column="perfect_status" jdbcType="INTEGER" property="perfectStatus" />
-        <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime" />
-        <result column="version" jdbcType="INTEGER" property="version" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_pwd" jdbcType="VARCHAR" property="userPwd"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="email_code" jdbcType="VARCHAR" property="emailCode"/>
+        <result column="gender" jdbcType="INTEGER" property="gender"/>
+        <result column="card_num" jdbcType="VARCHAR" property="cardNum"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="effective_date" jdbcType="DATE" property="effectiveDate"/>
+        <result column="user_type" jdbcType="INTEGER" property="userType"/>
+        <result column="birth" jdbcType="DATE" property="birth"/>
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="perfect_status" jdbcType="INTEGER" property="perfectStatus"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
     </resultMap>
 
     <!--封装表字段名，方便后续简写使用-->
@@ -39,7 +39,7 @@
     <!--根据id查找记录-->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from t_user
         where id = #{id,jdbcType=INTEGER} and is_delete = 1
     </select>
@@ -47,15 +47,16 @@
     <!--查询所有记录-->
     <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from t_user where is_delete = 1
     </select>
 
     <!--根据id逻辑删除记录,改变is_delete的状态-->
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        delete from t_user
+    <update id="deleteById" parameterType="java.lang.Integer">
+        update t_user
+        set is_delete = 0
         where id = #{id,jdbcType=INTEGER}
-    </delete>
+    </update>
 
     <!--逻辑删除查询出来集合里的记录,改变is_delete的状态-->
     <update id="deleteSelect" parameterType="java.lang.Integer">
@@ -67,7 +68,7 @@
     </update>
 
     <!--插入一条记录-->
-    <insert id="save" useGeneratedKeys = "true" keyProperty = "id" parameterType="com.kclm.owep.entity.User">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="com.kclm.owep.entity.User">
         insert into t_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -271,33 +272,34 @@
 
     <select id="selectByName" resultType="com.kclm.owep.entity.User">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from t_user
         where user_name = #{userName}
     </select>
 
     <select id="getGroupId" resultType="INTEGER">
-        select
-            group_id as gid
+        select group_id as gid
         from t_user_group
         where user_id = #{id}
 
     </select>
 
     <insert id="attachGroupToUser">
-        insert into t_user_group(user_id, group_id) value(#{uid},#{gid})
+        insert into t_user_group(user_id, group_id) value (#{uid}, #{gid})
     </insert>
 
 
     <delete id="deleteUserGroupAllocation">
-        delete from t_user_group where user_id = #{id}
+        delete
+        from t_user_group
+        where user_id = #{id}
     </delete>
 
     <select id="selectByType" resultType="com.kclm.owep.entity.User">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from t_user
-        where user_type =  #{type}
+        where user_type = #{type}
     </select>
 
     <select id="selectByCond" parameterType="user" resultMap="BaseResultMap">
@@ -312,7 +314,6 @@
             and a.real_name = #{realName}
         </if>
     </select>
-
 
 
 </mapper>

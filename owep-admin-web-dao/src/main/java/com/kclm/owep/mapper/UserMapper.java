@@ -1,9 +1,12 @@
 package com.kclm.owep.mapper;
 
+import com.kclm.owep.entity.Group;
+import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.io.Serializable;
 import java.util.List;
@@ -49,4 +52,15 @@ public interface UserMapper extends BaseMapper<User> {
 
     @Override
     List<User> selectAll();
+
+    @Select("select id,group_name,group_description from t_group;")
+    List<Group> getAllUserGroup();
+
+    @Select("select r.id, r.role_name roleName  from" +
+            " t_group_role gr left join t_role r " +
+            "on gr.role_id = r.id where gr.group_id= #{groupId};")
+    List<Role> selectGroupRole(Integer groupId);
+
+    @Select("select group_id from t_user_group where user_id=#{userId};")
+    List<Integer> selectGroupIds(Integer userId);
 }
