@@ -69,4 +69,15 @@ public class UserController {
         }
         return R.ok("修改成功！");
     }
+
+    @GetMapping("/adminList/delete")
+    @ResponseBody
+    public R deleteById(Integer id) {
+        try {
+            userService.deleteById(id);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("修改成功！");
+    }
 }
