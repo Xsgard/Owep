@@ -26,8 +26,8 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/adminList/getTable")
-    public R getAdminList() {
-        return R.ok().put("data", userService.getAllAdmin());
+    public R getAdminList(Integer limit,Integer offset) {
+        return R.ok().put("data", userService.getAllAdmin(limit, offset));
     }
 
     @ResponseBody
@@ -59,5 +59,9 @@ public class UserController {
 
     }
 
+    public R editUser(@RequestBody User user) {
+
+        return null;
+    }
 
 }
