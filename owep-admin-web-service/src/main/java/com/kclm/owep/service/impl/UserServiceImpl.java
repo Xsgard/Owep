@@ -2,11 +2,10 @@ package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.kclm.owep.convert.UserConvert;
-import com.kclm.owep.dto.GroupRoleDTO;
-import com.kclm.owep.dto.PermissionDTO;
-import com.kclm.owep.dto.RolePermissionDTO;
-import com.kclm.owep.dto.UserDto;
+import com.kclm.owep.dto.*;
+import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Permission;
+import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.GroupService;
@@ -21,10 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -166,6 +163,46 @@ public class UserServiceImpl implements UserService {
         int i = userMapper.deleteById(userId);
         if (i < 1)
             throw new BusinessException("删除失败！");
+    }
+
+    @Override
+    public List<NodeDTO> getUserGroup(Integer userId) {
+        //所有用户组信息
+        List<Group> allUserGroup = userMapper.getAllUserGroup();
+        //选中的用户组的Id
+        List<Integer> groupIds = userMapper.selectGroupIds(userId);
+        List<NodeDTO> collect = allUserGroup.stream().map(item -> {
+            //组信息Dto
+            NodeDTO dto = new NodeDTO();
+            //设置文本信息
+            dto.setText(item.getGroupName());
+            //设置用户组Id
+            dto.setTags(item.getId());
+            //查询组对应的角色信息
+            List<Role> roles = userMapper.selectGroupRole(item.getId());
+            List<NodeDTO> nodes = new ArrayList<>();
+            //遍历角色信息
+            roles.forEach(r -> {
+                //存储角色信息Dto
+                NodeDTO node = new NodeDTO();
+                //添加角色信息Id
+                node.setTags(r.getId());
+                //角色信息
+                node.setText(r.getRoleName());
+                nodes.add(node);
+            });
+            dto.setNodes(nodes);
+            //
+            if (groupIds.contains(item.getId())) {
+                dto.nodeChecked();
+                if (dto.getNodes() != null)
+                    dto.getNodes().forEach(NodeDTO::nodeChecked);
+            }
+
+            return dto;
+        }).collect(Collectors.toList());
+
+        return collect;
     }
 
 

@@ -1,5 +1,6 @@
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.UserDto;
 import com.kclm.owep.entity.Permission;
 import com.kclm.owep.entity.User;
@@ -29,4 +30,6 @@ public interface UserService {
     void updateUser(User user);
 
     void deleteById(Integer userId);
+
+    List<NodeDTO> getUserGroup(Integer userId);
 }
