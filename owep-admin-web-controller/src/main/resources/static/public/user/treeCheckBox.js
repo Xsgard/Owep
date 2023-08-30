@@ -7,7 +7,7 @@ function initCheckTree(tree,url,id){
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             tree.treeview({
-                data: data,
+                data: data.data,
                 levels: 1,
                 showCheckbox: true,
                 showIcon: false,
