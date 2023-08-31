@@ -54,7 +54,8 @@
     <!--根据id逻辑删除记录,改变is_delete的状态-->
     <update id="deleteById" parameterType="java.lang.Integer">
         update t_user
-        set is_delete = 0
+        set is_delete=0,
+            status=0
         where id = #{id,jdbcType=INTEGER}
     </update>
 
