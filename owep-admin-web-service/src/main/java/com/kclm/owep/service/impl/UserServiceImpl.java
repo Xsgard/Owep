@@ -5,7 +5,6 @@ import com.kclm.owep.convert.UserConvert;
 import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Permission;
-import com.kclm.owep.entity.Role;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.GroupService;
@@ -14,15 +13,21 @@ import com.kclm.owep.service.RoleService;
 import com.kclm.owep.service.UserService;
 import com.kclm.owep.utils.exceptions.BusinessException;
 import com.kclm.owep.utils.exceptions.DeleteFailureException;
+import com.kclm.owep.utils.export.ExcelExportUtil;
+import com.kclm.owep.utils.util.ExportExcelUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -181,27 +186,8 @@ public class UserServiceImpl implements UserService {
             dto.setText(item.getGroupName());
             //设置用户组Id
             dto.setTags(item.getId());
-            //查询组对应的角色信息
-            List<Role> roles = userMapper.selectGroupRole(item.getId());
-            List<NodeDTO> nodes = new ArrayList<>();
-            //遍历角色信息
-            roles.forEach(r -> {
-                //存储角色信息Dto
-                NodeDTO node = new NodeDTO();
-                //添加角色信息Id
-                node.setTags(r.getId());
-                //角色信息
-                node.setText(r.getRoleName());
-                nodes.add(node);
-            });
-            dto.setNodes(nodes);
-            //
-            if (groupIds.contains(item.getId())) {
+            if (groupIds.contains(item.getId()))
                 dto.nodeChecked();
-                if (dto.getNodes() != null)
-                    dto.getNodes().forEach(NodeDTO::nodeChecked);
-            }
-
             return dto;
         }).collect(Collectors.toList());
     }
@@ -215,6 +201,91 @@ public class UserServiceImpl implements UserService {
             }
         } else
             throw new BusinessException("未选中用户Id");
+    }
+
+    @Override
+    public void exportUserInfo(HttpServletResponse response) throws IOException {
+        List<User> userInfo = userMapper.getExportUserInfo();
+        if (userInfo.isEmpty())
+            throw new BusinessException("暂无数据，或出现异常！");
+        List<Map<String, Object>> collect = new ArrayList<>();
+        Map<String, Object> sheetName = new HashMap<>();
+        sheetName.put("sheetName", "管理员信息");
+        collect.add(sheetName);
+        for (User item : userInfo) {
+            Map<String, Object> map = getStringObjectMap(item);
+
+            collect.add(map);
+        }
+        String[] keys = collect.get(1).keySet().toArray(String[]::new);
+        String[] columns = {
+                "用户名",
+                "用户手机号",
+                "真实姓名",
+                "邮箱地址",
+                "性别",
+                "截止有效期",
+                "状态",
+                "职位",
+                "最后登录时间",
+                "描述",
+                "是否删除",
+        };
+
+
+        Workbook workBook = ExportExcelUtils.createWorkBook(collect, keys, columns);
+        ExcelExportUtil.exportAdminList(workBook, response);
+        log.info("导出成功！");
+
+
+    }
+
+    private static Map<String, Object> getStringObjectMap(User user) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        //添加三目运算处理空数据
+        map.put("userName", user.getUserName() == null ? "" : user.getUserName());
+        map.put("userPhone", user.getUserPhone() == null ? "" : user.getUserPhone());
+        map.put("realName", user.getRealName() == null ? "" : user.getRealName());
+        map.put("userEmail", user.getUserEmail() == null ? "" : user.getUserEmail());
+        map.put("gender", user.getGender() == null ? "" : user.getGender() == 1 ? "男" : "女");
+        //处理有效期日期格式
+        map.put("effectiveDate", user.getEffectiveDate() == null ? "" :
+                String.format(user.getEffectiveDate().toString(), "yyyy-MM-dd")
+                        .replace("T", ""));
+        map.put("status", (user.getStatus() == 1 ? "启用" : "禁用"));
+        map.put("title", user.getTitle() == null ? "" : user.getTitle());
+        //处理最后登录时间格式
+        map.put("lastAccessTime", user.getLastAccessTime() == null ? "" :
+                String.format(user.getLastAccessTime().toString(), "yyyy-MM-dd HH:mm:ss")
+                        .replace("T", " "));
+        map.put("description", user.getDescription() == null ? "" : user.getDescription());
+        map.put("isDelete", user.getIsDelete() == 0 ? "已删除" : "未删除");
+        //返回map
+        return map;
+    }
+
+
+    //TODO 反射重写 <T> 内的空属性未 ""
+    public static <T> List<T> listNullFunction(List<T> list) {
+        Iterator<T> iterator = list.iterator();
+        List<T> result = new ArrayList<>();
+        while (iterator.hasNext()) {
+            T next = iterator.next();
+            Class<?> cls = next.getClass();
+            try {
+                Object o = cls.getDeclaredConstructor().newInstance();
+                Field[] declaredFields = cls.getDeclaredFields();
+                for (Field declaredField : declaredFields) {
+                    declaredField.setAccessible(true);
+//                declaredField.set();
+                }
+
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                return null;
+            }
+        }
+        return result;
     }
 
 
