@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kclm.owep.mapper.StudentMapper">
+
+    <!--实体属性对应相应的表字段-->
+    <resultMap id="BaseResultMap" type="com.kclm.owep.entity.Student">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="stu_name" jdbcType="VARCHAR" property="stuName"/>
+        <result column="stu_pwd" jdbcType="VARCHAR" property="stuPwd"/>
+        <result column="stu_Number" jdbcType="VARCHAR" property="stuNumber"/>
+        <result column="stu_phone" jdbcType="VARCHAR" property="stuPhone"/>
+        <result column="stu_email" jdbcType="VARCHAR" property="stuEmail"/>
+        <result column="stu_real_name" jdbcType="VARCHAR" property="stuRealName"/>
+        <result column="email_code" jdbcType="VARCHAR" property="emailCode"/>
+        <result column="gender" jdbcType="VARCHAR" property="gender"/>
+        <result column="card_num" jdbcType="VARCHAR" property="cardNum"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="effective_date" jdbcType="DATE" property="effectiveDate"/>
+        <result column="birth" jdbcType="DATE" property="birth"/>
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="stu_type" jdbcType="VARCHAR" property="stuType"/>
+        <result column="stu_school" jdbcType="VARCHAR" property="stuSchool"/>
+        <result column="stu_college" jdbcType="VARCHAR" property="stuCollege"/>
+        <result column="stu_major" jdbcType="VARCHAR" property="stuMajor"/>
+        <result column="stu_education" jdbcType="VARCHAR" property="stuEducation"/>
+        <result column="english_level" jdbcType="VARCHAR" property="englishLevel"/>
+        <result column="perfect_status" jdbcType="VARCHAR" property="perfectStatus"/>
+        <result column="is_delete" jdbcType="VARCHAR" property="isDelete"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="fk_class_id" jdbcType="INTEGER" property="clazz.id"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,stu_name,stu_pwd,stu_number,stu_phone,stu_email,stu_real_name,email_code,gender,card_num,status,
+    effective_date,birth,image_url,description,stu_type,stu_school,stu_college,stu_major,stu_education,
+    english_level,perfect_status,is_delete,create_time,last_access_time,version
+    </sql>
+    
+    <select id="getAllStudent" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select id,
+               stu_name,
+               stu_number,
+               gender,
+               effective_date,
+               status,
+               stu_phone,
+               stu_pwd,
+               stu_email,
+               last_access_time
+        from t_student
+        where is_delete = 1
+        order by create_time ${order}
+    </select>
+
+    <insert id="save">
+        insert into t_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="stuName != null">
+                #{stuName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuPwd != null">
+                #{stuPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNum != null">
+                #{stuNum,jdbcType=VARCHAR},
+            </if>
+            <if test="stuPhone != null">
+                #{stuPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="stuEmail != null">
+                #{stuEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="stuRealName != null">
+                #{stuRealName,jdbcType=VARCHAR},
+            </if>
+            <if test="emailCode!= null">
+                #{emailCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="cardNum != null">
+                #{cardNum ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{stuatus,jdbcType=INTEGER},
+            </if>
+            <if test="effectiveDate != null">
+                #{effectiveDate,jdbcType=DATE},
+            </if>
+            <if test="birth != null">
+                #{birth,jdbcType=DATE},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="stuType != null">
+                #{stuType,jdbcType=VARCHAR},
+            </if>
+            <if test="stuSchool != null">
+                #{stuSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="stuCollege != null">
+                #{stuCollege,jdbcType=VARCHAR},
+            </if>
+            <if test="stuMajor != null">
+                #{stuMajor,jdbcType=VARCHAR},
+            </if>
+            <if test="stuEducation != null">
+                #{stuEducation,jdbcType=INTEGER},
+            </if>
+            <if test="englishLevel != null">
+                #{englishLevel,jdbcType=INTEGER},
+            </if>
+            <if test="perfectStatus != null">
+                #{perfectStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+            <if test="lastAccessTime != null">
+                #{lastAccessTime,jdbcType=DATE},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="clazz.id != null">
+                #{clazz.id,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="stuName != null">
+                #{stuName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuPwd != null">
+                #{stuPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNum != null">
+                #{stuNum,jdbcType=VARCHAR},
+            </if>
+            <if test="stuPhone != null">
+                #{stuPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="stuEmail != null">
+                #{stuEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="stuRealName != null">
+                #{stuRealName,jdbcType=VARCHAR},
+            </if>
+            <if test="emailCode!= null">
+                #{emailCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="cardNum != null">
+                #{cardNum ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{stuatus,jdbcType=INTEGER},
+            </if>
+            <if test="effectiveDate != null">
+                #{effectiveDate,jdbcType=DATE},
+            </if>
+            <if test="birth != null">
+                #{birth,jdbcType=DATE},
+            </if>
+            <if test="imageUrl != null">
+                #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="stuType != null">
+                #{stuType,jdbcType=VARCHAR},
+            </if>
+            <if test="stuSchool != null">
+                #{stuSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="stuCollege != null">
+                #{stuCollege,jdbcType=VARCHAR},
+            </if>
+            <if test="stuMajor != null">
+                #{stuMajor,jdbcType=VARCHAR},
+            </if>
+            <if test="stuEducation != null">
+                #{stuEducation,jdbcType=INTEGER},
+            </if>
+            <if test="englishLevel != null">
+                #{englishLevel,jdbcType=INTEGER},
+            </if>
+            <if test="perfectStatus != null">
+                #{perfectStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+            <if test="lastAccessTime != null">
+                #{lastAccessTime,jdbcType=DATE},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="clazz.id != null">
+                #{clazz.id,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.kclm.owep.entity.Student">
+        update t_student
+        <set>
+            <if test="stuName != null">
+                username = #{stuName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuPwd != null">
+                stu_pwd= #{stuPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="stuNum != null">
+                stu_num= #{stuNum,jdbcType=VARCHAR},
+            </if>
+            <if test="stuPhone != null">
+                stu_phone= #{stuPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="stuEmail != null">
+                stu_email=#{stuEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="stuRealName != null">
+                stu_role_name= #{stuRealName,jdbcType=VARCHAR},
+            </if>
+            <if test="emailCode!= null">
+                email_code= #{emailCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender= #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="cardNum != null">
+                card_num= #{cardNum ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status= #{stuatus,jdbcType=INTEGER},
+            </if>
+            <if test="effectiveDate != null">
+                effective_date= #{effectiveDate,jdbcType=DATE},
+            </if>
+            <if test="birth != null">
+                birth= #{birth,jdbcType=DATE},
+            </if>
+            <if test="imageUrl != null">
+                img_url= #{imageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description= #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="stuType != null">
+                stu_type= #{stuType,jdbcType=VARCHAR},
+            </if>
+            <if test="stuSchool != null">
+                stu_school= #{stuSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="stuCollege != null">
+                stu_college #{stuCollege,jdbcType=VARCHAR},
+            </if>
+            <if test="stuMajor != null">
+                stu_major= #{stuMajor,jdbcType=VARCHAR},
+            </if>
+            <if test="stuEducation != null">
+                stu_education= #{stuEducation,jdbcType=INTEGER},
+            </if>
+            <if test="englishLevel != null">
+                english_level= #{englishLevel,jdbcType=INTEGER},
+            </if>
+            <if test="perfectStatus != null">
+                perfect_status = #{perfectStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                is_delete= #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time= #{createTime,jdbcType=DATE},
+            </if>
+            <if test="lastAccessTime != null">
+                last_access_time= #{lastAccessTime,jdbcType=DATE},
+            </if>
+            <if test="version != null">
+                version=#{version,jdbcType=INTEGER},
+            </if>
+            <if test="clazz.id != null">
+                fk_clazz_id= #{clazz.id,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+
+
+</mapper>
