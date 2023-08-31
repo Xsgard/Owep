@@ -11,7 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -111,5 +113,18 @@ public class UserController {
             return R.error(e.getMessage());
         }
         return R.ok("删除成功！");
+    }
+
+    @GetMapping("/adminList/exportUserInfo")
+    @ResponseBody
+    public R exportUserInfo(HttpServletResponse response) {
+        try {
+            userService.exportUserInfo(response);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }
