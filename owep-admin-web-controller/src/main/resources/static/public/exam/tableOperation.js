@@ -138,8 +138,13 @@ function exportRecord(url, title, format) {
         closeOnConfirm: false
     }, function () {
         //ajax请求
-
-        swal("导出成功！", "您已经永久导出信息", "success");
+        window.location = url
+        setTimeout(function () {
+            swal("导出成功！", "您已经永久导出信息", "success");
+        }, 100)
+        setTimeout(function () {
+            window.location.reload()
+        }, 2000)
     });
 }
 

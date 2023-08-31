@@ -59,7 +59,8 @@
                     </div>
                     <button class="btn btn-success query" type="button">查询</button>
                     <button class="btn btn-danger deleteAll" type="button">删除</button>
-                    <button class="btn btn-info" type="button" data-toggle='modal' data-target='#modal_add'>添加
+                    <button class="btn btn-info" type="button" data-toggle='modal' onclick="addButtonClick()"
+                            data-target='#modal_add'>添加
                     </button>
                     <button class="btn btn-primary export" type="button">导出</button>
                 </form>
@@ -337,6 +338,12 @@
 
 <!--右上角按钮对的监听处理-->
 <script>
+
+    function addButtonClick() {
+        if (switchery.isChecked())
+            switchery.setPosition(true);
+    }
+
     $(document).ready(function () {
         /*删除多个按钮操作*/
         $('.deleteAll').click(function () {
@@ -470,7 +477,7 @@
             let checks = $treeview.treeview('getChecked');
             console.log(checks);
             $.each(checks, function (index, item) {
-                if (item.parentId !== undefined) {
+                if (item.tags !== undefined) {
                     console.log(item.tags);
                     groupIds.push(item.tags);
                 }
@@ -517,7 +524,7 @@
 
         /*导出按钮操作*/
         $('.export').click(function () {
-            exportRecord("", "管理员信息");
+            exportRecord("/owep/user/adminList/exportUserInfo", "管理员信息");
         });
     });
 </script>
