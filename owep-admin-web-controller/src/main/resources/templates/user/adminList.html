@@ -593,7 +593,9 @@
 
                         'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
                             //回显数据
-                            echoDataForm('form[id="form_modification"]', ['id', 'userName', 'userPwd', 'realName', 'userPhone', 'userEmail', 'lastAccessDate', 'status', 'gender', 'effectiveDate'], row);
+                            echoDataForm('form[id="form_modification"]', ['id', 'userName', 'userPwd', 'realName',
+                                'userPhone', 'userEmail', 'lastAccessDate', 'status', 'gender',
+                                'effectiveDate'], row);
                             $('#modal_modification').modal();
                         },
 

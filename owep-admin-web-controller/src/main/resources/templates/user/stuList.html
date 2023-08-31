@@ -307,49 +307,49 @@
                         <label class="col-sm-2 control-label">
                             学号</label>
                         <div class="col-sm-8">
-                            <input type="text" name="edit_stuNumber" disabled="" class="form-control" placeholder="">
+                            <input type="text" id="edit_stuNumber" name="stuNumber" disabled="" class="form-control" placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" name="edit_stuName" class="form-control" placeholder="请输入姓名">
+                            <input type="text" id="edit_stuName" name="stuName" class="form-control" placeholder="请输入姓名">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             手机</label>
                         <div class="col-sm-8">
-                            <input type="text" name="edit_stuPhone" class="form-control" placeholder="请输入手机号">
+                            <input type="text" id="edit_stuPhone" name="stuPhone"  class="form-control" placeholder="请输入手机号">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" name="edit_stuEmail" class="form-control" placeholder="请输入邮箱">
+                            <input type="email" id="edit_stuEmail" name="stuEmail" class="form-control" placeholder="请输入邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             密码</label>
                         <div class="col-sm-8">
-                            <input type="password" name="edit_stuPwd" class="form-control" placeholder="请输入密码">
+                            <input type="password" id="edit_stuPwd" name="stuPwd" class="form-control" placeholder="请输入密码">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" name="edit_effectiveDate" class="form-control myData_add"
+                            <input type="text" id="edit_effectiveDate" name="effectiveDate" class="form-control myData_add"
                                    placeholder="请输入截至日期">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">是否启用</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="edit_status" class="js-switch form-control"/>
+                            <input type="checkbox" id="edit_status" name="status" class="js-switch form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -362,7 +362,7 @@
                             </label>&nbsp;&nbsp;
 
                             <label class="control-label">
-                                <input type="radio" value="0" name="edit_gender">
+                                <input type="radio" value="0" id="edit_gender"  name="gender">
                                 <span>女</span>
                             </label>
                         </div>
@@ -764,7 +764,7 @@
                 pageSize: 10,                       //每页的记录行数（*）
                 pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
                 minimumCountColumns: 2,             //最少允许的列数
-                clickToSelect: true,                //是否启用点击选中行
+                // clickToSelect: true,                //是否启用点击选中行
                 height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
                 uniqueId: "id",                     //每一行的唯一标识，一般为主键列
                 onPostBody: switchInit,
@@ -778,7 +778,7 @@
                     field: 'stuName',
                     title: '姓名'
                 }, {
-                    field: 'gender',
+                    field: 'genderText',
                     title: '性别'
                 }, {
                     field: 'stuPhone',
@@ -808,10 +808,9 @@
 
                         'click button[title=修改]': function (e, value, row, index) {
                             //回显数据
-                            echoDataForm('form[id="form_modification"]', new Array('stuNumber',
+                            echoDataForm('form[id="form_modification"]', ['stuNumber',
                                 'sutName', 'stuPhone', 'stuEmail', 'lastAccessTime','effectiveDate',
-                                'status', 'gender'
-                            ), row);
+                                'status', 'gender'], row);
                             $('#modal_modification').modal();
                         },
                         'click button[title=分配班级]': function (e, value, row, index) {
@@ -892,10 +891,10 @@
         }
 
         function addSlideChoiceBox(value, row, index) {
-            if (value == '启用') {
+            if (value == '1') {
                 return ' <input type="checkbox" class="js-switch-1 form-control" checked/>'
             }
-            if (value == '不启用') {
+            if (value == '0') {
                 return ' <input type="checkbox" class="js-switch-1 form-control"/>'
             }
         }
