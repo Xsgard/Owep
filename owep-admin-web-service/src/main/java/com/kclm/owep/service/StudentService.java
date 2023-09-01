@@ -1,6 +1,7 @@
 package com.kclm.owep.service;
 
 import com.kclm.owep.dto.StudentDTO;
+import com.kclm.owep.entity.Student;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ import java.util.List;
  */
 public interface StudentService {
     List<StudentDTO> getStudentInfo(String order, Integer limit, Integer offset);
+
+    void addStudent(Student student);
 }

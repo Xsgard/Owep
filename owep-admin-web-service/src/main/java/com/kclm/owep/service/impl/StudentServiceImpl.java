@@ -6,6 +6,7 @@ import com.kclm.owep.dto.StudentDTO;
 import com.kclm.owep.entity.Student;
 import com.kclm.owep.mapper.StudentMapper;
 import com.kclm.owep.service.StudentService;
+import com.kclm.owep.utils.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,23 @@ public class StudentServiceImpl implements StudentService {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 添加学生
+     *
+     * @param student 学生实体信息
+     */
+    @Override
+    public void addStudent(Student student) {
+        if (student.getStuNumber() == null)
+            throw new BusinessException("学号不应为空！");
+        Integer byStuNum = studentMapper.getByStuNum(student.getStuNumber());
+        if (byStuNum > 0)
+            throw new BusinessException("学号重复，请检查输入！");
+        int save = studentMapper.save(student);
+        if (save < 1)
+            throw new BusinessException("保存学生信息失败！");
     }
 
 }
