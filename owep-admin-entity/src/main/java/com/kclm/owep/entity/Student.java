@@ -85,8 +85,8 @@ public class Student {
     /**
      * 学生生日
      */
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime birth;
 
     /**
@@ -142,15 +142,15 @@ public class Student {
     /**
      * 学生创建时间
      */
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     /**
      * 学生最后一次访问时间
      */
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastAccessTime;
 
     /**
@@ -222,6 +222,5 @@ public class Student {
         this.stuType = "";
         this.status = 0;
         this.gender = 1;
-        createTime = LocalDateTime.now();
     }
 }
