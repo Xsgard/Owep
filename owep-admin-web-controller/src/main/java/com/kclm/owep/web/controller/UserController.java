@@ -3,6 +3,7 @@ package com.kclm.owep.web.controller;
 import com.itextpdf.text.pdf.PRIndirectReference;
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.StudentDTO;
+import com.kclm.owep.entity.Student;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.service.StudentService;
 import com.kclm.owep.service.UserService;
@@ -58,6 +59,17 @@ public class UserController {
     public R getStudentList(String order, Integer limit, Integer offset) {
         List<StudentDTO> studentInfo = studentService.getStudentInfo(order, limit, offset);
         return R.ok().put("data", studentInfo);
+    }
+
+    @PostMapping("/stuList/addStudent")
+    @ResponseBody
+    public R addStudent(@RequestBody Student student) {
+        try {
+            studentService.addStudent(student);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("添加成功！");
     }
 
     @GetMapping("/adminList/switch")
