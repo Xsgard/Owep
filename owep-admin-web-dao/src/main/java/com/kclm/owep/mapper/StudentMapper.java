@@ -22,4 +22,7 @@ public interface StudentMapper extends BaseMapper<Student> {
 
     @Select("select count(id) from t_student where stu_number=#{stuNum};")
     Integer getByStuNum(String  stuNum);
+
+    @Select("select * from t_student where id = #{id};")
+    Student getById(Integer id);
 }

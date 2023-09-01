@@ -38,7 +38,7 @@
     effective_date,birth,image_url,description,stu_type,stu_school,stu_college,stu_major,stu_education,
     english_level,perfect_status,is_delete,create_time,last_access_time,version
     </sql>
-    
+
     <select id="getAllStudent" parameterType="java.lang.String" resultMap="BaseResultMap">
         select id,
                stu_name,
@@ -228,64 +228,64 @@
     <update id="update" parameterType="com.kclm.owep.entity.Student">
         update t_student
         <set>
-            <if test="stuName != null">
+            <if test="stuName != null and stuName !=''">
                 stu_name = #{stuName,jdbcType=VARCHAR},
             </if>
-            <if test="stuPwd != null">
+            <if test="stuPwd != null and stuPwd !=''">
                 stu_pwd= #{stuPwd,jdbcType=VARCHAR},
             </if>
-            <if test="stuNumber != null">
-                stu_number= #{stuNum,jdbcType=VARCHAR},
+            <if test="stuNumber != null and stuNumber !=''">
+                stu_number= #{stuNumber,jdbcType=VARCHAR},
             </if>
-            <if test="stuPhone != null">
+            <if test="stuPhone != null and stuPhone !=''">
                 stu_phone= #{stuPhone,jdbcType=VARCHAR},
             </if>
-            <if test="stuEmail != null">
+            <if test="stuEmail != null and stuEmail  !=''">
                 stu_email=#{stuEmail,jdbcType=VARCHAR},
             </if>
-            <if test="stuRealName != null">
-                stu_role_name= #{stuRealName,jdbcType=VARCHAR},
+            <if test="stuRealName != null and stuRealName !=''">
+                stu_real_name= #{stuRealName,jdbcType=VARCHAR},
             </if>
-            <if test="emailCode!= null">
+            <if test="emailCode!= null and emailCode  !=''">
                 email_code= #{emailCode,jdbcType=VARCHAR},
             </if>
             <if test="gender != null">
                 gender= #{gender,jdbcType=INTEGER},
             </if>
-            <if test="cardNum != null">
+            <if test="cardNum != null and cardNum !=''">
                 card_num= #{cardNum ,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
-                status= #{stuatus,jdbcType=INTEGER},
+                status= #{status,jdbcType=INTEGER},
             </if>
             <if test="effectiveDate != null">
                 effective_date= #{effectiveDate,jdbcType=DATE},
             </if>
-            <if test="birth != null">
+            <if test="birth != null ">
                 birth= #{birth,jdbcType=DATE},
             </if>
-            <if test="imageUrl != null">
+            <if test="imageUrl != null and imgUrl !=''">
                 img_url= #{imageUrl,jdbcType=VARCHAR},
             </if>
-            <if test="description != null">
+            <if test="description != null and description !=''">
                 description= #{description,jdbcType=VARCHAR},
             </if>
-            <if test="stuType != null">
+            <if test="stuType != null and stuType !=''">
                 stu_type= #{stuType,jdbcType=VARCHAR},
             </if>
-            <if test="stuSchool != null">
+            <if test="stuSchool != null and stuSchool  !=''">
                 stu_school= #{stuSchool,jdbcType=VARCHAR},
             </if>
-            <if test="stuCollege != null">
+            <if test="stuCollege != null and stuCollege !=''">
                 stu_college #{stuCollege,jdbcType=VARCHAR},
             </if>
-            <if test="stuMajor != null">
+            <if test="stuMajor != null and stuMajor !=''">
                 stu_major= #{stuMajor,jdbcType=VARCHAR},
             </if>
             <if test="stuEducation != null">
                 stu_education= #{stuEducation,jdbcType=INTEGER},
             </if>
-            <if test="englishLevel != null">
+            <if test="englishLevel != null ">
                 english_level= #{englishLevel,jdbcType=INTEGER},
             </if>
             <if test="perfectStatus != null">
@@ -294,20 +294,17 @@
             <if test="isDelete != null">
                 is_delete= #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="createTime != null">
+            <if test="createTime != null ">
                 create_time= #{createTime,jdbcType=DATE},
             </if>
-            <if test="lastAccessTime != null">
+            <if test="lastAccessTime != null ">
                 last_access_time= #{lastAccessTime,jdbcType=DATE},
             </if>
             <if test="version != null">
                 version=#{version,jdbcType=INTEGER},
             </if>
-            <if test="clazz.id != null">
-                fk_clazz_id= #{clazz.id,jdbcType=VARCHAR},
-            </if>
         </set>
-        where id=#{id,jdbcType=INTEGER}
+        where stu_number=#{stuNumber,jdbcType=VARCHAR}
     </update>
 
 
