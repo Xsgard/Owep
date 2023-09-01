@@ -1,12 +1,14 @@
 package com.kclm.owep.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Data
 public class StudentDTO implements Serializable {
 
     /**
@@ -25,6 +27,15 @@ public class StudentDTO implements Serializable {
     private String stuName;
 
     /**
+     * 性别
+     */
+    private Integer gender;
+
+    private String genderText;
+
+    private String stuPwd;
+
+    /**
      * 学生截止有效期限
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -35,6 +46,23 @@ public class StudentDTO implements Serializable {
      * 学生状态，1表示启用，0表示禁用
      */
     private Integer status;
+
+    /**
+     * 手机号
+     */
+    private String stuPhone;
+
+    /**
+     * 邮箱
+     */
+    private String stuEmail;
+
+    /**
+     * 最后登录时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastAccessTime;
 
     public StudentDTO(Integer id, String stuNumber, String stuName, LocalDateTime effectiveDate, Integer status) {
         this.id = id;
