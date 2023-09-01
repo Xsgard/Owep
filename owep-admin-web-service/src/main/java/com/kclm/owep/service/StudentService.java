@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Asgard
  * @version 1.0
- * @description: TODO StudentService
+ * @description: StudentService
  * @date 2023/8/31 15:01
  */
 public interface StudentService {
@@ -17,7 +17,7 @@ public interface StudentService {
 
     void addStudent(Student student);
 
-    NodeDTO getClazzTreeCheck();
+    List<NodeDTO> getClazzTreeCheck();
 
     void updateStudent(Student student);
 
