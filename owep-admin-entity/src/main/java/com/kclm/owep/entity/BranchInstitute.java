@@ -1,5 +1,7 @@
 package com.kclm.owep.entity;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Objects;
  * @Create 2020/7/6 16:34
  * @Description 分支机构实体类
  */
+@Getter
 public class BranchInstitute implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,48 +79,24 @@ public class BranchInstitute implements Serializable {
         return Objects.hash(id, branchName, orgInstitute, version, createTime, lastAccessTime);
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getBranchName() {
-        return branchName;
     }
 
     public void setBranchName(String branchName) {
         this.branchName = branchName;
     }
 
-    public OrgInstitute getOrgInstitute() {
-        return orgInstitute;
-    }
-
     public void setOrgInstitute(OrgInstitute orgInstitute) {
         this.orgInstitute = orgInstitute;
-    }
-
-    public Integer getVersion() {
-        return version;
     }
 
     public void setVersion(Integer version) {
         this.version = version;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-    }
-
-    public LocalDateTime getLastAccessTime() {
-        return lastAccessTime;
     }
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
