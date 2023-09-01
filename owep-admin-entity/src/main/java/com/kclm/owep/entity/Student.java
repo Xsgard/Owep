@@ -3,6 +3,10 @@
  */
 package com.kclm.owep.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,6 +16,7 @@ import java.util.Objects;
  * @Create: 2020年7月03日
  * @Description 学生实体类
  */
+@Data
 public class Student {
 
     /**
@@ -73,8 +78,8 @@ public class Student {
      * 学生截止有效期限
      */
 
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime effectiveDate;
 
     /**
@@ -158,217 +163,6 @@ public class Student {
      */
     private Clazz clazz;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getStuName() {
-        return stuName;
-    }
-
-    public void setStuName(String stuName) {
-        this.stuName = stuName;
-    }
-
-    public String getStuPwd() {
-        return stuPwd;
-    }
-
-    public void setStuPwd(String stuPwd) {
-        this.stuPwd = stuPwd;
-    }
-
-    public String getStuNumber() { return stuNumber; }
-
-    public void setStuNumber(String stuNumber) { this.stuNumber = stuNumber; }
-
-    public String getStuPhone() {
-        return stuPhone;
-    }
-
-    public void setStuPhone(String stuPhone) {
-        this.stuPhone = stuPhone;
-    }
-
-    public String getStuEmail() {
-        return stuEmail;
-    }
-
-    public void setStuEmail(String stuEmail) {
-        this.stuEmail = stuEmail;
-    }
-
-    public String getStuRealName() {
-        return stuRealName;
-    }
-
-    public void setStuRealName(String stuRealName) {
-        this.stuRealName = stuRealName;
-    }
-
-    public String getEmailCode() {
-        return emailCode;
-    }
-
-    public void setEmailCode(String emailCode) {
-        this.emailCode = emailCode;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public String getCardNum() {
-        return cardNum;
-    }
-
-    public void setCardNum(String cardNum) {
-        this.cardNum = cardNum;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(LocalDateTime effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    public LocalDateTime getBirth() {
-        return birth;
-    }
-
-    public void setBirth(LocalDateTime birth) {
-        this.birth = birth;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getStuType() {
-        return stuType;
-    }
-
-    public void setStuType(String stuType) {
-        this.stuType = stuType;
-    }
-
-    public String getStuSchool() {
-        return stuSchool;
-    }
-
-    public void setStuSchool(String stuSchool) {
-        this.stuSchool = stuSchool;
-    }
-
-    public String getStuCollege() {
-        return stuCollege;
-    }
-
-    public void setStuCollege(String stuCollege) {
-        this.stuCollege = stuCollege;
-    }
-
-    public String getStuMajor() {
-        return stuMajor;
-    }
-
-    public void setStuMajor(String stuMajor) {
-        this.stuMajor = stuMajor;
-    }
-
-    public Integer getStuEducation() {
-        return stuEducation;
-    }
-
-    public void setStuEducation(Integer stuEducation) {
-        this.stuEducation = stuEducation;
-    }
-
-    public Integer getEnglishLevel() {
-        return englishLevel;
-    }
-
-    public void setEnglishLevel(Integer englishLevel) {
-        this.englishLevel = englishLevel;
-    }
-
-    public Integer getPerfectStatus() {
-        return perfectStatus;
-    }
-
-    public void setPerfectStatus(Integer perfectStatus) {
-        this.perfectStatus = perfectStatus;
-    }
-
-    public Integer getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Integer isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDateTime getLastAccessTime() {
-        return lastAccessTime;
-    }
-
-    public void setLastAccessTime(LocalDateTime lastAccessTime) {
-        this.lastAccessTime = lastAccessTime;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Clazz getClazz() {
-        return clazz;
-    }
-
-    public void setClazz(Clazz clazz) {
-        this.clazz = clazz;
-    }
 
     @Override
     public String toString() {
@@ -425,5 +219,9 @@ public class Student {
     }
 
     public Student() {
+        this.stuType = "";
+        this.status = 0;
+        this.gender = 1;
+        createTime = LocalDateTime.now();
     }
 }
