@@ -1,5 +1,7 @@
 package com.kclm.owep.entity;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Objects;
  * @Create: 2020年7月03日 上午12:30:40
  * @Description 专业方向
  */
+@Getter
 public class Profession implements Serializable {
 
     private Integer id; //id
@@ -35,88 +38,44 @@ public class Profession implements Serializable {
 
     private LocalDateTime lastAccessTime;    //最后一次访问时间
 
-    public Integer getId() {
-        return id;
-    }
-
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getProfName() {
-        return profName;
     }
 
     public void setProfName(String profName) {
         this.profName = profName;
     }
 
-    public String getProfDesc() {
-        return profDesc;
-    }
-
     public void setProfDesc(String profDesc) {
         this.profDesc = profDesc;
-    }
-
-    public Integer getProfStatus() {
-        return profStatus;
     }
 
     public void setProfStatus(Integer profStatus) {
         this.profStatus = profStatus;
     }
 
-    public String getInstituteName() {
-        return instituteName;
-    }
-
     public void setInstituteName(String instituteName) {
         this.instituteName = instituteName;
-    }
-
-    public String getInstituteBranchName() {
-        return instituteBranchName;
     }
 
     public void setInstituteBranchName(String instituteBranchName) {
         this.instituteBranchName = instituteBranchName;
     }
 
-    public Integer getIsDelete() {
-        return isDelete;
-    }
-
     public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
-    }
-
-    public String getOrderProfeName() {
-        return orderProfeName;
     }
 
     public void setOrderProfeName(String orderProfeName) {
         this.orderProfeName = orderProfeName;
     }
 
-    public Integer getVersion() {
-        return version;
-    }
-
     public void setVersion(Integer version) {
         this.version = version;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-    }
-
-    public LocalDateTime getLastAccessTime() {
-        return lastAccessTime;
     }
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
