@@ -1,11 +1,13 @@
 package com.kclm.owep.service.impl;
 
 import com.kclm.owep.dto.StudentDTO;
+import com.kclm.owep.entity.Student;
 import com.kclm.owep.service.BaseServiceTests;
 import com.kclm.owep.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -26,5 +28,19 @@ public class StudentServiceTest extends BaseServiceTests {
         Integer limit = 10;
         List<StudentDTO> studentInfo = studentService.getStudentInfo(order, offset, limit);
         studentInfo.forEach(System.out::println);
+    }
+
+    @Test
+    public void addStudentTest(){
+        Student student = new Student();
+        student.setStuNumber("1231452");
+        student.setStuName("张三");
+        student.setStuPhone("13781234576");
+        student.setStuEmail("jeslaa@163.com");
+        student.setStuPwd("123123");
+        student.setEffectiveDate(LocalDateTime.now().plusDays(30L));
+
+        studentService.addStudent(student);
+
     }
 }
