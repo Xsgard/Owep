@@ -91,9 +91,10 @@ public class UserController {
     }
 
     @GetMapping("/stuList/classTreeCheck")
-    public R getClassTreeCheck() {
-
-        return null;
+    @ResponseBody
+    public R getClassTreeCheck(Integer id) {
+        List<NodeDTO> clazzTreeCheck = studentService.getClazzTreeCheck();
+        return R.ok().put("data", clazzTreeCheck);
     }
 
     @GetMapping("/adminList/switch")
