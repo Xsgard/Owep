@@ -158,7 +158,7 @@
                                             <div style="float: right">
                                                 <button class="btn btn-danger deleteAll" type="button">删除</button>
                                                 <button class="btn btn-info" type="button" data-toggle="modal"
-                                                        data-target="#modal_add">添加
+                                                        data-target="#modal_add" onclick="addButtonClick()">添加
                                                 </button>
                                                 <button class="btn btn-primary export" type="button">导出</button>
                                                 <button class="btn btn-warning to_lead" type="button"
@@ -367,12 +367,12 @@
                             性别</label>
                         <div class="col-sm-8">
                             <label class="control-label">
-                                <input type="radio" checked="checked" value="1" name="edit_gender">
+                                <input type="radio" value="1" name="edit_gender">
                                 <span>男</span>
                             </label>&nbsp;&nbsp;
 
                             <label class="control-label">
-                                <input type="radio" value="0" id="edit_gender" name="gender">
+                                <input type="radio" value="0" name="edit_gender">
                                 <span>女</span>
                             </label>
                         </div>
@@ -418,6 +418,7 @@
                         <label class="col-sm-2 control-label">
                             学生姓名</label>
                         <div class="col-sm-8">
+                            <input type="number" name="id" id="id" hidden>
                             <input type="text" name="name" disabled="" class="form-control" placeholder="">
                         </div>
                     </div>
@@ -680,8 +681,9 @@
 <script>
     $(function () {
         let $treevie = $('.treeview_allocation');
-        let url = "../../static/js/demo/user/class_treeCheck_test.json";
-        initCheckTree($treevie, url);
+        let url = "owep/user/stuList/classTreeCheck";
+        let id = 0;
+        initCheckTree($treevie, url, id);
     });
 
 </script>
@@ -710,6 +712,11 @@
 </script>
 <!--表单数据-->
 <script>
+    function addButtonClick() {
+        if (switchery.isChecked())
+            switchery.setPosition(true);
+    }
+
     $(function () {
         //1.初始化Table
         TableInit().Init();
@@ -781,9 +788,12 @@
                 columns: [{
                     checkbox: true
                 }, {
+                    field: 'id',
+                    visible: false
+                }, {
                     field: 'stuNumber',
                     title: '学号',
-                    color: "red"
+                    color: 'red'
                 }, {
                     field: 'stuName',
                     title: '姓名'
@@ -823,7 +833,7 @@
                         },
                         'click button[title=分配班级]': function (e, value, row, index) {
                             //回显数据
-                            $('form[id="form_allocation_1"] input[name="name"]').val(row.name);
+                            $('form[id="form_allocation_1"] input[name="name"]').val(row.stuName);
                             $('#modal_allocation').modal();
                         },
                     }
@@ -841,16 +851,20 @@
                 let stuPwd = $("#edit_stuPwd").val();
                 let effectiveDate = $("#edit_effectiveDate").val();
                 let status = $("#edit_status").val();
-                let gender = $("#edit_gender").val();
+                let gender = $("input[name='edit_gender']:checked").val();
 
                 console.log("status" + status);
-                if (status === 1 || status === 0) {
-
-                } else if (status === "on") {
+                // if (status === 1 || status === 0) {
+                //
+                // } else if (status === "on") {
+                //     status = 1;
+                // } else {
+                //     status = 0;
+                // }
+                if (switchery.isChecked())
                     status = 1;
-                } else {
+                else
                     status = 0;
-                }
                 let stuData = {
                     stuNumber: stuNumber,
                     stuName: stuName,
@@ -873,12 +887,23 @@
                     dataType: "json",
                     contentType: "application/json",
                     success: function (feedback) {
-                        alert(feedback);
-                        window.location.reload();
+                        if (feedback.code === 0) {
+                            setTimeout(function () {
+                                swal("修改成功！", "", "success")
+                            }, 100)
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1800)
+                        } else {
+                            setTimeout(function () {
+                                swal("修改失败！", feedback.msg, "info")
+                            }, 100)
+                        }
                     },
                     error: function (jqXRH) {
-                        console.log(jqXRH);
-                        alert("修改未成功")
+                        setTimeout(function () {
+                            swal("修改失败！", "请联系管理员", "error")
+                        }, 100)
                     }
                 })
 
@@ -886,24 +911,64 @@
 
         };
         /*滑动按钮初始化*/
-        let switchInit = function () {
+        let switchInit = function (value, row, index) {
             //页面如何有多个互动按钮必须需要这些js代码
             let elems = Array.prototype.slice.call($('.js-switch-1'));
             elems.forEach(function (html) {
                 /* size: 'normal' 控制大小*/
                 var switchery = new Switchery(html);
                 html.onchange = function () {
-                    alert(html.checked);
+                    console.log("stu status:" + html.checked);
+                    let id = $(this).attr("id");
+                    let status;
+                    if (html.checked === true) {
+                        alert("用户启用" + id);
+                        status = 1;
+                    } else {
+                        alert("禁用用户" + id);
+                        status = 0;
+                    }
+                    let switch_data = {
+                        id: id,
+                        status: status
+                    };
+                    //Todo Ajax
+                    $.ajax({
+                        url: "/owep/user/stuList/switch",
+                        method: "get",
+                        async: true,
+                        data: switch_data,
+                        dataType: "json",   //期望服务端返回的数据类型
+                        contentType: "application/json",
+                        success: function (data) {
+                            if (data.code === 0) {
+                                setTimeout(function () {
+                                    swal("修改成功！", data.msg, "success")
+                                }, 100);
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                setTimeout(function () {
+                                    swal("修改失败！", data.msg, "success")
+                                }, 100);
+                            }
+                        },
+                        error: function (jqXHR) {
+                            swal("同步失败！", "请稍后重试", "error");
+                        }
+                    });
                 }
+
             });
         }
 
         function addSlideChoiceBox(value, row, index) {
             if (value == '1') {
-                return ' <input type="checkbox" class="js-switch-1 form-control" checked/>'
+                return ' <input type="checkbox" id="' + row.id + '" class="js-switch-1 form-control" checked/>'
             }
             if (value == '0') {
-                return ' <input type="checkbox" class="js-switch-1 form-control"/>'
+                return ' <input type="checkbox" id="' + row.id + '" class="js-switch-1 form-control"/>'
             }
         }
 

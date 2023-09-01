@@ -245,17 +245,6 @@ function createTable(event, url, toolbar, search, data, method) {
 * 使用按钮详见exam->paperManagementList页面
 * */
 function echoDataForm(eventParentName, echoDataList, row) {
-    function value(item, row) {
-        let value = "";
-        for (let i in row) {
-
-            if (i === item) {
-                value = row[i];
-            } //从row中找item,找到则复制值
-        }
-        return value;
-    }
-
     echoDataList.forEach(function (item, index) {
         if (item === "gender") {//性别特别处理
             $(eventParentName + ' input[value=' + value("gender", row) + ']')
@@ -264,13 +253,29 @@ function echoDataForm(eventParentName, echoDataList, row) {
         if (item === "status") {//用户状态特别处理
             let status_val = value(item, row);
             console.log(status_val);
-            if ((status_val === 1 && !switchery.isChecked()) || (status_val === 0 && switchery.isChecked)) {
+            if ((status_val === 1 && !switchery.isChecked()) || (status_val === 0 && switchery.isChecked())) {
+                console.log("要切换状态...")
                 switchery.setPosition(true);
                 // switchery.handleOnchange(true);
             }
         }
         $(eventParentName + ' input[name=\"' + item + '\"]').val(value(item, row));//其他普通文本
     })
+
+    function value(item, row) {
+        console.log("item:" + item);
+        let value = "";
+        for (let i in row) {
+
+            if (i === item) {
+                // console.log("i："+i);
+                value = row[i];
+            } //从row中找item,找到则复制值
+        }
+        //
+        return value;
+    }
+
 }
 
 /*获取json数据的方法,通过同步请求*/
