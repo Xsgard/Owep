@@ -5,7 +5,9 @@ import com.kclm.owep.convert.UserConvert;
 import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Permission;
+import com.kclm.owep.entity.Student;
 import com.kclm.owep.entity.User;
+import com.kclm.owep.mapper.StudentMapper;
 import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.GroupService;
 import com.kclm.owep.service.PermissionService;
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private StudentMapper studentMapper;
     @Autowired
     private UserConvert userConvert;
     @Autowired
@@ -172,6 +176,12 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("删除失败！");
     }
 
+    /**
+     * 获取用户组信息
+     *
+     * @param userId 用户Id
+     * @return 用户组节点信息集合
+     */
     @Override
     public List<NodeDTO> getUserGroup(Integer userId) {
         //所有用户组信息
@@ -192,6 +202,11 @@ public class UserServiceImpl implements UserService {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * 批量删除管理员信息
+     *
+     * @param ids 管理员Id
+     */
     @Override
     public void deleteByIds(List<Serializable> ids) {
         if (!ids.isEmpty()) {
@@ -203,6 +218,12 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("未选中用户Id");
     }
 
+    /**
+     * 导出管理员信息
+     *
+     * @param response 响应
+     * @throws IOException 异常
+     */
     @Override
     public void exportUserInfo(HttpServletResponse response) throws IOException {
         List<User> userInfo = userMapper.getExportUserInfo();
@@ -240,6 +261,13 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
+    /**
+     * 处理用户信息
+     *
+     * @param user 用户信息
+     * @return map
+     */
     private static Map<String, Object> getStringObjectMap(User user) {
         Map<String, Object> map = new LinkedHashMap<>();
         //添加三目运算处理空数据
