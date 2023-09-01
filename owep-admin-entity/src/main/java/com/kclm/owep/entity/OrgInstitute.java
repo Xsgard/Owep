@@ -1,5 +1,7 @@
 package com.kclm.owep.entity;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,12 +13,16 @@ import java.util.Objects;
  * @Create 2020/7/6 16:34
  * @Description 组织机构实体类
  */
+@Getter
 public class OrgInstitute implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /***
      * 组织机构id
+     * -- GETTER --
+     *  构造方法
+
      */
     private Integer id;
     /***
@@ -97,67 +103,32 @@ public class OrgInstitute implements Serializable {
         return Objects.hash(id, instituteName, instituteType, delete, branchInstitutes, version, createTime, lastAccessTime);
     }
 
-    /***
-     * 构造方法
-     */
-    public Integer getId() {
-        return id;
-    }
-
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getInstituteName() {
-        return instituteName;
     }
 
     public void setInstituteName(String instituteName) {
         this.instituteName = instituteName;
     }
 
-    public Integer getInstituteType() {
-        return instituteType;
-    }
-
     public void setInstituteType(Integer instituteType) {
         this.instituteType = instituteType;
-    }
-
-    public Integer getDelete() {
-        return delete;
     }
 
     public void setDelete(Integer delete) {
         this.delete = delete;
     }
 
-    public List<BranchInstitute> getBranchInstitutes() {
-        return branchInstitutes;
-    }
-
     public void setBranchInstitutes(List<BranchInstitute> branchInstitutes) {
         this.branchInstitutes = branchInstitutes;
-    }
-
-    public Integer getVersion() {
-        return version;
     }
 
     public void setVersion(Integer version) {
         this.version = version;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-    }
-
-    public LocalDateTime getLastAccessTime() {
-        return lastAccessTime;
     }
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
