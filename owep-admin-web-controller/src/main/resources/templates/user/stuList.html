@@ -870,7 +870,7 @@
                     url: "/owep/user/stuList/edit",
                     async: "true",
                     data: stuJson,
-                    dataType: "text",
+                    dataType: "json",
                     contentType: "application/json",
                     success: function (feedback) {
                         alert(feedback);
@@ -999,15 +999,27 @@
                 url: "/owep/user/stuList/addStudent",
                 async: "true",
                 data: stuJson,
-                dataType: "text",
+                dataType: "json",
                 contentType: "application/json",
                 success: function (feedback) {
-                    alert(feedback);
-                    window.location.reload();
+                    if (feedback.code === 0) {
+                        setTimeout(function () {
+                            swal("添加成功！", "", "success")
+                        }, 100);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1600);
+                    } else {
+                        setTimeout(function () {
+                            swal("添加失败！", feedback.msg, "info")
+                        }, 100);
+                    }
                 },
                 error: function (jqXRH) {
-                    console.log(jqXRH);
-                    alert("添加未成功")
+                    setTimeout(function () {
+                        console.log(jqXRH);
+                        swal("添加失败！", "请联系管理员", "error")
+                    }, 100);
                 }
             })
         });
