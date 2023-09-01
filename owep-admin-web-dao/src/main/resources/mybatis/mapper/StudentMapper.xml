@@ -59,85 +59,85 @@
         insert into t_student
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
-                #{id,jdbcType=INTEGER},
+                id,
             </if>
             <if test="stuName != null">
-                #{stuName,jdbcType=VARCHAR},
+                stu_name,
             </if>
             <if test="stuPwd != null">
-                #{stuPwd,jdbcType=VARCHAR},
+                stu_pwd,
             </if>
-            <if test="stuNum != null">
-                #{stuNum,jdbcType=VARCHAR},
+            <if test="stuNumber != null">
+                stu_number,
             </if>
             <if test="stuPhone != null">
-                #{stuPhone,jdbcType=VARCHAR},
+                stu_phone,
             </if>
             <if test="stuEmail != null">
-                #{stuEmail,jdbcType=VARCHAR},
+                stu_email,
             </if>
             <if test="stuRealName != null">
-                #{stuRealName,jdbcType=VARCHAR},
+                stu_real_name,
             </if>
             <if test="emailCode!= null">
-                #{emailCode,jdbcType=VARCHAR},
+                email_code,
             </if>
             <if test="gender != null">
-                #{gender,jdbcType=INTEGER},
+                gender,
             </if>
             <if test="cardNum != null">
-                #{cardNum ,jdbcType=VARCHAR},
+                card_num ,
             </if>
             <if test="status != null">
-                #{stuatus,jdbcType=INTEGER},
+                status,
             </if>
             <if test="effectiveDate != null">
-                #{effectiveDate,jdbcType=DATE},
+                effective_date,
             </if>
             <if test="birth != null">
-                #{birth,jdbcType=DATE},
+                birth,
             </if>
             <if test="imageUrl != null">
-                #{imageUrl,jdbcType=VARCHAR},
+                image_url,
             </if>
             <if test="description != null">
-                #{description,jdbcType=VARCHAR},
+                description,
             </if>
             <if test="stuType != null">
-                #{stuType,jdbcType=VARCHAR},
+                stu_type,
             </if>
             <if test="stuSchool != null">
-                #{stuSchool,jdbcType=VARCHAR},
+                stu_school,
             </if>
             <if test="stuCollege != null">
-                #{stuCollege,jdbcType=VARCHAR},
+                stu_college,
             </if>
             <if test="stuMajor != null">
-                #{stuMajor,jdbcType=VARCHAR},
+                stu_major,
             </if>
             <if test="stuEducation != null">
-                #{stuEducation,jdbcType=INTEGER},
+                stu_education,
             </if>
             <if test="englishLevel != null">
-                #{englishLevel,jdbcType=INTEGER},
+                english_level,
             </if>
             <if test="perfectStatus != null">
-                #{perfectStatus,jdbcType=INTEGER},
+                perfect_status,
             </if>
             <if test="isDelete != null">
-                #{isDelete,jdbcType=INTEGER},
+                is_delete,
             </if>
             <if test="createTime != null">
-                #{createTime,jdbcType=DATE},
+                create_time,
             </if>
             <if test="lastAccessTime != null">
-                #{lastAccessTime,jdbcType=DATE},
+                last_access_time,
             </if>
             <if test="version != null">
-                #{version,jdbcType=INTEGER},
+                version,
             </if>
-            <if test="clazz.id != null">
-                #{clazz.id,jdbcType=VARCHAR},
+            <if test="clazz != null">
+                fk_class_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -150,8 +150,8 @@
             <if test="stuPwd != null">
                 #{stuPwd,jdbcType=VARCHAR},
             </if>
-            <if test="stuNum != null">
-                #{stuNum,jdbcType=VARCHAR},
+            <if test="stuNumber != null">
+                #{stuNumber,jdbcType=VARCHAR},
             </if>
             <if test="stuPhone != null">
                 #{stuPhone,jdbcType=VARCHAR},
@@ -172,7 +172,7 @@
                 #{cardNum ,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
-                #{stuatus,jdbcType=INTEGER},
+                #{status,jdbcType=INTEGER},
             </if>
             <if test="effectiveDate != null">
                 #{effectiveDate,jdbcType=DATE},
@@ -219,7 +219,7 @@
             <if test="version != null">
                 #{version,jdbcType=INTEGER},
             </if>
-            <if test="clazz.id != null">
+            <if test="clazz != null">
                 #{clazz.id,jdbcType=VARCHAR},
             </if>
         </trim>
@@ -229,13 +229,13 @@
         update t_student
         <set>
             <if test="stuName != null">
-                username = #{stuName,jdbcType=VARCHAR},
+                stu_name = #{stuName,jdbcType=VARCHAR},
             </if>
             <if test="stuPwd != null">
                 stu_pwd= #{stuPwd,jdbcType=VARCHAR},
             </if>
-            <if test="stuNum != null">
-                stu_num= #{stuNum,jdbcType=VARCHAR},
+            <if test="stuNumber != null">
+                stu_number= #{stuNum,jdbcType=VARCHAR},
             </if>
             <if test="stuPhone != null">
                 stu_phone= #{stuPhone,jdbcType=VARCHAR},
