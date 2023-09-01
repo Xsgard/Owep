@@ -681,8 +681,8 @@
 <script>
     $(function () {
         let $treevie = $('.treeview_allocation');
-        let url = "owep/user/stuList/classTreeCheck";
-        let id = 0;
+        let url = "stuList/classTreeCheck";
+        let id = $("#allc_id").val();
         initCheckTree($treevie, url, id);
     });
 
