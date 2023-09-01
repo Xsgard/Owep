@@ -2,15 +2,22 @@ package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.kclm.owep.convert.StudentConvert;
+import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.StudentDTO;
+import com.kclm.owep.entity.Profession;
 import com.kclm.owep.entity.Student;
+import com.kclm.owep.mapper.ClassMapper;
+import com.kclm.owep.mapper.ProfessionMapper;
 import com.kclm.owep.mapper.StudentMapper;
 import com.kclm.owep.service.StudentService;
 import com.kclm.owep.utils.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +32,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private ClassMapper classMapper;
+
+    @Autowired
+    private ProfessionMapper professionMapper;
 
     @Autowired
     private StudentConvert studentConvert;
@@ -56,9 +69,53 @@ public class StudentServiceImpl implements StudentService {
         Integer byStuNum = studentMapper.getByStuNum(student.getStuNumber());
         if (byStuNum > 0)
             throw new BusinessException("学号重复，请检查输入！");
+        student.setCreateTime(LocalDateTime.now());
         int save = studentMapper.save(student);
         if (save < 1)
             throw new BusinessException("保存学生信息失败！");
     }
 
+    @Override
+    public NodeDTO getClazzTreeCheck() {
+//        List<Profession> professionInfo = professionMapper.getProfessionInfo();
+//        if (professionInfo.isEmpty())
+//            throw new BusinessException("没有专业信息！");
+//        List<NodeDTO> dtoList = new ArrayList<>();
+//        NodeDTO dto = new NodeDTO();
+//        dto.setText("大学");
+//        dtoList.add(dto);
+//        professionInfo.forEach(p -> {
+//            List<NodeDTO> nodes = new ArrayList<>();
+//            NodeDTO node = new NodeDTO();
+//            node.setText(p.getInstituteName());
+//            nodes.add(node);
+//
+//            dto.setNodes(nodes);
+//        });
+//        return dtoList;
+
+        NodeDTO dto = new NodeDTO();
+        dto.setText("大学");
+        List<NodeDTO> dtoList = new ArrayList<>();
+        List<Profession> professionInfo = professionMapper.getProfessionInfo();
+        professionInfo.forEach(p -> {
+
+        });
+
+        return dto;
+    }
+
+    @Override
+    public void updateStudent(Student student) {
+        int update = studentMapper.update(student);
+        if (update < 1)
+            throw new BusinessException("修改失败！");
+    }
+
+    @Override
+    public void stuSwitch(Integer id, Integer status) {
+        Student student = studentMapper.getById(id);
+        student.setStatus(status);
+        studentMapper.update(student);
+    }
 }

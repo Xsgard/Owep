@@ -1,5 +1,6 @@
 package com.kclm.owep.service;
 
+import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.StudentDTO;
 import com.kclm.owep.entity.Student;
 
@@ -15,4 +16,10 @@ public interface StudentService {
     List<StudentDTO> getStudentInfo(String order, Integer limit, Integer offset);
 
     void addStudent(Student student);
+
+    NodeDTO getClazzTreeCheck();
+
+    void updateStudent(Student student);
+
+    void stuSwitch(Integer id, Integer status);
 }
