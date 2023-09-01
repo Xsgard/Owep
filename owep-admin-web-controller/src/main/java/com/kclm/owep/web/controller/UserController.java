@@ -1,11 +1,15 @@
 package com.kclm.owep.web.controller;
 
+import com.itextpdf.text.pdf.PRIndirectReference;
 import com.kclm.owep.dto.NodeDTO;
+import com.kclm.owep.dto.StudentDTO;
 import com.kclm.owep.entity.User;
+import com.kclm.owep.service.StudentService;
 import com.kclm.owep.service.UserService;
 import com.kclm.owep.utils.exceptions.BusinessException;
 import com.kclm.owep.utils.util.BeanValidationUtils;
 import com.kclm.owep.utils.util.R;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +27,9 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Autowired
+    private StudentService studentService;
+
     @GetMapping("/adminList")
     public String toAdminList() {
         return "user/adminList";
@@ -39,17 +46,18 @@ public class UserController {
         return R.ok().put("data", userService.getAllAdmin(limit, offset));
     }
 
-    @ResponseBody
     @GetMapping("/adminList/search")
+    @ResponseBody
     public R getUserByNameAndRealName(User user) {
         return R.ok().put("data", userService.selectUserByCond(user));
     }
 
+
     @GetMapping("/stuList/getTable")
     @ResponseBody
-    public R getStudentList() {
-
-        return null;
+    public R getStudentList(String order, Integer limit, Integer offset) {
+        List<StudentDTO> studentInfo = studentService.getStudentInfo(order, limit, offset);
+        return R.ok().put("data", studentInfo);
     }
 
     @GetMapping("/adminList/switch")
@@ -127,4 +135,5 @@ public class UserController {
         }
         return null;
     }
+
 }
