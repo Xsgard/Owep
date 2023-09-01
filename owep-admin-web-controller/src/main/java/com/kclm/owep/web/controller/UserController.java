@@ -72,6 +72,30 @@ public class UserController {
         return R.ok("添加成功！");
     }
 
+    @PostMapping("/stuList/edit")
+    @ResponseBody
+    public R editStudent(@RequestBody Student student) {
+        try {
+            studentService.updateStudent(student);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("修改成功！");
+    }
+
+    @GetMapping("/stuList/switch")
+    @ResponseBody
+    public R stuSwitch(Integer id, Integer status) {
+        studentService.stuSwitch(id, status);
+        return R.ok("修改成功！");
+    }
+
+    @GetMapping("/stuList/classTreeCheck")
+    public R getClassTreeCheck() {
+
+        return null;
+    }
+
     @GetMapping("/adminList/switch")
     @ResponseBody
     public R activeUser(Integer userId, Integer status) {
