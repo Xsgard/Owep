@@ -1,6 +1,5 @@
 package com.kclm.owep.web.controller;
 
-import com.itextpdf.text.pdf.PRIndirectReference;
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.StudentDTO;
 import com.kclm.owep.dto.StudentSuggestDTO;
@@ -9,20 +8,20 @@ import com.kclm.owep.entity.User;
 import com.kclm.owep.service.StudentService;
 import com.kclm.owep.service.UserService;
 import com.kclm.owep.utils.exceptions.BusinessException;
-import com.kclm.owep.utils.util.BeanValidationUtils;
+import com.kclm.owep.utils.exceptions.ParameterWrongException;
 import com.kclm.owep.utils.util.R;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -76,6 +75,39 @@ public class UserController {
             return R.error(e.getMessage());
         }
         return R.ok("添加成功！");
+    }
+
+    //学生-删除
+    @GetMapping("/stuList/delete")
+    @ResponseBody
+    public R deleteStudent(@RequestParam("id") Serializable id) {
+        try {
+            studentService.deleteById(id);
+        } catch (ParameterWrongException e) {
+            //捕获参数异常
+            log.error(e.getMessage());
+            return R.error(e.getMsg());
+        } catch (BusinessException exception) {
+            //捕获业务异常
+            return R.error(exception.getMessage());
+        }
+        return R.ok("删除成功！");
+    }
+
+    @PostMapping("/stuList/deleteByGroup")
+    @ResponseBody
+    public R deleteStuByIds(@RequestBody List<Serializable> ids) {
+        try {
+            studentService.deleteByIds(ids);
+        } catch (ParameterWrongException e) {
+            //捕获参数异常
+            log.error(e.getMessage());
+            return R.error(e.getMsg());
+        } catch (BusinessException exception) {
+            //捕获业务异常
+            return R.error(exception.getMessage());
+        }
+        return R.ok("删除成功！");
     }
 
     //学生-修改
