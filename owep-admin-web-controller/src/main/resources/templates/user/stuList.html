@@ -418,7 +418,7 @@
                         <label class="col-sm-2 control-label">
                             学生姓名</label>
                         <div class="col-sm-8">
-                            <input type="number" name="id" id="id" hidden>
+                            <input type="number" name="id" id="tree_stu_id" hidden>
                             <input type="text" name="name" disabled="" class="form-control" placeholder="">
                         </div>
                     </div>
@@ -679,12 +679,12 @@
 </script>
 <!--树形控制-->
 <script>
-    $(function () {
+    function getTreeView() {
         let $treevie = $('.treeview_allocation');
         let url = "stuList/classTreeCheck";
-        let id = $("#allc_id").val();
+        let id = $("#tree_stu_id").val();
         initCheckTree($treevie, url, id);
-    });
+    }
 
 </script>
 <!--上传文件控制-->
@@ -749,13 +749,14 @@
 
     let url = "/owep/user/stuList/suggest";
     /*班级*/
-    bsSuggest("#testNoBtn", url, "clazz.className");
+    bsSuggest("#testNoBtn", url, "className");
     /*姓名*/
     bsSuggest("#testNoBtn2", url, "stuName");
     /*学校*/
     bsSuggest("#testNoBtn3", url, "stuSchool");
     /*学院*/
     bsSuggest("#testNoBtn4", url, "stuCollege");
+
     /*客服归属*/
     bsSuggest("#testNoBtn5", url, "customerBelongs");
     /*所在班级*/
@@ -834,6 +835,8 @@
                         'click button[title=分配班级]': function (e, value, row, index) {
                             //回显数据
                             $('form[id="form_allocation_1"] input[name="name"]').val(row.stuName);
+                            $("#tree_stu_id").val(row.id);
+                            getTreeView();
                             $('#modal_allocation').modal();
                         },
                     }
@@ -854,13 +857,6 @@
                 let gender = $("input[name='edit_gender']:checked").val();
 
                 console.log("status" + status);
-                // if (status === 1 || status === 0) {
-                //
-                // } else if (status === "on") {
-                //     status = 1;
-                // } else {
-                //     status = 0;
-                // }
                 if (switchery.isChecked())
                     status = 1;
                 else
