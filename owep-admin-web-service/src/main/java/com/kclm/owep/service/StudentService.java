@@ -5,6 +5,7 @@ import com.kclm.owep.dto.StudentDTO;
 import com.kclm.owep.dto.StudentSuggestDTO;
 import com.kclm.owep.entity.Student;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -25,4 +26,8 @@ public interface StudentService {
     void stuSwitch(Integer id, Integer status);
 
     List<StudentSuggestDTO> getStudentSuggestInfo();
+
+    void deleteById(Serializable id);
+
+    void deleteByIds(List<Serializable> ids);
 }

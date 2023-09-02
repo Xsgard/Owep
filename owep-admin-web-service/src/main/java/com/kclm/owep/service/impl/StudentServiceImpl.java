@@ -10,15 +10,17 @@ import com.kclm.owep.entity.*;
 import com.kclm.owep.mapper.*;
 import com.kclm.owep.service.StudentService;
 import com.kclm.owep.utils.exceptions.BusinessException;
+import com.kclm.owep.utils.exceptions.ParameterWrongException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.kclm.owep.utils.constant.Constant.NULL_PARAM;
 
 /**
  * @author Asgard
@@ -44,6 +46,14 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentConvert studentConvert;
 
+    /**
+     * 获取全部学生信息
+     *
+     * @param order  排序关键字
+     * @param limit  每页条数
+     * @param offset 偏移量
+     * @return 学生DTO集合
+     */
     @Override
     public List<StudentDTO> getStudentInfo(String order, Integer limit, Integer offset) {
         PageHelper.offsetPage(offset, limit);
@@ -77,6 +87,11 @@ public class StudentServiceImpl implements StudentService {
             throw new BusinessException("保存学生信息失败！");
     }
 
+    /**
+     * 修改学生信息
+     *
+     * @param student 学生信息
+     */
     @Override
     public void updateStudent(Student student) {
         int update = studentMapper.update(student);
@@ -84,6 +99,12 @@ public class StudentServiceImpl implements StudentService {
             throw new BusinessException("修改失败！");
     }
 
+    /**
+     * 激活、禁用
+     *
+     * @param id     学生Id
+     * @param status 状态
+     */
     @Override
     public void stuSwitch(Integer id, Integer status) {
         Student student = studentMapper.getById(id);
@@ -91,6 +112,11 @@ public class StudentServiceImpl implements StudentService {
         studentMapper.update(student);
     }
 
+    /**
+     * 获取BsSuggest数据
+     *
+     * @return StudentSuggestDTO集合
+     */
     @Override
     public List<StudentSuggestDTO> getStudentSuggestInfo() {
         List<Student> studentSuggest = studentMapper.getStudentSuggest();
@@ -101,6 +127,35 @@ public class StudentServiceImpl implements StudentService {
             suggestDto.setClassName(className);
             return suggestDto;
         }).collect(Collectors.toList());
+    }
+
+    /**
+     * 删除学生信息
+     *
+     * @param id 学生Id
+     */
+    @Override
+    public void deleteById(Serializable id) {
+        if (id == null)
+            throw new ParameterWrongException(NULL_PARAM, "id为空！");
+        int i = studentMapper.deleteById(id);
+        if (i < 1)
+            throw new BusinessException("删除失败！");
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param ids 选中的Id
+     */
+    @Override
+    @Transactional
+    public void deleteByIds(List<Serializable> ids) {
+        if (ids.isEmpty())
+            throw new ParameterWrongException(NULL_PARAM, "ids为空！");
+        int i = studentMapper.deleteSelect(ids);
+        if (i < 1)
+            throw new BusinessException("删除失败！");
     }
 
     /**
