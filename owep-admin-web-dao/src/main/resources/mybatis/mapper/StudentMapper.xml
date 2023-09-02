@@ -55,6 +55,24 @@
         order by create_time ${order}
     </select>
 
+    <!--根据id逻辑删除记录,改变is_delete的状态-->
+    <update id="deleteById" parameterType="java.lang.Integer">
+        update t_student
+        set is_delete=0,
+            status=0
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--逻辑删除查询出来集合里的记录,改变is_delete的状态-->
+    <update id="deleteSelect" parameterType="java.lang.Integer">
+        update t_student set is_delete = 0,status=0
+        where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!--添加-->
     <insert id="save">
         insert into t_student
         <trim prefix="(" suffix=")" suffixOverrides=",">
