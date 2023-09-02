@@ -25,4 +25,10 @@ public interface StudentMapper extends BaseMapper<Student> {
 
     @Select("select * from t_student where id = #{id};")
     Student getById(Integer id);
+
+    @Select("select fk_class_id from t_student where id=#{studentId};")
+    Integer getStudentClassId(Integer studentId);
+
+    @Select("select id,stu_name,stu_college,stu_school,fk_class_id from t_student;")
+    List<Student> getStudentSuggest();
 }
