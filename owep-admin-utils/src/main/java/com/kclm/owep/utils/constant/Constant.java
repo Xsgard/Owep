@@ -8,6 +8,12 @@ package com.kclm.owep.utils.constant;
  */
 public class Constant {
 
+    //参数错误
+    public static final Integer WRONG_PARAM = 501;
+    //参数为空
+    public static final Integer NULL_PARAM = 502;
+
+
     public final static String UTF_8 = "utf-8";
 
     /**
