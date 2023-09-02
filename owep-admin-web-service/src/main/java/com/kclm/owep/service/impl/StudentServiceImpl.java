@@ -2,8 +2,10 @@ package com.kclm.owep.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.kclm.owep.convert.StudentConvert;
+import com.kclm.owep.convert.StudentSuggestConvert;
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.StudentDTO;
+import com.kclm.owep.dto.StudentSuggestDTO;
 import com.kclm.owep.entity.*;
 import com.kclm.owep.mapper.*;
 import com.kclm.owep.service.StudentService;
@@ -26,22 +28,19 @@ import java.util.stream.Collectors;
  */
 @Service
 public class StudentServiceImpl implements StudentService {
-
     @Autowired
     private StudentMapper studentMapper;
-
     @Autowired
     private OrgInstituteMapper orgInstituteMapper;
-
     @Autowired
     private BranchInstituteMapper branchInstituteMapper;
-
     @Autowired
     private ClassMapper classMapper;
-
     @Autowired
     private ProfessionMapper professionMapper;
 
+    @Autowired
+    private StudentSuggestConvert studentSuggestConvert;
     @Autowired
     private StudentConvert studentConvert;
 
@@ -92,11 +91,24 @@ public class StudentServiceImpl implements StudentService {
         studentMapper.update(student);
     }
 
+    @Override
+    public List<StudentSuggestDTO> getStudentSuggestInfo() {
+        List<Student> studentSuggest = studentMapper.getStudentSuggest();
+        return studentSuggest.stream().map(item -> {
+            StudentSuggestDTO suggestDto = studentSuggestConvert.toSuggestDto(item);
+            Integer classId = studentMapper.getStudentClassId(item.getId());
+            String className = classMapper.getClassNameById(classId);
+            suggestDto.setClassName(className);
+            return suggestDto;
+        }).collect(Collectors.toList());
+    }
+
     /**
      * @return 节点数据
      */
     @Override
-    public List<NodeDTO> getClazzTreeCheck() {
+    public List<NodeDTO> getClazzTreeCheck(Integer studentId) {
+        Integer classId = studentMapper.getStudentClassId(studentId);
         //获取所有组织机构
         List<OrgInstitute> allOrgInstitute = orgInstituteMapper.getAllOrgInstitute();
         //遍历组织机构 --节点 第一层数据（组织机构）
@@ -137,6 +149,10 @@ public class StudentServiceImpl implements StudentService {
                         nodeForClazz.setText(c.getClassName());
                         //设置班级Id
                         nodeForClazz.setTags(c.getId());
+                        //班级Id相同
+                        if (c.getId().equals(classId))
+                            //设置选中
+                            nodeForClazz.nodeChecked();
                         return nodeForClazz;
                     }).collect(Collectors.toList());
                     //设置 班级层节点到专业层节点的Nodes

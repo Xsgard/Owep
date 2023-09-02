@@ -2,6 +2,7 @@ package com.kclm.owep.service;
 
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.StudentDTO;
+import com.kclm.owep.dto.StudentSuggestDTO;
 import com.kclm.owep.entity.Student;
 
 import java.util.List;
@@ -17,9 +18,11 @@ public interface StudentService {
 
     void addStudent(Student student);
 
-    List<NodeDTO> getClazzTreeCheck();
+    List<NodeDTO> getClazzTreeCheck(Integer studentId);
 
     void updateStudent(Student student);
 
     void stuSwitch(Integer id, Integer status);
+
+    List<StudentSuggestDTO> getStudentSuggestInfo();
 }
