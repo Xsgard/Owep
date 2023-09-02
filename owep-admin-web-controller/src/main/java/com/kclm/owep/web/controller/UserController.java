@@ -51,7 +51,7 @@ public class UserController {
     }
 
     //管理员-搜索
-    @GetMapping("/adminList/search")
+    @PostMapping("/adminList/search")
     @ResponseBody
     public R getUserByNameAndRealName(User user) {
         return R.ok().put("data", userService.selectUserByCond(user));
