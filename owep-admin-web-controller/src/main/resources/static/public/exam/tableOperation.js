@@ -165,7 +165,7 @@ function promptMessage(url, title, text, btnText) {
 }
 
 /*查询记录操作*/
-function queryRecords(eventParentName, dataList, success) {
+function queryRecords(eventParentName, dataList, url) {
     let queryList = dataList;
     let queryMap = new Map();
     let queryNullList = new Array()
@@ -183,8 +183,8 @@ function queryRecords(eventParentName, dataList, success) {
     formData = formData.substr(0, formData.length - 1);
     //发送ajax 查询
     $.ajax({
-        url: "/owep/user/adminList/search",
-        method: "get",
+        url: url,
+        method: "post",
         async: true,
         //sidePagination:'client',
         data: formData,

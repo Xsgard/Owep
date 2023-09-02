@@ -735,7 +735,8 @@
 
         $('.query').click(function () {
             let dataList = new Array('class', 'name', 'school', 'college', 'start', 'end');
-            queryRecords('form[id="stu_query"]', dataList);
+            let url = "/owep/user/stuList/search"
+            queryRecords('form[id="stu_query"]', dataList, url);
         });
 
         /*导出按钮操作*/
