@@ -19,4 +19,10 @@ public interface ClassMapper extends BaseMapper<Clazz> {
     @Select("select id,class_number,class_name from t_class where is_delete=1" +
             " and class_status=1 and fk_profession_id=#{professionId} ;")
     List<Clazz> getClazzInfo(Integer professionId);
+
+    @Select("select class_name from t_class where id=#{classId};")
+    String getClassNameById(Integer classId);
+
+    @Select("select class_name from t_class where id=#{classId};")
+    Clazz getClassById(Integer classId);
 }
