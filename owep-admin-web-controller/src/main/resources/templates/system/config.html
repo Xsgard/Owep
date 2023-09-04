@@ -9,10 +9,11 @@
 
     <title>智慧教育平台-系统配置</title>
     <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <meta name="description"
+          content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
 
     <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html" />
+    <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
 
     <link rel="shortcut icon" href="../../static/favicon.ico"
@@ -27,8 +28,8 @@
           th:href="@{/static/css/style.css(v='4.1.0')}" rel="stylesheet">
 
     <!--文件上传-->
-  <link href="../../static/css/plugins/webuploader/webuploader.css"
-        th:href="@{../../static/css/plugins/webuploader/webuploader.css}" rel="stylesheet">
+    <link href="../../static/css/plugins/webuploader/webuploader.css"
+          th:href="@{../../static/css/plugins/webuploader/webuploader.css}" rel="stylesheet">
 
     <!--图片剪切-->
     <link href="../../static/css/plugins/cropper/cropper.min.css"
@@ -79,10 +80,11 @@
 
                 <div class="form-group form-inline">
                     <div class="row">
-                    <label class="col-md-2 wrapper " style="font-weight:bold; margin-top: 5px">系统名称:</label>
-                    <div class="input-group col-md-3">
-                        <input type="text" class="form-control" name="systemname" value="苏州青英培训学校(乐码学院) ">
-                    </div>
+                        <label class="col-md-2 wrapper " style="font-weight:bold; margin-top: 5px">系统名称:</label>
+                        <div class="input-group col-md-3">
+                            <input type="text" class="form-control" name="systemname"
+                                   value="苏州青英培训学校(乐码学院) ">
+                        </div>
                     </div>
                 </div>
 
@@ -106,12 +108,15 @@
                     <div class="row">
                         <label class="col-md-2 wrapper " style=" margin-top: 5px">登录页LOGO:</label>
                         <div class="col-md-5">
-                            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#loginModal">裁剪图片</button>
+                            <button type="button" class="btn btn-info btn-md" data-toggle="modal"
+                                    data-target="#loginModal">裁剪图片
+                            </button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2" style="background-color: #fff">
-                            <img src="../../static/img/getImage.png" id="loginLogo"  width="200" height="50" >
+                            <img src="../../static/img/getImage.png" id="loginLogo" width="200" height="50"
+                                 th:src="@{../../static/img/getImage.png}">
                         </div>
                     </div>
                 </div>
@@ -120,12 +125,15 @@
                     <div class="row">
                         <label class="col-md-2 wrapper " style=" margin-top: 5px">系统页LOGO:</label>
                         <div class="col-md-5">
-                            <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">裁剪图片</button>
+                            <button type="button" class="btn btn-info btn-md" data-toggle="modal"
+                                    data-target="#myModal">裁剪图片
+                            </button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2" style="background-color: #fff">
-                            <img src="../../static/img/sysImage.png" id="sysshow2"  width="200" height="50" >
+                            <img src="../../static/img/sysImage.png" id="sysshow2" width="200" height="50"
+                                 th:src="@{../../static/img/sysImage.png}">
                         </div>
                     </div>
                 </div>
@@ -148,7 +156,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="image-crop">
-                            <img  class="loginimg" src="../../static/img/getImage.png">
+                            <img class="loginimg" src="../../static/img/getImage.png">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -192,13 +200,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="image-crop">
-                            <img src="../../static/img/getImage.png">
+                            <img src="../../static/img/getImage.png"
+                                 th:src="@{../../static/img/getImage.png}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <h4>图片预览：</h4>
                         <div style="width: 200px;height: 100px">
-                        <div class="img-preview img-preview-sm"></div>
+                            <div class="img-preview img-preview-sm"></div>
                         </div>
                         <div class="btn-group" style="margin-top: 5px">
                             <label title="上传图片" for="inputImage" class="btn btn-primary">
@@ -246,10 +255,10 @@
     $(function () {
         //保存按钮点击事件
         $("#save").click(function () {
-            alert("系统名称:"+$("input[name=systemname]").val()+"\n版权信息："+$("input[name=verinfo]").val());
+            alert("系统名称:" + $("input[name=systemname]").val() + "\n版权信息：" + $("input[name=verinfo]").val());
             console.log("点击了保存按钮!");
-            console.log("系统名称:"+$("input[name=systemname]").val());
-            console.log("版权信息:"+$("input[name=verinfo]").val());
+            console.log("系统名称:" + $("input[name=systemname]").val());
+            console.log("版权信息:" + $("input[name=verinfo]").val());
         });
         //登录页模态框保存按钮
         $("#loginSave").click(function () {
@@ -269,8 +278,8 @@
         var $image = $(".image-crop > img[class='loginimg']")
         $($image).cropper({
             //aspectRatio: 16/9,
-            width:230,
-            height:50,
+            width: 230,
+            height: 50,
             guides: false,   //是否显示裁剪框虚线
             preview: ".img-preview",
             done: function (data) {
@@ -336,8 +345,8 @@
         var $image = $(".image-crop > img")
         $($image).cropper({
             //aspectRatio: 16/9,
-            width:230,
-            height:50,
+            width: 230,
+            height: 50,
             guides: false,   //是否显示裁剪框虚线
             preview: ".img-preview",
             done: function (data) {
@@ -393,7 +402,7 @@
         });
 
         $("#setDrag").click(function () {
-           // $image.cropper("setDragMode", "crop");
+            // $image.cropper("setDragMode", "crop");
             alert("裁剪成功！");
 
         });
