@@ -16,6 +16,9 @@
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
 
+    <!-- 弹出框插件 -->
+    <link href="../../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/sweetalert/sweetalert.css }">
     <link rel="shortcut icon" href="../../static/favicon.ico"
           th:href="@{/static/favicon.ico}">
     <link href="../../static/css/bootstrap.min.css?v=3.3.6"
@@ -82,7 +85,7 @@
                     <div class="row">
                         <label class="col-md-2 wrapper " style="font-weight:bold; margin-top: 5px">系统名称:</label>
                         <div class="input-group col-md-3">
-                            <input type="text" class="form-control" name="systemname"
+                            <input type="text" class="form-control" id="systemname" name="systemname"
                                    value="苏州青英培训学校(乐码学院) ">
                         </div>
                     </div>
@@ -92,7 +95,8 @@
                     <div class="row">
                         <label class="col-md-2 wrapper " style="margin-top: 5px">版权信息:</label>
                         <div class="input-group col-md-3">
-                            <input type="text" class="form-control" name="verinfo" value="苏州青英培训学校(乐码学院) ">
+                            <input type="text" class="form-control" id="verinfo" name="verinfo"
+                                   value="苏州青英培训学校(乐码学院) ">
                         </div>
                     </div>
                 </div>
@@ -115,8 +119,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2" style="background-color: #fff">
-                            <img src="../../static/img/getImage.png" id="loginLogo" width="200" height="50"
-                                 th:src="@{/static/img/getImage.png}">
+                            <img id="loginLogo" width="200" height="50" th:src="@{/static/img/getImage.png}">
                         </div>
                     </div>
                 </div>
@@ -132,8 +135,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2" style="background-color: #fff">
-                            <img src="../../static/img/sysImage.png" id="sysshow2" width="200" height="50"
-                                 th:src="@{/static/img/sysImage.png}">
+                            <img id="sysshow2" width="200" height="50" th:src="@{/static/img/sysImage.png}">
                         </div>
                     </div>
                 </div>
@@ -156,14 +158,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="image-crop">
-                            <img class="loginimg" src="../../static/img/getImage.png"
-                                 th:src="@{/static/img/getImage.png}">
+                            <img class="loginimg" th:src="@{/static/img/getImage.png}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <h4>图片预览：</h4>
                         <div style="width: 200px;height: 100px">
-                            <div class="img-preview img-preview-sm"></div>
+                            <div class="img-preview login-img img-preview-sm"></div>
                         </div>
                         <div class="btn-group" style="margin-top: 5px">
                             <label title="上传图片" for="loginImage" class="btn btn-primary">
@@ -201,14 +202,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="image-crop">
-                            <img src="../../static/img/sysImage.png"
-                                 th:src="@{/static/img/sysImage.png}">
+                            <img id="sysImg" th:src="@{/static/img/sysImage.png}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <h4>图片预览：</h4>
                         <div style="width: 200px;height: 100px">
-                            <div class="img-preview img-preview-sm"></div>
+                            <div class="img-preview sys-img img-preview-sm"></div>
                         </div>
                         <div class="btn-group" style="margin-top: 5px">
                             <label title="上传图片" for="inputImage" class="btn btn-primary">
@@ -243,7 +243,9 @@
 <!-- 自定义js -->
 <script src="../../static/js/content.js?v=1.0.0"
         th:src="@{/static/js/content.js(v='1.0.0')}"></script>
-
+<!-- 弹出框插件 -->
+<script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js }"></script>
 <!--文件上传-->
 <script src="../../static/js/plugins/webuploader/webuploader.js"
         th:src="@{/static/js/plugins/webuploader/webuploader.js}"></script>
@@ -254,6 +256,37 @@
 
 <script>
     $(function () {
+        $.ready(
+            $.ajax({
+                url: "/owep/system/getConfigInfo",
+                method: "get",
+                success: function (data) {
+                    if (data.code === 0) {
+                        $("#systemname").removeAttr("value")
+                        $("#systemname").val(data.data.systemName)
+
+                        $("#verinfo").removeAttr("value")
+                        $("#verinfo").val(data.data.copyName)
+
+                        $('img[th\\:src]').removeAttr('th:src');
+                        $('#loginLogo').attr('th:src', "/static/img/" + data.data.loginPageLogo)
+                        $('.loginimg').attr('th:src', "/static/img/" + data.data.loginPageLogo)
+
+                        $('#sysImg').attr('src', "/static/img/" + data.data.systemPageLogo)
+                        $('.sys-img').attr('src', "/static/img/" + data.data.systemPageLogo)
+                        $('.sysshow2').attr('src', "/static/img/" + data.data.systemPageLogo)
+
+                    } else {
+                        swal("加载失败！", "请联系管理员！", "info")
+                    }
+                },
+                error: function (data) {
+
+                }
+            })
+        )
+    })
+    $(function () {
         //保存按钮点击事件
         $("#save").click(function () {
             alert("系统名称:" + $("input[name=systemname]").val() + "\n版权信息：" + $("input[name=verinfo]").val());
@@ -262,22 +295,22 @@
             console.log("版权信息:" + $("input[name=verinfo]").val());
         });
         //登录页模态框保存按钮
-        $("#loginSave").click(function() {
+        $("#loginSave").click(function () {
             var imagePreview = $(".img-preview img");
             //这里就是获取那个被转换成 Base64的图片数据
             var imageSource = imagePreview.attr("src");
-            console.log("imageSource------>"+imageSource);
+            console.log("imageSource------>" + imageSource);
             // 创建一个 Blob 对象【此函数详见dataURItoBlob的代码，这是一个自定义的处理函数]
             var blob = dataURItoBlob(imageSource);
             console.log(blob);
             // 创建一个文件对象
-            var file = new File([blob], 'cropped_image.png', { type: 'image/png' });
+            var file = new File([blob], 'cropped_image.png', {type: 'image/png'});
 
             let formdata = new FormData();
             formdata.append("imageSource", file, file.name);
 
             $.ajax({
-                url:"/owep/system/img.do",
+                url: "/owep/system/img.do",
                 method: 'post',
                 async: true,
                 data: formdata,
@@ -286,13 +319,31 @@
                 processData: false,
                 success: function (data) {
                     //这里请自行完成
+                    if (data.code === 0) {
+                        setTimeout(function () {
+                            swal("上传成功！", "", "success")
+                        }, 100)
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500)
+                    } else {
+                        setTimeout(function () {
+                            swal("上传失败！", data.msg, "info")
+                        }, 100)
+                    }
                 },
                 error: function (jqXHR) {
-                    console.log(jqXHR);
+                    setTimeout(function () {
+                        swal("上传失败！", "", "info")
+                    }, 100)
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1200)
                 }
             })
             console.log("保存登录页模态框的信息");
         });
+
         // 将 Base64 数据转换为 Blob 对象
         function dataURItoBlob(dataURI) {
             //atob函数是JavaScript中的方法之一，用于解码Base64编码的字符串，并从dataURI中把前面的头部信息去掉
@@ -308,8 +359,9 @@
                 ia[i] = byteString.charCodeAt(i);
             }
             //把处理过后的字节数据，使用Blob对象进行封装。
-            return new Blob([ab], { type: mimeString });
+            return new Blob([ab], {type: mimeString});
         }
+
         //系统页模态框保存按钮
         $("#sysSave").click(function () {
             console.log("保存系统页模态框的信息");
@@ -327,7 +379,7 @@
             width: 230,
             height: 50,
             guides: false,   //是否显示裁剪框虚线
-            preview: ".img-preview",
+            preview: ".login-img",
             done: function (data) {
                 // 输出结果
             }
@@ -394,7 +446,7 @@
             width: 230,
             height: 50,
             guides: false,   //是否显示裁剪框虚线
-            preview: ".img-preview",
+            preview: ".sys-img",
             done: function (data) {
                 // 输出结果
             }
