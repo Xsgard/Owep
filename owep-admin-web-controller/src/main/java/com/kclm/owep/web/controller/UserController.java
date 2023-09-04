@@ -11,6 +11,7 @@ import com.kclm.owep.utils.exceptions.BusinessException;
 import com.kclm.owep.utils.exceptions.ParameterWrongException;
 import com.kclm.owep.utils.util.R;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -125,7 +126,7 @@ public class UserController {
     //学生-状态修改
     @GetMapping("/stuList/switch")
     @ResponseBody
-    public R stuSwitch(Integer id, Integer status) {
+    public R stuSwitch(@Param("id") Integer id, @Param("status") Integer status) {
         studentService.stuSwitch(id, status);
         return R.ok("修改成功！");
     }
@@ -163,6 +164,7 @@ public class UserController {
     @ResponseBody
     public R addUser(@RequestBody User user) {
         try {
+            user.setUserType(1);
             userService.saveUser(user);
         } catch (BusinessException e) {
             return R.error(e.getMessage());
