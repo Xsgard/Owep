@@ -63,7 +63,6 @@ public class StudentServiceImpl implements StudentService {
                     StudentDTO dto = studentConvert.toDto(s);
                     dto.setGenderText(s.getGender() == null ? "" :
                             s.getGender() == 1 ? "男" : s.getGender() == 0 ? "女" : "未知");
-//                    dto.setStuPwd(s.getStuPwd());
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -119,9 +118,12 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public List<StudentSuggestDTO> getStudentSuggestInfo() {
+        //查询学生数据
         List<Student> studentSuggest = studentMapper.getStudentSuggest();
         return studentSuggest.stream().map(item -> {
+            //DTO
             StudentSuggestDTO suggestDto = studentSuggestConvert.toSuggestDto(item);
+            //获取到课程Id
             Integer classId = studentMapper.getStudentClassId(item.getId());
             String className = classMapper.getClassNameById(classId);
             suggestDto.setClassName(className);
