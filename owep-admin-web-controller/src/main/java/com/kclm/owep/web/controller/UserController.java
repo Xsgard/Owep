@@ -44,6 +44,12 @@ public class UserController {
         return "user/stuList";
     }
 
+    //跳转至老师管理页面
+    @GetMapping("/teacherList")
+    public String toTeacherList() {
+        return "user/teacherList";
+    }
+
     //管理员-获取全部信息
     @ResponseBody
     @GetMapping("/adminList/getTable")
