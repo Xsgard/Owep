@@ -295,7 +295,7 @@
                 stu_school= #{stuSchool,jdbcType=VARCHAR},
             </if>
             <if test="stuCollege != null and stuCollege !=''">
-                stu_college #{stuCollege,jdbcType=VARCHAR},
+                stu_college= #{stuCollege,jdbcType=VARCHAR},
             </if>
             <if test="stuMajor != null and stuMajor !=''">
                 stu_major= #{stuMajor,jdbcType=VARCHAR},
