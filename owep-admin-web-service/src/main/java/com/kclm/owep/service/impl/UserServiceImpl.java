@@ -119,14 +119,18 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 查询所有的User
+     * 查询所有的管理员
+     * userType=1
      *
      * @return
      */
     @Override
     public List<User> getAllAdmin(Integer limit, Integer offset) {
         PageHelper.offsetPage(offset, limit);
-        return userMapper.selectAll();
+        return userMapper.selectAll()
+                .stream()
+                .filter(item -> item.getUserType() != null && item.getUserType() == 1)
+                .collect(Collectors.toList());
     }
 
     /**
