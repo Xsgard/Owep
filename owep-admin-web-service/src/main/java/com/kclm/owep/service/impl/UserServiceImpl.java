@@ -284,7 +284,7 @@ public class UserServiceImpl implements UserService {
         map.put("effectiveDate", user.getEffectiveDate() == null ? "" :
                 String.format(user.getEffectiveDate().toString(), "yyyy-MM-dd")
                         .replace("T", ""));
-        map.put("status", (user.getStatus() == 1 ? "启用" : "禁用"));
+        map.put("status", (user.getStatus() == null ? "禁用" : user.getStatus() == 1 ? "启用" : "禁用"));
         map.put("title", user.getTitle() == null ? "" : user.getTitle());
         //处理最后登录时间格式
         map.put("lastAccessTime", user.getLastAccessTime() == null ? "" :
