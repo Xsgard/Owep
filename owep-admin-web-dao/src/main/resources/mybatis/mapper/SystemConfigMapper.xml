@@ -29,7 +29,7 @@
         login_count
     </sql>
 
-    <insert id="save" parameterType="">
+    <insert id="save">
         insert into t_system_config
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="systemName!=null and systemName !=''">
