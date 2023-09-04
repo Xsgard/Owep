@@ -31,12 +31,12 @@ public class LoginController {
 
     @GetMapping("/login.html")
     public String _toLoginPage(){
-        return "/login.html";
+        return "/login";
     }
 
     @GetMapping("/login")
     public String toLoginPage(){
-        return "/login.html";
+        return "/login";
     }
 
     @PostMapping("/login")
@@ -52,7 +52,7 @@ public class LoginController {
             //
             session.setAttribute("LOGIN_USER", user);
         }
-        return "/index.html";
+        return "/index";
     }
 
 
@@ -79,7 +79,7 @@ public class LoginController {
         menuIds.forEach(menuId->{
             MenuDTO menuDTO = menuService.selectById(menuId);
             List<MenuDTO> subMenus = menuDTO.getSubMenus();
-            if (subMenus!=null&&subMenus.size()>0){//查询的【菜单】包括二级菜单，检查子菜单集排除二级菜单
+            if (subMenus!=null&& !subMenus.isEmpty()){//查询的【菜单】包括二级菜单，检查子菜单集排除二级菜单
                 menuSet.add(menuDTO);//存入
             }
 
@@ -90,7 +90,7 @@ public class LoginController {
             Set<String> authorityWords = new HashSet<>();
             authentication.getAuthorities().forEach(authority -> authorityWords.add(authority.getAuthority()));//取出授权关键字并以Set存放以筛除重复
             System.out.println("用户拥有的授权字段：" + authorityWords);
-            if(authorityWords.size()==0) System.out.println("用户没有得到授权字段");
+            if(authorityWords.isEmpty()) System.out.println("用户没有得到授权字段");
         }//todo 测试用
 
         return menuSet.toArray();
