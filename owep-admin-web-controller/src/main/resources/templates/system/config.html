@@ -29,11 +29,11 @@
 
     <!--文件上传-->
     <link href="../../static/css/plugins/webuploader/webuploader.css"
-          th:href="@{../../static/css/plugins/webuploader/webuploader.css}" rel="stylesheet">
+          th:href="@{/static/css/plugins/webuploader/webuploader.css}" rel="stylesheet">
 
     <!--图片剪切-->
     <link href="../../static/css/plugins/cropper/cropper.min.css"
-          th:href="@{../../static/css/plugins/cropper/cropper.min.css}" rel="stylesheet">
+          th:href="@{/static/css/plugins/cropper/cropper.min.css}" rel="stylesheet">
 
     <style>
         .fileinput-button {
@@ -116,7 +116,7 @@
                     <div class="row">
                         <div class="col-md-2" style="background-color: #fff">
                             <img src="../../static/img/getImage.png" id="loginLogo" width="200" height="50"
-                                 th:src="@{../../static/img/getImage.png}">
+                                 th:src="@{/static/img/getImage.png}">
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                     <div class="row">
                         <div class="col-md-2" style="background-color: #fff">
                             <img src="../../static/img/sysImage.png" id="sysshow2" width="200" height="50"
-                                 th:src="@{../../static/img/sysImage.png}">
+                                 th:src="@{/static/img/sysImage.png}">
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="image-crop">
-                            <img class="loginimg" src="../../static/img/getImage.png">
+                            <img class="loginimg" src="../../static/img/getImage.png"
+                                 th:src="@{/static/img/getImage.png}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -200,8 +201,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="image-crop">
-                            <img src="../../static/img/getImage.png"
-                                 th:src="@{../../static/img/getImage.png}">
+                            <img src="../../static/img/sysImage.png"
+                                 th:src="@{/static/img/sysImage.png}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -245,11 +246,11 @@
 
 <!--文件上传-->
 <script src="../../static/js/plugins/webuploader/webuploader.js"
-        th:src="@{../../static/js/plugins/webuploader/webuploader.js}"></script>
+        th:src="@{/static/js/plugins/webuploader/webuploader.js}"></script>
 
 <!--图片裁剪-->
 <script src="../../static/public/system/cropper/cropper.js"
-        th:src="@{../../static/public/system/cropper/cropper.js}"></script>
+        th:src="@{/static/public/system/cropper/cropper.js}"></script>
 
 <script>
     $(function () {
@@ -261,9 +262,54 @@
             console.log("版权信息:" + $("input[name=verinfo]").val());
         });
         //登录页模态框保存按钮
-        $("#loginSave").click(function () {
+        $("#loginSave").click(function() {
+            var imagePreview = $(".img-preview img");
+            //这里就是获取那个被转换成 Base64的图片数据
+            var imageSource = imagePreview.attr("src");
+            console.log("imageSource------>"+imageSource);
+            // 创建一个 Blob 对象【此函数详见dataURItoBlob的代码，这是一个自定义的处理函数]
+            var blob = dataURItoBlob(imageSource);
+            console.log(blob);
+            // 创建一个文件对象
+            var file = new File([blob], 'cropped_image.png', { type: 'image/png' });
+
+            let formdata = new FormData();
+            formdata.append("imageSource", file, file.name);
+
+            $.ajax({
+                url:"/owep/system/img.do",
+                method: 'post',
+                async: true,
+                data: formdata,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    //这里请自行完成
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR);
+                }
+            })
             console.log("保存登录页模态框的信息");
         });
+        // 将 Base64 数据转换为 Blob 对象
+        function dataURItoBlob(dataURI) {
+            //atob函数是JavaScript中的方法之一，用于解码Base64编码的字符串，并从dataURI中把前面的头部信息去掉
+            var byteString = atob(dataURI.split(',')[1]);
+            //从dataURI中取出MIME类型，如：image/png
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            //把经过 atob解码后的字符数据用一个 ArrayBuffer 存储，以便进行映射
+            var ab = new ArrayBuffer(byteString.length);
+            //Uint8Array是JavaScript中的一种类型，它表示一个8位无符号整数值的数组,主要用来处理二进制数据
+            var ia = new Uint8Array(ab);
+            //通过循环来依次处理每个字符，转换成8位的字节数据
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            //把处理过后的字节数据，使用Blob对象进行封装。
+            return new Blob([ab], { type: mimeString });
+        }
         //系统页模态框保存按钮
         $("#sysSave").click(function () {
             console.log("保存系统页模态框的信息");
