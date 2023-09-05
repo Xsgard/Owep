@@ -57,11 +57,74 @@ public class UserController {
         return R.ok().put("data", userService.getAllAdmin(limit, offset));
     }
 
+    //老师-获取老师信息
     @GetMapping("/teacherList/getTable")
     @ResponseBody
     public R getTeacherList(Integer limit, Integer offset) {
         List<User> allTeacher = userService.getAllTeacher(limit, offset);
         return R.ok().put("data", allTeacher);
+    }
+
+    //老师-添加
+    @PostMapping("/teacherList/addTeacher")
+    @ResponseBody
+    public R addTeacher(User user) {
+        try {
+            user.setUserType(2);
+            userService.saveUser(user);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok();
+    }
+
+    //老师-修改状态
+    @GetMapping("/teacherList/switch")
+    @ResponseBody
+    public R activeTeacher(Integer userId, Integer status) {
+        try {
+            userService.activeUser(userId, status);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("状态修改成功！");
+    }
+
+    //老师-修改
+    @PostMapping("/adminList/edit")
+    @ResponseBody
+    public R editTeacher(@RequestBody User user) {
+        try {
+            user.setUserType(2);
+            userService.updateUser(user);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("修改成功！");
+    }
+
+    //老师-删除
+    @GetMapping("/teacherList/delete")
+    @ResponseBody
+    public R deleteTeacherById(Integer id) {
+        try {
+            userService.deleteById(id);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("修改成功！");
+    }
+
+    //老师-批量删除老师
+    @PostMapping("/teacherList/deleteByGroup")
+    @ResponseBody
+    public R deleteTeacherByIds(@RequestBody List<Serializable> ids) {
+        try {
+            userService.deleteByIds(ids);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("删除成功！");
     }
 
     //管理员-搜索
@@ -190,6 +253,7 @@ public class UserController {
     @ResponseBody
     public R editUser(@RequestBody User user) {
         try {
+            user.setUserType(1);
             userService.updateUser(user);
         } catch (BusinessException e) {
             return R.error(e.getMessage());
