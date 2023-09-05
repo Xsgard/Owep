@@ -57,6 +57,13 @@ public class UserController {
         return R.ok().put("data", userService.getAllAdmin(limit, offset));
     }
 
+    @GetMapping("/teacherList/getTable")
+    @ResponseBody
+    public R getTeacherList(Integer limit, Integer offset) {
+        List<User> allTeacher = userService.getAllTeacher(limit, offset);
+        return R.ok().put("data", allTeacher);
+    }
+
     //管理员-搜索
     @PostMapping("/adminList/search")
     @ResponseBody
