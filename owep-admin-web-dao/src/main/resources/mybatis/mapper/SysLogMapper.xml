@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--用户表的SQL操作-->
+<mapper namespace="com.kclm.owep.mapper.SystemConfigMapper">
+
+    <!--实体属性对应相应的表字段-->
+    <resultMap id="BaseResultMap" type="com.kclm.owep.entity.SystLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="moduleName" jdbcType="VARCHAR" property="module_name"/>
+        <result column="menuName" jdbcType="VARCHAR" property="menu_name"/>
+        <result column="ipAddr" jdbcType="VARCHAR" property="ip_addr"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="requestUrl" jdbcType="VARCHAR" property="request_url"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="loginUserName" jdbcType="VARCHAR" property="loginUserName"/>
+        <result column="lastAccessTime" jdbcType="DATE" property="last_access_time"/>
+        <result column="createTime" jdbcType="DATE" property="create_time"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+    </resultMap>
+    <!--封装表字段名，方便后续简写使用-->
+    <sql id="Base_Column_List">
+        id,
+        title,
+        module_name,
+        menu_name,
+        ip_addr,
+        method,
+        request_url,
+        type,
+        login_user_name,
+        last_access_time,
+        create_time,
+        version
+    </sql>
+
+    <insert id="save">
+        insert into t_syslog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title!=null and title !=''">
+                title,
+            </if>
+            <if test="moduleName!=null and moduleName !=''">
+                module_name,
+            </if>
+            <if test="menuName !=null and menuName !=''">
+                menu_name,
+            </if>
+            <if test="ipAddr!=null and ipAddr !=''">
+                ip_addr,
+            </if>
+            <if test="method!=null and method!=''">
+                method,
+            </if>
+            <if test="requestUrl !=null and requestUrl!=''">
+                request_url,
+            </if>
+            <if test="type !=null and type!=''">
+                type,
+            </if>
+            <if test="loginUserName !=null and loginUserName!=''">
+                login_user_name,
+            </if>
+            <if test="lastAccessTime!=null">
+                last_access_time,
+            </if>
+            <if test="createTime!=null">
+                create_time,
+            </if>
+            <if test="version !=null">
+                version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="systemName!=null and systemName !=''">
+                system_name =#{system_name},
+            </if>
+            <if test="copyName!=null and copyName !=''">
+                copy_name=#{copy_name},
+            </if>
+            <if test="loginPageLogo !=null and loginPageLogo !=''">
+                login_page_logo=#{login_page_logo},
+            </if>
+            <if test="systemPageLogo!=null and systemPageLogo !=''">
+                system_page_logo=#{system_page_logo},
+            </if>
+            <if test="version!=null">
+                version=#{version},
+            </if>
+            <if test="createTime !=null">
+                create_time=#{create_time},
+            </if>
+            <if test="lastAccessTime!=null">
+                last_access_time=#{last_access_time},
+            </if>
+            <if test="loginCount !=null">
+                login_count=#{login_count},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.kclm.owep.entity.SystemConfig">
+        update t_system_config
+        <set>
+            <if test="systemName!=null and systemName !=''">
+                system_name =#{system_name},
+            </if>
+            <if test="copyName!=null and copyName !=''">
+                copy_name=#{copy_name},
+            </if>
+            <if test="loginPageLogo !=null and loginPageLogo !=''">
+                login_page_logo=#{login_page_logo},
+            </if>
+            <if test="systemPageLogo!=null and systemPageLogo !=''">
+                system_page_logo=#{system_page_logo},
+            </if>
+            <if test="version!=null">
+                version=#{version},
+            </if>
+            <if test="createTime !=null">
+                create_time=#{create_time},
+            </if>
+            <if test="lastAccessTime!=null">
+                last_access_time=#{last_access_time},
+            </if>
+            <if test="loginCount !=null">
+                login_count=#{login_count},
+            </if>
+        </set>
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>
