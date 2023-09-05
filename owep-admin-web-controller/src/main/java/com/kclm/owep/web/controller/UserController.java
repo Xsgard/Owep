@@ -29,6 +29,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    public static final Integer ADMIN = 1;
+    public static final Integer TEACHER = 2;
+    public static final Integer ADVISOR = 3;
     @Resource
     private UserService userService;
 
@@ -450,7 +453,7 @@ public class UserController {
     @ResponseBody
     public R exportUserInfo(HttpServletResponse response) {
         try {
-            userService.exportUserInfo(response,"管理员信息");
+            userService.exportUserInfo(response, "管理员信息", ADMIN);
         } catch (BusinessException e) {
             return R.error(e.getMessage());
         } catch (IOException e) {
@@ -464,7 +467,7 @@ public class UserController {
     @ResponseBody
     public R exportTeacherInfo(HttpServletResponse response) {
         try {
-            userService.exportUserInfo(response,"教师信息");
+            userService.exportUserInfo(response, "教师信息", TEACHER);
         } catch (BusinessException e) {
             return R.error(e.getMessage());
         } catch (IOException e) {
@@ -478,7 +481,7 @@ public class UserController {
     @ResponseBody
     public R exportAdvisorInfo(HttpServletResponse response) {
         try {
-            userService.exportUserInfo(response,"咨询师信息");
+            userService.exportUserInfo(response, "咨询师信息", ADVISOR);
         } catch (BusinessException e) {
             return R.error(e.getMessage());
         } catch (IOException e) {
