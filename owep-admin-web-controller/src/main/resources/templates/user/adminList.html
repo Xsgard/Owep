@@ -433,7 +433,10 @@
             let status = $("#edit_status").val();
 
             console.log("status:" + status);
-
+            if (switchery.isChecked())
+                status = 1;
+            else
+                status = 0;
             let userData = {
                 id: id,
                 userName: userName,
@@ -673,7 +676,7 @@
                     userId: userId,
                     status: status
                 };
-                //Todo Ajax
+                //Ajax
                 $.ajax({
                     url: "/owep/user/adminList/switch",
                     method: "get",
