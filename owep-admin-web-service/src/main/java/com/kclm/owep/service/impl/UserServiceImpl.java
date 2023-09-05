@@ -5,6 +5,7 @@ import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Permission;
 import com.kclm.owep.entity.User;
+import com.kclm.owep.mapper.GroupMapper;
 import com.kclm.owep.mapper.StudentMapper;
 import com.kclm.owep.mapper.UserMapper;
 import com.kclm.owep.service.GroupService;
@@ -13,12 +14,15 @@ import com.kclm.owep.service.RoleService;
 import com.kclm.owep.service.UserService;
 import com.kclm.owep.utils.exceptions.BusinessException;
 import com.kclm.owep.utils.exceptions.DeleteFailureException;
+import com.kclm.owep.utils.exceptions.ParameterWrongException;
 import com.kclm.owep.utils.export.ExcelExportUtil;
 import com.kclm.owep.utils.util.ExportExcelUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,6 +39,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private GroupMapper groupMapper;
     @Autowired
     private StudentMapper studentMapper;
     @Autowired
@@ -194,9 +200,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<NodeDTO> getUserGroup(Integer userId) {
         //所有用户组信息
-        List<Group> allUserGroup = userMapper.getAllUserGroup();
+        List<Group> allUserGroup = groupMapper.getAllUserGroup();
         //选中的用户组的Id
-        List<Integer> groupIds = userMapper.selectGroupIds(userId);
+        List<Integer> groupIds = groupMapper.selectGroupIds(userId);
 
         return allUserGroup.stream().map(item -> {
             //组信息Dto
@@ -268,6 +274,35 @@ public class UserServiceImpl implements UserService {
         log.info("导出成功！");
 
 
+    }
+
+    /**
+     * 修改用户组绑定
+     *
+     * @param userId  用户Id
+     * @param groupId 用户组Id
+     */
+    @Transactional
+    @Override
+    public void treeCheckEdit(Integer userId, List<Integer> groupIds) {
+        //判断传入的userId不为空
+        if (userId == null)
+            throw new ParameterWrongException(502, "用户Id为空");
+        //获取与userId绑定的groupId
+        List<Integer> ids = groupMapper.selectGroupIds(userId);
+        //用户组Id集合不为空则删除该记录
+        if (!ids.isEmpty()) {
+            //删除记录
+            int i = groupMapper.deleteByGroupId(userId);
+            if (i < 1)
+                throw new BusinessException("删除绑定记录失败！");
+        }
+        //添加用户Id与用户组Id绑定记录
+        groupIds.forEach(gId -> {
+            int i = groupMapper.saveUserGroup(userId, gId);
+            if (i < 1)
+                throw new BusinessException("添加绑定记录失败！");
+        });
     }
 
 

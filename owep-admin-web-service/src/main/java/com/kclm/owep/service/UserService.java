@@ -41,4 +41,6 @@ public interface UserService {
     void deleteByIds(List<Serializable> ids);
 
     void exportUserInfo(HttpServletResponse response) throws IOException;
+
+    void treeCheckEdit(Integer userId, List<Integer> groupId);
 }
