@@ -1,11 +1,9 @@
 package com.kclm.owep.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import com.kclm.owep.convert.UserConvert;
 import com.kclm.owep.dto.*;
 import com.kclm.owep.entity.Group;
 import com.kclm.owep.entity.Permission;
-import com.kclm.owep.entity.Student;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.mapper.StudentMapper;
 import com.kclm.owep.mapper.UserMapper;
@@ -29,7 +27,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,10 +123,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> getAllAdmin(Integer limit, Integer offset) {
-        PageHelper.offsetPage(offset, limit);
+//        PageHelper.offsetPage(offset, limit);
         return userMapper.selectAll()
                 .stream()
                 .filter(item -> item.getUserType() != null && item.getUserType() == 1)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> getAllTeacher(Integer limit, Integer offset) {
+//        PageHelper.offsetPage(offset, limit);
+        return userMapper.selectAll()
+                .stream()
+                .filter(item -> item.getUserType() != null && item.getUserType() == 2)
                 .collect(Collectors.toList());
     }
 

@@ -24,6 +24,8 @@ public interface UserService {
 
     List<User> getAllAdmin(Integer limit,Integer offset);
 
+    List<User> getAllTeacher(Integer limit, Integer offset);
+
     List<User> selectUserByCond(User user);
 
     boolean saveUser(User user);
