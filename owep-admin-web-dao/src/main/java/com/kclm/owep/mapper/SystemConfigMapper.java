@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author Asgard
  * @version 1.0
- * @description: TODO
+ * @description: SystemConfigMapper
  * @date 2023/9/4 13:06
  */
 @Mapper
