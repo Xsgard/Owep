@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!--用户表的SQL操作-->
-<mapper namespace="com.kclm.owep.mapper.SystemConfigMapper">
+<mapper namespace="com.kclm.owep.mapper.SysLogMapper">
 
     <!--实体属性对应相应的表字段-->
     <resultMap id="BaseResultMap" type="com.kclm.owep.entity.SystLog">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
-        <result column="moduleName" jdbcType="VARCHAR" property="module_name"/>
-        <result column="menuName" jdbcType="VARCHAR" property="menu_name"/>
-        <result column="ipAddr" jdbcType="VARCHAR" property="ip_addr"/>
+        <result column="module_name" jdbcType="VARCHAR" property="moduleName"/>
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
+        <result column="ip_addr" jdbcType="VARCHAR" property="ipAddr"/>
         <result column="method" jdbcType="VARCHAR" property="method"/>
-        <result column="requestUrl" jdbcType="VARCHAR" property="request_url"/>
+        <result column="request_url" jdbcType="VARCHAR" property="requestUrl"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
-        <result column="loginUserName" jdbcType="VARCHAR" property="loginUserName"/>
-        <result column="lastAccessTime" jdbcType="DATE" property="last_access_time"/>
-        <result column="createTime" jdbcType="DATE" property="create_time"/>
+        <result column="login_user_name" jdbcType="VARCHAR" property="loginUserName"/>
+        <result column="last_access_time" jdbcType="DATE" property="lastAccessTime"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
         <result column="version" jdbcType="INTEGER" property="version"/>
     </resultMap>
     <!--封装表字段名，方便后续简写使用-->
