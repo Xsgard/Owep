@@ -381,11 +381,17 @@
                 url: "/owep/user/teacherList/addTeacher",
                 async: "true",
                 data: userJson,
-                dataType: "text",
+                dataType: "json",
                 contentType: "application/json",
-                success: function (feedback) {
-                    alert(feedback);
-                    window.location.reload();
+                success: function (data) {
+                    if (data.code === 0) {
+                        setTimeout(function () {
+                            swal("添加成功！", "", "success");
+                        }, 100)
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500)
+                    }
                 },
                 error: function (jqXRH) {
                     console.log(jqXRH);
