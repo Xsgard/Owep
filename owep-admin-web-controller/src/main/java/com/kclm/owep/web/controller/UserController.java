@@ -3,6 +3,7 @@ package com.kclm.owep.web.controller;
 import com.kclm.owep.dto.NodeDTO;
 import com.kclm.owep.dto.StudentDTO;
 import com.kclm.owep.dto.StudentSuggestDTO;
+import com.kclm.owep.dto.TreeCheckEditDTO;
 import com.kclm.owep.entity.Student;
 import com.kclm.owep.entity.User;
 import com.kclm.owep.service.StudentService;
@@ -20,6 +21,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -91,7 +94,7 @@ public class UserController {
     }
 
     //老师-修改
-    @PostMapping("/adminList/edit")
+    @PostMapping("/teacherList/edit")
     @ResponseBody
     public R editTeacher(@RequestBody User user) {
         try {
@@ -101,6 +104,35 @@ public class UserController {
             return R.error(e.getMessage());
         }
         return R.ok("修改成功！");
+    }
+
+    //老师-搜索
+    @PostMapping("/teacherList/search")
+    @ResponseBody
+    public R getTeacherByNameAndRealName(User user) {
+        return R.ok().put("data", userService.selectUserByCond(user));
+    }
+
+    //老师-老师用户组信息
+    @GetMapping("/teacherList/treeCheck")
+    @ResponseBody
+    public R getTeacherUserGroup(Integer id) {
+        List<NodeDTO> userGroup = userService.getUserGroup(id);
+        return R.ok().put("data", userGroup);
+    }
+
+    //老师-修改老师用户组信息
+    @PostMapping("/teacherList/treeCheck_edit")
+    @ResponseBody
+    public R editTeacherTreeCheck(TreeCheckEditDTO dto) {
+        try {
+            userService.treeCheckEdit(dto.getUserId(), dto.getGroupIds());
+        } catch (ParameterWrongException e) {
+            return R.error(e.getMsg());
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok();
     }
 
     //老师-删除
@@ -279,6 +311,22 @@ public class UserController {
     public R getUserGroup(Integer id) {
         List<NodeDTO> userGroup = userService.getUserGroup(id);
         return R.ok().put("data", userGroup);
+    }
+
+    //管理员-修改管理员用户组信息
+    @PostMapping("/adminList/treeCheck_edit")
+    @ResponseBody
+    public R editAdminTreeCheck(@RequestBody TreeCheckEditDTO dto) {
+        if (dto == null)
+            return R.error("参数为空！");
+        try {
+            userService.treeCheckEdit(dto.getUserId(), dto.getGroupIds());
+        } catch (ParameterWrongException e) {
+            return R.error(e.getMsg());
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok();
     }
 
     //管理员-批量删除管理员
