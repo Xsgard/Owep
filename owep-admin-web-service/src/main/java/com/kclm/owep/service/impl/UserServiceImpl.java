@@ -151,13 +151,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean saveUser(User user) {
+    public void saveUser(User user) {
         User select = userMapper.selectByName(user.getUserName());
         if (select != null)
             throw new BusinessException("用户名重复！");
         user.setCreateTime(LocalDateTime.now());
-        int i = userMapper.save(user);
-        return i > 0;
+        userMapper.save(user);
     }
 
     //修改用户状态

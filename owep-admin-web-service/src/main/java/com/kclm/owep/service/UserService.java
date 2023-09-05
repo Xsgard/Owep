@@ -28,7 +28,7 @@ public interface UserService {
 
     List<User> selectUserByCond(User user);
 
-    boolean saveUser(User user);
+    void saveUser(User user);
 
     void activeUser(Integer userId, Integer status);
 
