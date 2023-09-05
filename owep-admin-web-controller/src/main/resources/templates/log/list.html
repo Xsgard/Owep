@@ -134,7 +134,23 @@
                 url: '/owep/log/search',
                 method: 'post',
                 data: requestParam,
-
+                success: function (data) {
+                    if (data.code === 0)
+                        $('#tb_departments').bootstrapTable("load", data.data);
+                    else {
+                        setTimeout(function () {
+                            swal("查询失败！", data.msg, "info");
+                        }, 100);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500)
+                    }
+                },
+                error: function () {
+                    setTimeout(function () {
+                        swal("查询失败!", "请联系管理员！", "error")
+                    }, 100)
+                }
             })
         });
     });
