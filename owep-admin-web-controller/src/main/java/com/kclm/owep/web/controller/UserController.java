@@ -53,9 +53,108 @@ public class UserController {
         return "user/teacherList";
     }
 
+    //跳转至咨询师管理页面
     @GetMapping("/advisorList")
     public String toAdvisorList() {
         return "user/advisorList";
+    }
+
+    //咨询师-获取全部信息
+    @GetMapping("/advisorList/getTable")
+    @ResponseBody
+    public R getAdvisorList(Integer limit, Integer offset) {
+        return R.ok().put("data", userService.getAllAdvisor(limit, offset));
+    }
+
+    //咨询师-添加
+    @PostMapping("/advisorList/addTeacher")
+    @ResponseBody
+    public R addAdvisor(User user) {
+        try {
+            user.setUserType(3);
+            userService.saveUser(user);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok();
+    }
+
+    //咨询师-修改状态
+    @GetMapping("/advisorList/switch")
+    @ResponseBody
+    public R activeAdvisor(Integer userId, Integer status) {
+        try {
+            userService.activeUser(userId, status);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("状态修改成功！");
+    }
+
+    //咨询师-修改
+    @PostMapping("/advisorList/edit")
+    @ResponseBody
+    public R editAdvisor(@RequestBody User user) {
+        try {
+            user.setUserType(3);
+            userService.updateUser(user);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("修改成功！");
+    }
+
+    //咨询师-搜索
+    @PostMapping("/advisorList/search")
+    @ResponseBody
+    public R getAdvisorByNameAndRealName(User user) {
+        return R.ok().put("data", userService.selectUserByCond(user));
+    }
+
+    //咨询师-咨询师用户组信息
+    @GetMapping("/advisorList/treeCheck")
+    @ResponseBody
+    public R getAdvisorUserGroup(Integer id) {
+        List<NodeDTO> userGroup = userService.getUserGroup(id);
+        return R.ok().put("data", userGroup);
+    }
+
+    //咨询师-修改咨询师用户组信息
+    @PostMapping("/advisorList/treeCheck_edit")
+    @ResponseBody
+    public R editAdvisorTreeCheck(@RequestBody TreeCheckEditDTO dto) {
+        try {
+            userService.treeCheckEdit(dto.getUserId(), dto.getGroupIds());
+        } catch (ParameterWrongException e) {
+            return R.error(e.getMsg());
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok();
+    }
+
+    //咨询师-删除
+    @GetMapping("/advisorList/delete")
+    @ResponseBody
+    public R deleteAdvisorById(Integer id) {
+        try {
+            userService.deleteById(id);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("删除成功！");
+    }
+
+    //咨询师-批量删除咨询师
+    @PostMapping("/advisorList/deleteByGroup")
+    @ResponseBody
+    public R deleteAdvisorByIds(@RequestBody List<Serializable> ids) {
+        try {
+            userService.deleteByIds(ids);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("删除成功！");
     }
 
     //管理员-获取全部信息
@@ -129,7 +228,7 @@ public class UserController {
     //老师-修改老师用户组信息
     @PostMapping("/teacherList/treeCheck_edit")
     @ResponseBody
-    public R editTeacherTreeCheck(TreeCheckEditDTO dto) {
+    public R editTeacherTreeCheck(@RequestBody TreeCheckEditDTO dto) {
         try {
             userService.treeCheckEdit(dto.getUserId(), dto.getGroupIds());
         } catch (ParameterWrongException e) {
@@ -149,7 +248,7 @@ public class UserController {
         } catch (BusinessException e) {
             return R.error(e.getMessage());
         }
-        return R.ok("修改成功！");
+        return R.ok("删除成功！");
     }
 
     //老师-批量删除老师
@@ -351,7 +450,35 @@ public class UserController {
     @ResponseBody
     public R exportUserInfo(HttpServletResponse response) {
         try {
-            userService.exportUserInfo(response);
+            userService.exportUserInfo(response,"管理员信息");
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    //管理员-导出管理员信息
+    @GetMapping("/teacherList/exportUserInfo")
+    @ResponseBody
+    public R exportTeacherInfo(HttpServletResponse response) {
+        try {
+            userService.exportUserInfo(response,"教师信息");
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    //管理员-导出管理员信息
+    @GetMapping("/advisorList/exportUserInfo")
+    @ResponseBody
+    public R exportAdvisorInfo(HttpServletResponse response) {
+        try {
+            userService.exportUserInfo(response,"咨询师信息");
         } catch (BusinessException e) {
             return R.error(e.getMessage());
         } catch (IOException e) {
