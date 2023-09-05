@@ -59,7 +59,8 @@
                     </div>
                     <button class="btn btn-success query" type="button">查询</button>
                     <button class="btn btn-danger deleteAll" type="button">删除</button>
-                    <button class="btn btn-info" type="button" data-toggle='modal' data-target='#modal_add'>添加</button>
+                    <button class="btn btn-info" type="button" data-toggle='modal' data-target='#modal_add'>添加
+                    </button>
                     <button class="btn btn-primary export" type="button">导出</button>
                 </form>
                 <table id="tb_departments"></table>
@@ -80,26 +81,29 @@
                 <h4 class="modal-title">添加管理</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/advisorList/addAdvisor}"  class="form-horizontal" id="form_add">
+                <form method="post" th:action="@{/user/advisorList/addAdvisor}" class="form-horizontal" id="form_add">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_userName" name="userName" class="form-control" placeholder="请输入用户名">
+                            <input type="text" id="add_userName" name="userName" class="form-control"
+                                   placeholder="请输入用户名">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             密码</label>
                         <div class="col-sm-8">
-                            <input type="password" id="add_userPwd" name="userPwd" class="form-control" placeholder="请输入密码">
+                            <input type="password" id="add_userPwd" name="userPwd" class="form-control"
+                                   placeholder="请输入密码">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             姓名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_realName" name="realName" class="form-control" placeholder="请输入姓名">
+                            <input type="text" id="add_realName" name="realName" class="form-control"
+                                   placeholder="请输入姓名">
                         </div>
                     </div>
                     <div class="form-group">
@@ -107,11 +111,11 @@
                             性别</label>
                         <div class="col-sm-8">
                             <label class="control-label">
-                                <input type="radio" checked="checked" value="1"  name="add_gender">
+                                <input type="radio" checked="checked" value="1" name="add_gender">
                                 <span>男</span>
                             </label>&nbsp;&nbsp;
                             <label class="control-label">
-                                <input type="radio" value="0"  name="add_gender">
+                                <input type="radio" value="0" name="add_gender">
                                 <span>女</span>
                             </label>
                         </div>
@@ -120,21 +124,24 @@
                         <label class="col-sm-2 control-label">
                             手机</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_userPhone" name="userPhone" class="form-control" placeholder="请输入手机号">
+                            <input type="text" id="add_userPhone" name="userPhone" class="form-control"
+                                   placeholder="请输入手机号">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" id="add_userEmail" name="userEmail" class="form-control" placeholder="请输入邮箱">
+                            <input type="email" id="add_userEmail" name="userEmail" class="form-control"
+                                   placeholder="请输入邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" id="add_effectiveDate" name="effectiveDate" class="form-control myData_add"
+                            <input type="text" id="add_effectiveDate" name="effectiveDate"
+                                   class="form-control myData_add"
                                    placeholder="请输入截至日期">
                         </div>
                     </div>
@@ -165,14 +172,16 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/advisorList/edit}" class="form-horizontal" id="form_modification">
+                <form method="post" th:action="@{/user/advisorList/edit}" class="form-horizontal"
+                      id="form_modification">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             <input type="text" id="edit_id" name="id" hidden>
-                            <input type="password" id="edit_userPwd" name="userPwd"  hidden>
+                            <input type="password" id="edit_userPwd" name="userPwd" hidden>
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="edit_userName" name="userName" disabled="" class="form-control " placeholder="">
+                            <input type="text" id="edit_userName" name="userName" disabled="" class="form-control "
+                                   placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -188,12 +197,12 @@
                             性别</label>
                         <div class="col-sm-8  ">
                             <label class="control-label">
-                                <input type="radio"  value="1" name="edit_gender" >
+                                <input type="radio" value="1" name="edit_gender">
                                 <span>男</span>
                             </label>&nbsp;&nbsp;
 
                             <label class="control-label">
-                                <input type="radio"  value="0" name="edit_gender" >
+                                <input type="radio" value="0" name="edit_gender">
                                 <span>女</span>
                             </label>
                         </div>
@@ -209,14 +218,16 @@
                         <label class="col-sm-2 control-label">
                             邮箱</label>
                         <div class="col-sm-8">
-                            <input type="email" id="edit_userEmail" name="userEmail" class="form-control " placeholder="请输入邮箱">
+                            <input type="email" id="edit_userEmail" name="userEmail" class="form-control "
+                                   placeholder="请输入邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             有效期</label>
                         <div class="col-sm-8">
-                            <input type="text" id="edit_effectiveDate" name="effectiveDate" class="form-control myData_add " placeholder="">
+                            <input type="text" id="edit_effectiveDate" name="effectiveDate"
+                                   class="form-control myData_add " placeholder="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -246,12 +257,13 @@
                 <h4 class="modal-title">分配用户组</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/adminList/treeCheck_edit}" class="form-horizontal" id="form_allocation">
+                <form class="form-horizontal" id="form_allocation">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
                         <div class="col-sm-8">
-                            <input type="text" id="allc_userName" name="name" disabled="" class="form-control" placeholder="用户名未获取">
+                            <input type="text" id="allc_userName" name="name" disabled="" class="form-control"
+                                   placeholder="用户名未获取">
                         </div>
                     </div>
                     <input type="text" id="allc_id" name="id" hidden>
@@ -344,40 +356,58 @@
             let effectiveDate = $("#add_effectiveDate").val();
             let status = $("#add_status").val();
 
-            console.log("status:"+status);
-            if(status === "on"){
+            console.log("status:" + status);
+            if (switchery.isChecked()) {
                 status = 1;
-            }else{
+            } else {
                 status = 0;
             }
-            let userData ={
-                userName:userName,
-                realName:realName,
-                userPwd:userPwd,
-                userPhone:userPhone,
-                userEmail:userEmail,
-                gender:gender,
-                effectiveData:effectiveDate,
-                status:status
+            let userData = {
+                userName: userName,
+                realName: realName,
+                userPwd: userPwd,
+                userPhone: userPhone,
+                userEmail: userEmail,
+                gender: gender,
+                effectiveData: effectiveDate,
+                status: status
             };
 
             console.log(userData);
             let userJson = JSON.stringify(userData);
 
             $.ajax({
-                method:"post",
-                url:"/owep/user/advisorList/addAdvisor",
+                method: "post",
+                url: "/owep/user/advisorList/addAdvisor",
                 async: "true",
-                data:userJson,
-                dataType:"text",
-                contentType:"application/json",
-                success:function(feedback){
-                    alert(feedback);
-                    window.location.reload();
+                data: userJson,
+                dataType: "json",
+                contentType: "application/json",
+                success: function (feedback) {
+                    if (feedback.code === 0) {
+                        setTimeout(function () {
+                            swal("添加成功！", feedback.msg, "success")
+                        }, 100);
+                        setTimeout(function () {
+                            window.location.reload()
+                        }, 2000);
+                    } else {
+                        setTimeout(function () {
+                            swal("添加失败！", feedback.msg, "error")
+                        }, 100);
+                        setTimeout(function () {
+                            window.location.reload()
+                        }, 2000);
+                    }
                 },
                 error: function (jqXRH) {
                     console.log(jqXRH);
-                    alert("添加未成功")
+                    setTimeout(function () {
+                        swal("添加失败！", "未知错误，请联系管理员！", "info")
+                    }, 100);
+                    setTimeout(function () {
+                        window.location.reload()
+                    }, 2000);
                 }
             });
             // $('#form_add').submit();
@@ -396,41 +426,49 @@
             let effectiveDate = $("#edit_effectiveDate").val();
             let status = $("#edit_status").val();
 
-            console.log("status:"+status);
-            if(status === 1||status ===0){
-
-            }else   if(status === "on"){
+            console.log("status:" + status);
+            if (switchery.isChecked())
                 status = 1;
-            }else{
+            else
                 status = 0;
-            }
-            let userData ={
-                id:id,
-                userName:userName,
-                realName:realName,
-                userPwd:userPwd,
-                userPhone:userPhone,
-                userEmail:userEmail,
-                gender:gender,
-                effectiveData:effectiveDate,
-                status:status
+            let userData = {
+                id: id,
+                userName: userName,
+                realName: realName,
+                userPwd: userPwd,
+                userPhone: userPhone,
+                userEmail: userEmail,
+                gender: gender,
+                effectiveData: effectiveDate,
+                status: status
             };
             console.log(userData);
             let userJson = JSON.stringify(userData);
             $.ajax({
-                method:"post",
-                url:"/owep/user/advisorList/edit",
+                method: "post",
+                url: "/owep/user/advisorList/edit",
                 async: "true",
-                data:userJson,
-                dataType:"text",
-                contentType:"application/json",
-                success:function(feedback){
-                    alert(feedback);
-                    window.location.reload();
+                data: userJson,
+                dataType: "text",
+                contentType: "application/json",
+                success: function (feedback) {
+                    if (feedback.code === 0) {
+                        setTimeout(function () {
+                            swal("修改成功！", "", "success")
+                        }, 100)
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1800)
+                    } else {
+                        setTimeout(function () {
+                            swal("修改失败！", feedback.msg, "info")
+                        }, 100)
+                    }
                 },
                 error: function (jqXRH) {
-                    console.log(jqXRH);
-                    alert("修改未成功")
+                    setTimeout(function () {
+                        swal("修改失败！", "请联系管理员", "error")
+                    }, 100)
                 }
             });
             $('#form_modification').submit();
@@ -447,7 +485,7 @@
             let checks = $treeview.treeview('getChecked');
             console.log(checks);
             $.each(checks, function (index, item) {
-                if (item.parentId!==undefined) {
+                if (item.tags !== undefined) {
                     console.log(item.tags);
                     groupIds.push(item.tags);
                 }
@@ -456,27 +494,38 @@
             if (groupIds.length < 1) {
                 alert("至少选择一个");
             } else {
-                let result = {userId: userId,groupIds: groupIds};
+                let result = {userId: userId, groupIds: groupIds};
                 console.log(result);
                 if (confirm("确定添加这些数据么")) {
-                    alert("添加数据:" + result);
+                    // alert("添加数据:" + result);
                     // window.location.reload();
                     //ajax发送异步请求
                     $.ajax({
-                        url:  "/owep/user/advisorList/treeCheck_edit",
+                        url: "/owep/user/advisorList/treeCheck_edit",
                         method: "post",
                         data: JSON.stringify(result),
-                        dataType: "text",
+                        dataType: "json",
                         async: false,
                         contentType: "application/json",
                         success: function (data) {
-                            /!*重新加载本页面*!/
-                            window.location.reload();
-                            alert(data);
+                            if (data.code === 0) {
+                                setTimeout(function () {
+                                    swal("修改成功！", "", "success")
+                                }, 100);
+                                //重新加载本页面
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1500);
+                            } else {
+                                setTimeout(function () {
+                                    swal("修改失败！", data.msg, "info")
+                                }, 100);
+                            }
                         },
                         error: function (jqXRH) {
-                            console.log(jqXRH);
-                            alert("设置未同步")
+                            setTimeout(function () {
+                                swal("修改失败！", "请联系管理员", "error")
+                            }, 100);
                         }
                     })
                 }
@@ -485,12 +534,12 @@
             $('#form_allocation').submit();
         });
         $('.query').click(function () {
-            let dataList = new Array('userName','realName');
-            queryRecords('form[id="admin_query"]',dataList);
+            let dataList = new Array('userName', 'realName');
+            queryRecords('form[id="admin_query"]', dataList);
         });
         /*导出按钮操作*/
         $('.export').click(function () {
-            exportRecord("", "管理员信息");
+            exportRecord("/owep/user/advisorList/exportUserInfo", "咨询师信息");
         });
     });
 </script>
@@ -500,9 +549,6 @@
         //1.初始化Table
         TableInit().Init();
     });
-
-
-
 
 
     let TableInit = function () {
@@ -562,9 +608,8 @@
 
                         'click button[title=修改]': function (e, value, row, index) {//动态嵌入按键：编辑
                             //回显数据
-                            echoDataForm('form[id="form_modification"]', new Array(
-                                'id','userName', 'userPwd','realName', 'userPhone', 'userEmail', 'lastAccessDate', 'status','gender'
-                            ), row);
+                            echoDataForm('form[id="form_modification"]', ['id', 'userName', 'userPwd',
+                                'realName', 'userPhone', 'userEmail', 'lastAccessDate', 'status', 'gender'], row);
                             $('#modal_modification').modal();
                         },
 
@@ -582,27 +627,28 @@
         };
 
         let $treeview = $('#treeview_allocation');
+
         function getTreeView() {
             let url = "/owep/user/adminList/treeCheck";
             let id = $("#allc_id").val();
-            initCheckTree($treeview, url,id);
+            initCheckTree($treeview, url, id);
         }
 
 
         function addSlideChoiceBox(value, row, index) {
             if (value == '1') {
-                return ' <input type="checkbox" class="js-switch-1 form-control" userId="'+row.id+'" checked/>'
+                return ' <input type="checkbox" class="js-switch-1 form-control" userId="' + row.id + '" checked/>'
             }
             if (value == '0') {
-                return ' <input type="checkbox" class="js-switch-1 form-control" userId="'+row.id+'" />'
+                return ' <input type="checkbox" class="js-switch-1 form-control" userId="' + row.id + '" />'
             }
         }
 
 
         function addFunctionAlty(value, row, index) {
-            return '<button id = "+id+" value="'+row.id+'" type = "button" class = "btn btn-white" title="修改" > <i class="glyphicon glyphicon-edit"/> </button>' +
-                '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
-                '<button id = "+id+" value="'+row.id+'" type = "button"  class = "btn btn-white" title="分配用户组"> <i class="glyphicon glyphicon-share text-success"/> </button>'
+            return '<button id = "+id+" value="' + row.id + '" type = "button" class = "btn btn-white" title="修改" > <i class="glyphicon glyphicon-edit"/> </button>' +
+                '<button id = "+id+" value="' + row.id + '" type = "button"  class = "btn btn-white" title="删除"> <i class="glyphicon glyphicon-trash text-danger"/> </button>' +
+                '<button id = "+id+" value="' + row.id + '" type = "button"  class = "btn btn-white" title="分配用户组"> <i class="glyphicon glyphicon-share text-success"/> </button>'
                 ;
         }
 
@@ -627,29 +673,41 @@
             /* size: 'normal' 控制大小*/
             let switchery = new Switchery(html);
             html.onchange = function () {
-                console.log("user status:"+html.checked);
+                console.log("user status:" + html.checked);
                 let userId = $(this).attr("userId");
                 let status;
-                if(html.checked==true){
-                    alert("用户启用"+userId);
+                if (html.checked) {
                     status = 1;
-                }else{
-                    alert("禁用用户"+userId);
+                } else {
                     status = 0;
                 }
-                let switch_data ={
+                let switch_data = {
                     userId: userId,
                     status: status
                 };
 
-                //Todo Ajax
+                //Ajax
                 $.ajax({
                     url: "/owep/user/adminList/switch",
                     method: "get",
                     async: true,
-                    data:switch_data,
-                    dataType: "text",   //期望服务端返回的数据类型
+                    data: switch_data,
+                    dataType: "json",   //期望服务端返回的数据类型
                     contentType: "application/json",
+                    success: function (data) {
+                        if (data.code === 0) {
+                            setTimeout(function () {
+                                swal("修改成功！", data.msg, "success")
+                            }, 100);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            setTimeout(function () {
+                                swal("修改失败！", data.msg, "success")
+                            }, 100);
+                        }
+                    },
                     error: function (jqXHR) {
                         swal("同步失败！", "请稍后重试", "error");
                     }
@@ -663,7 +721,7 @@
     //页面如何有多个互动按钮必须需要这些js代码
     let switchery;
     let elems = Array.prototype.slice.call($('.js-switch'));
-    elems.forEach(function (index,row,html) {
+    elems.forEach(function (html, row, index) {
         /* size: 'normal' 控制大小*/
         switchery = new Switchery(html);
         html.onchange = function () {

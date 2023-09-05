@@ -457,12 +457,23 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function (feedback) {
-                    alert(feedback);
-                    window.location.reload();
+                    if (feedback.code === 0) {
+                        setTimeout(function () {
+                            swal("修改成功！", "", "success")
+                        }, 100)
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1800)
+                    } else {
+                        setTimeout(function () {
+                            swal("修改失败！", feedback.msg, "info")
+                        }, 100)
+                    }
                 },
                 error: function (jqXRH) {
-                    console.log(jqXRH);
-                    alert("修改未成功")
+                    setTimeout(function () {
+                        swal("修改失败！", "请联系管理员", "error")
+                    }, 100)
                 }
             });
             $('#form_modification').submit();

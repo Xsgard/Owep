@@ -256,8 +256,7 @@
                 <h4 class="modal-title">分配用户组</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/adminList/treeCheck_edit}" class="form-horizontal"
-                      id="form_allocation">
+                <form class="form-horizontal" id="form_allocation">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
@@ -524,8 +523,6 @@
                     })
                 }
             }
-            console.log("分配，提交。");
-            $('#form_allocation').submit();
         });
         $('.query').click(function () {
             let dataList = new Array('userName', 'realName');
@@ -533,7 +530,7 @@
         });
         /*导出按钮操作*/
         $('.export').click(function () {
-            exportRecord("", "管理员信息");
+            exportRecord("/owep/user/teacherList/exportUserInfo", "教师信息");
         });
     });
 </script>
