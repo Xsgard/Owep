@@ -6,8 +6,7 @@ package com.kclm.owep.mapper;
 
 import com.kclm.owep.entity.Group;
 import com.kclm.owep.mapper.common.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -60,4 +59,16 @@ public interface GroupMapper extends BaseMapper<Group> {
      * 统计用户组中已经分配的角色 传入0则查询统计所有
      */
     int countRolesByGroupId(Serializable groupId);
+
+    @Select("select id,group_name,group_description from t_group;")
+    List<Group> getAllUserGroup();
+
+    @Select("select group_id from t_user_group where user_id=#{userId};")
+    List<Integer> selectGroupIds(Integer userId);
+
+    @Delete("delete from t_user_group where user_id=#{userId};")
+    int deleteByGroupId(Integer userId);
+
+    @Insert("insert into t_user_group (user_id, group_id) values (#{userId},#{groupId});")
+    int saveUserGroup(@Param("userId") Integer userId, @Param("groupId") Integer groupId);
 }
