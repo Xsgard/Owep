@@ -125,6 +125,17 @@
             var endtime = $('#endtime').val();
             console.log("用户名为:" + username + "开始时间为：" + starttime + "结束时间为:" + endtime);
             alert("用户名为:" + username + "\n开始时间为:" + starttime + "\n结束时间为:" + endtime);
+            let requestParam = {
+                username: username,
+                startTime: starttime,
+                endTime: endtime
+            };
+            $.ajax({
+                url: '/owep/log/search',
+                method: 'post',
+                data: requestParam,
+
+            })
         });
     });
 </script>
