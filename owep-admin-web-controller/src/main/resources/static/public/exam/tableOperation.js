@@ -44,7 +44,7 @@ function deleteRecord(e, value, row, index, url, event) {
             method: "get",
             async: true,
             data: id,
-            dataType: "text",   //期望服务端返回的数据类型
+            dataType: "json",   //期望服务端返回的数据类型
             contentType: "application/json",
             success: function (data) {
                 console.log(data.toString());
