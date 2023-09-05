@@ -58,14 +58,8 @@ public interface UserMapper extends BaseMapper<User> {
             "where is_delete=1 or is_delete=0;")
     List<User> getExportUserInfo();
 
-    @Select("select id,group_name,group_description from t_group;")
-    List<Group> getAllUserGroup();
-
     @Select("select r.id, r.role_name roleName  from" +
             " t_group_role gr left join t_role r " +
             "on gr.role_id = r.id where gr.group_id= #{groupId};")
     List<Role> selectGroupRole(Integer groupId);
-
-    @Select("select group_id from t_user_group where user_id=#{userId};")
-    List<Integer> selectGroupIds(Integer userId);
 }
