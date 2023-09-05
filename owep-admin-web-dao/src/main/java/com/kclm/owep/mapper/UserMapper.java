@@ -54,7 +54,7 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> selectAll();
 
     @Select("select user_name,user_phone,real_name,user_email,card_num,status," +
-            "gender,effective_date,title,last_access_time,description,is_delete from t_user " +
+            "gender,effective_date,title,last_access_time,description,is_delete,user_type from t_user " +
             "where is_delete=1 or is_delete=0;")
     List<User> getExportUserInfo();
 
