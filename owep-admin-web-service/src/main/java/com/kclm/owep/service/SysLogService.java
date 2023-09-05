@@ -1,10 +1,8 @@
 package com.kclm.owep.service;
 
 import com.kclm.owep.dto.LogTableDTO;
-import com.kclm.owep.dto.SystLogDTO;
-import com.kclm.owep.entity.SystLog;
-import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -18,4 +16,6 @@ public interface SysLogService {
     List<LogTableDTO> getSysLogs(Integer offset, Integer limit);
 
     void deleteById(Integer id);
+
+    List<LogTableDTO> search(String username, LocalDate start,LocalDate end);
 }
