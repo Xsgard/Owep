@@ -263,8 +263,10 @@ public class UserServiceImpl implements UserService {
      * @throws IOException 异常
      */
     @Override
-    public void exportUserInfo(HttpServletResponse response,String nameForSheet) throws IOException {
-        List<User> userInfo = userMapper.getExportUserInfo();
+    public void exportUserInfo(HttpServletResponse response, String nameForSheet, Integer userType) throws IOException {
+        List<User> userInfo = userMapper.getExportUserInfo().stream()
+                .filter(user -> user.getUserType() != null && Objects.equals(user.getUserType(), userType))
+                .collect(Collectors.toList());
         if (userInfo.isEmpty())
             throw new BusinessException("暂无数据，或出现异常！");
         List<Map<String, Object>> collect = new ArrayList<>();
@@ -291,7 +293,7 @@ public class UserServiceImpl implements UserService {
                 "是否删除",
         };
         Workbook workBook = ExportExcelUtils.createWorkBook(collect, keys, columns);
-        ExcelExportUtil.exportAdminList(workBook, response);
+        ExcelExportUtil.exportAdminList(workBook, response, nameForSheet);
         log.info("导出成功！");
 
 
@@ -300,7 +302,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 修改用户组绑定
      *
-     * @param userId  用户Id
+     * @param userId   用户Id
      * @param groupIds 用户组Id
      */
     @Transactional

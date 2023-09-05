@@ -42,7 +42,7 @@ public interface UserService {
 
     void deleteByIds(List<Serializable> ids);
 
-    void exportUserInfo(HttpServletResponse response,String nameForSheet) throws IOException;
+    void exportUserInfo(HttpServletResponse response,String nameForSheet,Integer userType) throws IOException;
 
     void treeCheckEdit(Integer userId, List<Integer> groupId);
 }
