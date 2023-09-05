@@ -28,9 +28,9 @@ public class ExcelExportUtil {
     /**
      * 通过流在网页传输
      */
-    public static void exportAdminList(Workbook workbook, HttpServletResponse response) throws IOException {
+    public static void exportAdminList(Workbook workbook, HttpServletResponse response, String nameForFile) throws IOException {
         ServletOutputStream out = response.getOutputStream();
-        String fileName = URLEncoder.encode("管理员信息记录", "UTF-8");
+        String fileName = URLEncoder.encode(nameForFile + "记录", "UTF-8");
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
 
