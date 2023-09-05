@@ -24,6 +24,8 @@ public interface UserService {
 
     List<User> getAllAdmin(Integer limit,Integer offset);
 
+    List<User> getAllAdvisor(Integer limit, Integer offset);
+
     List<User> getAllTeacher(Integer limit, Integer offset);
 
     List<User> selectUserByCond(User user);
@@ -40,7 +42,7 @@ public interface UserService {
 
     void deleteByIds(List<Serializable> ids);
 
-    void exportUserInfo(HttpServletResponse response) throws IOException;
+    void exportUserInfo(HttpServletResponse response,String nameForSheet) throws IOException;
 
     void treeCheckEdit(Integer userId, List<Integer> groupId);
 }

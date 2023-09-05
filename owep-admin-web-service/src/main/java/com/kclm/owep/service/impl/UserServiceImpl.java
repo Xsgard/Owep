@@ -136,12 +136,35 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 获取老师信息
+     *
+     * @param limit  每页条数
+     * @param offset 偏移量
+     * @return 老师信息集合
+     */
     @Override
     public List<User> getAllTeacher(Integer limit, Integer offset) {
 //        PageHelper.offsetPage(offset, limit);
         return userMapper.selectAll()
                 .stream()
                 .filter(item -> item.getUserType() != null && item.getUserType() == 2)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取咨询师信息
+     *
+     * @param limit  每页条数
+     * @param offset 偏移量
+     * @return 咨询师信息集合
+     */
+    @Override
+    public List<User> getAllAdvisor(Integer limit, Integer offset) {
+        //        PageHelper.offsetPage(offset, limit);
+        return userMapper.selectAll()
+                .stream()
+                .filter(item -> item.getUserType() != null && item.getUserType() == 3)
                 .collect(Collectors.toList());
     }
 
@@ -240,13 +263,13 @@ public class UserServiceImpl implements UserService {
      * @throws IOException 异常
      */
     @Override
-    public void exportUserInfo(HttpServletResponse response) throws IOException {
+    public void exportUserInfo(HttpServletResponse response,String nameForSheet) throws IOException {
         List<User> userInfo = userMapper.getExportUserInfo();
         if (userInfo.isEmpty())
             throw new BusinessException("暂无数据，或出现异常！");
         List<Map<String, Object>> collect = new ArrayList<>();
         Map<String, Object> sheetName = new HashMap<>();
-        sheetName.put("sheetName", "管理员信息");
+        sheetName.put("sheetName", nameForSheet);
         collect.add(sheetName);
         for (User item : userInfo) {
             Map<String, Object> map = getStringObjectMap(item);
@@ -267,8 +290,6 @@ public class UserServiceImpl implements UserService {
                 "描述",
                 "是否删除",
         };
-
-
         Workbook workBook = ExportExcelUtils.createWorkBook(collect, keys, columns);
         ExcelExportUtil.exportAdminList(workBook, response);
         log.info("导出成功！");
@@ -280,7 +301,7 @@ public class UserServiceImpl implements UserService {
      * 修改用户组绑定
      *
      * @param userId  用户Id
-     * @param groupId 用户组Id
+     * @param groupIds 用户组Id
      */
     @Transactional
     @Override
