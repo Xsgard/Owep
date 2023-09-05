@@ -4,6 +4,7 @@ import com.kclm.owep.entity.SystLog;
 import com.kclm.owep.mapper.common.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
@@ -25,5 +26,5 @@ public interface SysLogMapper extends BaseMapper<SystLog> {
 
     @Select("select * from t_syslog where login_user_name=#{username} and" +
             " (create_time between #{start} and #{end})")
-    List<SystLog> search(String username, LocalDate start, LocalDate end);
+    List<SystLog> search(@Param("username") String username, @Param("start") LocalDate start, @Param("end") LocalDate end);
 }
