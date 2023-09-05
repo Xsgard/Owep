@@ -393,9 +393,10 @@
                         }, 1500)
                     }
                 },
-                error: function (jqXRH) {
-                    console.log(jqXRH);
-                    alert("添加未成功")
+                error: function () {
+                    setTimeout(function () {
+                        swal("添加失败！", "请联系管理员！", "error");
+                    }, 100);
                 }
             });
             // $('#form_add').submit();
@@ -440,15 +441,27 @@
                 url: "/owep/user/teacherList/edit",
                 async: "true",
                 data: userJson,
-                dataType: "text",
+                dataType: "json",
                 contentType: "application/json",
-                success: function (feedback) {
-                    alert(feedback);
-                    window.location.reload();
+                success: function (data) {
+                    if (data.code === 0) {
+                        setTimeout(function () {
+                            swal("修改成功！", "", "success")
+                        }, 100);
+                        //重新加载本页面
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+                    } else {
+                        setTimeout(function () {
+                            swal("修改失败！", data.msg, "info")
+                        }, 100);
+                    }
                 },
                 error: function (jqXRH) {
-                    console.log(jqXRH);
-                    alert("修改未成功")
+                    setTimeout(function () {
+                        swal("修改失败！", data.msg, "info")
+                    }, 100);
                 }
             });
             $('#form_modification').submit();
@@ -465,7 +478,7 @@
             let checks = $treeview.treeview('getChecked');
             console.log(checks);
             $.each(checks, function (index, item) {
-                if (item.parentId !== undefined) {
+                if (item.tags !== undefined) {
                     console.log(item.tags);
                     groupIds.push(item.tags);
                 }
@@ -473,6 +486,7 @@
             // s = JSON.stringify(s);
             if (groupIds.length < 1) {
                 alert("至少选择一个");
+                return;
             } else {
                 let result = {userId: userId, groupIds: groupIds};
                 console.log(result);
@@ -484,17 +498,28 @@
                         url: "/owep/user/teacherList/treeCheck_edit",
                         method: "post",
                         data: JSON.stringify(result),
-                        dataType: "text",
+                        dataType: "json",
                         async: false,
                         contentType: "application/json",
                         success: function (data) {
-                            /!*重新加载本页面*!/
-                            window.location.reload();
-                            alert(data);
+                            if (data.code === 0) {
+                                setTimeout(function () {
+                                    swal("修改成功！", "", "success")
+                                }, 100);
+                                //重新加载本页面
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1500);
+                            } else {
+                                setTimeout(function () {
+                                    swal("修改失败！", data.msg, "info")
+                                }, 100);
+                            }
                         },
                         error: function (jqXRH) {
-                            console.log(jqXRH);
-                            alert("设置未同步")
+                            setTimeout(function () {
+                                swal("修改失败！", "请联系管理员", "error")
+                            }, 100);
                         }
                     })
                 }
@@ -644,11 +669,11 @@
                 console.log("user status:" + html.checked);
                 let userId = $(this).attr("userId");
                 let status;
-                if (html.checked == true) {
-                    alert("用户启用" + userId);
+                if (html.checked) {
+                    // alert("用户启用" + userId);
                     status = 1;
                 } else {
-                    alert("禁用用户" + userId);
+                    // alert("禁用用户" + userId);
                     status = 0;
                 }
                 let switch_data = {
@@ -667,14 +692,21 @@
                     success: function (data) {
                         if (data.code === 0) {
                             setTimeout(function () {
-
-                            }, 100)
+                                swal("修改成功！", "", "success")
+                            }, 100);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1500);
                         } else {
-
+                            setTimeout(function () {
+                                swal("修改失败！", data.msg, "info")
+                            }, 100);
                         }
                     },
-                    error: function (jqXHR) {
-                        swal("同步失败！", "请稍后重试", "error");
+                    error: function () {
+                        setTimeout(function () {
+                            swal("修改失败！", "请联系管理员！", "error")
+                        }, 100);
                     }
                 });
             }
