@@ -31,6 +31,11 @@ public class SysLogController {
     @Autowired
     private SysLogService sysLogService;
 
+    @GetMapping("/list")
+    public String toLogListPage(){
+        return "log/list";
+    }
+
     @GetMapping("/sysLogs")
     @ResponseBody
     public R getLogs(Integer offset, Integer limit) {
