@@ -38,7 +38,7 @@ public class SysLogServiceImpl implements SysLogService {
      */
     @Override
     public List<LogTableDTO> getSysLogs(Integer offset, Integer limit) {
-        PageHelper.offsetPage(offset, limit);
+//        PageHelper.offsetPage(offset, limit);
         List<SystLog> allStsLogs = sysLogMapper.getAllStsLogs();
         return allStsLogs.stream()
                 .map(log -> logTableConvert.toDto(log))
