@@ -53,6 +53,11 @@ public class UserController {
         return "user/teacherList";
     }
 
+    @GetMapping("/advisorList")
+    public String toAdvisorList() {
+        return "user/advisorList";
+    }
+
     //管理员-获取全部信息
     @ResponseBody
     @GetMapping("/adminList/getTable")
