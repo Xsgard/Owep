@@ -188,7 +188,7 @@
                 url: "/owep/organization/addOrgInstitute",
                 async: "true",
                 data: orgJson,
-                dataType: "text",
+                dataType: "json",
                 contentType: "application/json",
                 success: function (data) {
                     if (data.code === 0) {
@@ -231,7 +231,7 @@
                 url: "/owep/organization/query",
                 async: "true",
                 data: instituteJson,
-                dataType: "text",
+                dataType: "json",
                 contentType: "application/json",
                 success: function (feedback) {
                     alert(feedback);
@@ -404,17 +404,16 @@
             } else {
                 if (confirm("确定删除这些数据么")) {
                     alert("删除:" + ids);
-                    window.location.reload();
                     //ajax发送异步请求
-                    /*$.ajax({
-                        url:  appName,
+                    $.ajax({
+                        url: '/deleteByIds',
                         method: "post",
                         data: idlist,
-                        dataType: "text",
+                        dataType: "json",
                         async: "true",
                         contentType: "application/json",
                         success: function (data) {
-                            /!*重新加载本页面*!/
+                            /*重新加载本页面*/
                             alert(data);
                             window.location.reload();
                         },
@@ -422,7 +421,7 @@
                             console.log(jqXRH);
                             alert("删除失败")
                         }
-                    })*/
+                    })
                 }
             }
         });
