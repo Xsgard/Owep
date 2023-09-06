@@ -24,7 +24,8 @@
           rel="stylesheet">
     <link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
     <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css(v='4.1.0')}" rel="stylesheet">
-    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
     <!-- 弹出框插件 -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css"
           th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
@@ -48,7 +49,7 @@
         <div class="form-group">
             <label>&nbsp;&nbsp;机构类型:</label>
             <div class="input-group">
-                <input type="text" class="form-control org">
+                <input type="text" class="form-control org" id="type">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -59,7 +60,7 @@
                 <!-- /btn-group -->
             </div>
         </div>
-        <button class="btn-success btn">查询</button>
+        <button id="query" class="btn-success btn">查询</button>
         <div style="float: right">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-success " data-toggle="modal" data-target="#myModal">
@@ -80,13 +81,13 @@
                                 <label class="col-sm-2 control-label">机构名称</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" placeholder="请输入机构名称"
-                                           name="add_content">
+                                           name="add_content" id="save_instituteName">
                                 </div>
                             </div>
                             <div class="form-group form-inline">
                                 <label class="col-md-2 control-label">机构类型</label>
                                 <div class="col-md-4">
-                                    <select class="form-control">
+                                    <select id="org-select" class="form-control">
                                         <option value="学校">学校</option>
                                         <option value="培训机构">培训机构</option>
                                     </select>
@@ -98,7 +99,7 @@
                                     关闭
                                 </button>
                                 <button type="submit" class="btn btn-primary"
-                                        id="update_teacher_btn">保存
+                                        id="add_btn">保存
                                 </button>
                             </div>
                         </div>
@@ -124,13 +125,13 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">机构名称</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" name="add_content">
+                                <input type="text" class="form-control" name="add_content" id="add_content">
                             </div>
                         </div>
                         <div class="form-group form-inline">
                             <label class="col-md-2 control-label">机构类型</label>
                             <div class="col-md-4">
-                                <select class="form-control">
+                                <select id="org_select" class="form-control">
                                     <option value="学校">学校</option>
                                     <option value="培训机构">培训机构</option>
                                 </select>
@@ -139,7 +140,7 @@
                         <!--footer-->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary">保存</button>
+                            <button type="button" class="btn btn-primary" id="save-edit">保存</button>
                         </div>
                     </div>
                 </div>
@@ -154,19 +155,96 @@
 <script src="../../static/js/content.js?v=1.0.0" th:src="@{/static/js/content.js(v='1.0.0')}"></script>
 <!--bootstrap-table-->
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
-        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js }"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
-        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js }"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
 <script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
-        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js }"></script>
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
 <script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
         th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
 <!-- 弹出框插件 -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
-        th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 
 <script>
     $(function () {
+        $('#add_btn').click(function () {
+            let instituteName = $("#save_instituteName").val();
+            let type = $("#org-select").val();
+            let instituteType;
+            if (type === "学校") instituteType = 1;
+            if (type === "培训机构") instituteType = 2;
+
+            let orgData = {
+                instituteName: instituteName,
+                instituteType: instituteType,
+            };
+
+            console.log(orgData);
+            let orgJson = JSON.stringify(orgData);
+
+            $.ajax({
+                method: "post",
+                url: "/owep/organization/addOrgInstitute",
+                async: "true",
+                data: orgJson,
+                dataType: "text",
+                contentType: "application/json",
+                success: function (data) {
+                    if (data.code === 0) {
+                        swal("添加成功", data.msg, "success");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        swal("添加失败", data.msg, "error");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                },
+                error: function (jqXRH) {
+                    swal("添加失败", jqXRH.msg, "error");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+            // $('#form_add').submit();
+        })
+
+        $("#query").click(function () {
+            let instituteName = $("#name").val();
+            let type = $("#type").val();
+            let instituteType;
+            if (type == "学校") instituteType = 1;
+            if (type == "培训机构") instituteType = 2;
+            let instituteData = {
+                id: id,
+                instituteName: instituteName,
+                instituteType: instituteType,
+            };
+            console.log(instituteData);
+            let instituteJson = JSON.stringify(instituteData);
+            $.ajax({
+                method: "post",
+                url: "/owep/organization/query",
+                async: "true",
+                data: instituteJson,
+                dataType: "text",
+                contentType: "application/json",
+                success: function (feedback) {
+                    alert(feedback);
+                    window.location.reload();
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("查询失败")
+                }
+            });
+        })
+
+        //
         $("#myTab").bootstrapTable({
             url: "/owep/organization/orgTable",
             toolbar: '#toolbar', // 工具按钮用哪个容器
@@ -190,7 +268,7 @@
                 checkbox: true, /* 是否添加复选框*/
                 //跟据返回每行的数据
                 formatter: function (value, row, index) {
-                    return row.instituteId;
+                    return row.id;
                 }
             },
                 {
@@ -199,7 +277,8 @@
                 },
                 {
                     field: 'instituteType',
-                    title: '机构类型'
+                    title: '机构类型',
+                    formatter: instituteTypeFormat
                 },
                 {
                     field: 'createTime',
@@ -235,9 +314,68 @@
                                 swal("删除成功！", "您已经永久删除信息", "success");
                             });
                         },
+                        'click a[title=修改]': function (e, value, row, index) {
+                            $("#add_content").val(row.instituteName)
+                            $("#org_select").removeAttr("selected")
+                            if (row.instituteType === 1) {
+                                $("#org_select option:contains('学校')").prop("selected", true);
+                            } else {
+                                $("#org_select option:contains('培训机构')").prop("selected", true);
+                            }
+                            //提交修改
+                            $("#save-edit").click(function () {
+                                let orgName = $("#add_content").val();
+                                let orgType = $("#org_select").val();
+                                let instituteType;
+                                if (orgType === "学校")
+                                    instituteType = 1;
+                                else
+                                    instituteType = 2;
+
+                                let orgData = {
+                                    instituteId: row.instituteId,
+                                    instituteName: orgName,
+                                    instituteType: instituteType
+                                }
+                                //
+                                $.ajax({
+                                    url: '/owep/organization/edit',
+                                    method: 'post',
+                                    data: JSON.stringify(orgData),
+                                    dataType: "json",   //期望服务端返回的数据类型
+                                    contentType: "application/json",
+                                    success: function (data) {
+                                        if (data.code === 0) {
+                                            setTimeout(function () {
+                                                swal("修改成功！", data.msg, "success")
+                                            }, 100);
+                                            setTimeout(function () {
+                                                window.location.reload();
+                                            }, 2000);
+                                        } else {
+                                            setTimeout(function () {
+                                                swal("修改失败！", data.msg, "success")
+                                            }, 100);
+                                        }
+                                    },
+                                    error: function (jqXHR) {
+                                        swal("同步失败！", "请稍后重试", "error");
+                                    }
+                                })
+                            })
+                        }
                     }
                 }]
         });
+
+        function instituteTypeFormat(value) {
+            if (value === 1)
+                return '<span name="instituteType">学校</span>';
+
+            else
+                return '<span name="instituteType">培训机构</span>';
+        }
+
         //通过json显示文本框数据
         var testdataBsSuggest1 = $(".org").bsSuggest({
             indexId: 2, //data.value 的第几个数据，作为input输入框的内容
@@ -287,8 +425,6 @@
                     })*/
                 }
             }
-
-
         });
 
 
