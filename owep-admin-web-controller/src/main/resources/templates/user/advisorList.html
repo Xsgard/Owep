@@ -81,7 +81,7 @@
                 <h4 class="modal-title">添加管理</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/advisorList/addAdvisor}" class="form-horizontal" id="form_add">
+                <form class="form-horizontal" id="form_add">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             用户名</label>
@@ -172,7 +172,7 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/advisorList/edit}" class="form-horizontal"
+                <form class="form-horizontal"
                       id="form_modification">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
@@ -449,7 +449,7 @@
                 url: "/owep/user/advisorList/edit",
                 async: "true",
                 data: userJson,
-                dataType: "text",
+                dataType: "json",
                 contentType: "application/json",
                 success: function (feedback) {
                     if (feedback.code === 0) {

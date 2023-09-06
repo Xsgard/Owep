@@ -172,7 +172,7 @@
                 <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
-                <form method="post" th:action="@{/user/adminList/edit}" class="form-horizontal" id="form_modification">
+                <form class="form-horizontal" id="form_modification">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             <input type="text" id="edit_id" name="id" hidden>
@@ -415,13 +415,10 @@
             let status = $("#edit_status").val();
 
             console.log("status:" + status);
-            if (status === 1 || status === 0) {
-
-            } else if (status === "on") {
+            if (switchery.isChecked())
                 status = 1;
-            } else {
+            else
                 status = 0;
-            }
             let userData = {
                 id: id,
                 userName: userName,
@@ -463,7 +460,6 @@
                     }, 100);
                 }
             });
-            $('#form_modification').submit();
         });
 
 
@@ -678,13 +674,13 @@
                     status: status
                 };
 
-                //Todo Ajax
+                //Ajax
                 $.ajax({
                     url: "/owep/user/teacherList/switch",
                     method: "get",
                     async: true,
                     data: switch_data,
-                    dataType: "text",   //期望服务端返回的数据类型
+                    dataType: "json",   //期望服务端返回的数据类型
                     contentType: "application/json",
                     success: function (data) {
                         if (data.code === 0) {
