@@ -18,4 +18,7 @@ public interface BranchInstituteMapper extends BaseMapper<BranchInstitute> {
 
     @Select("select * from t_branch_institute where fk_org_id=#{orgId};")
     List<BranchInstitute> getByOrgId(Integer orgId);
+
+    @Select("select * from t_branch_institute;")
+    List<BranchInstitute> getBranchList();
 }
