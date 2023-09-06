@@ -70,7 +70,7 @@ public class UserController {
     }
 
     //咨询师-添加
-    @PostMapping("/advisorList/addTeacher")
+    @PostMapping("/advisorList/addAdvisor")
     @ResponseBody
     public R addAdvisor(User user) {
         try {
