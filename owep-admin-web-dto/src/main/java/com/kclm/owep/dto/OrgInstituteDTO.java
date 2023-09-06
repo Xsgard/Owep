@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * @Author yangwr
  * @Version v1.0
  * @Create 2020/7/13 10:17
- * @Description TODO
+ * @Description OrgInstituteDTO
  */
 public class OrgInstituteDTO implements java.io.Serializable {
 
