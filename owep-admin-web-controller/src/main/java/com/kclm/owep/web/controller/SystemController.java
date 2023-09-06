@@ -1,6 +1,7 @@
 package com.kclm.owep.web.controller;
 
 import com.kclm.owep.entity.DbCopy;
+import com.kclm.owep.entity.Parameter;
 import com.kclm.owep.entity.SystemConfig;
 import com.kclm.owep.service.DbCopyService;
 import com.kclm.owep.service.SystemConfigService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -38,6 +40,11 @@ public class SystemController {
         return "system/paramInfo";
     }
 
+    @GetMapping("/paramInfo.html")
+    public String toParamInfoPage2() {
+        return "system/paramInfo";
+    }
+
     @GetMapping("/config")
     public String toConfigPage() {
         return "system/config";
@@ -46,6 +53,14 @@ public class SystemController {
     @GetMapping("/backup")
     public String toBackUpPage() {
         return "system/backup";
+    }
+
+    @GetMapping("/param")
+    @ResponseBody
+    public R getParamter(HttpServletRequest request) {
+        String requestURL = request.getRequestURL().toString();
+        Parameter parameter = new Parameter();
+        return R.ok().put("data", parameter);
     }
 
     @GetMapping("/getConfigInfo")
