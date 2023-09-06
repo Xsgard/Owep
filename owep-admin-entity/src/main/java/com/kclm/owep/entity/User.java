@@ -4,6 +4,10 @@
 package com.kclm.owep.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +20,7 @@ import java.util.Objects;
  * @Description 用户实体类类
  */
 
+@Getter
 public class User {
 
     /**
@@ -73,7 +78,8 @@ public class User {
     /**
      * 用户截止有效期限
      */
-    //@DateTimeFormat( pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime effectiveDate;
 
     /**
@@ -131,176 +137,88 @@ public class User {
      */
     private List<Group> groups;
 
-    public Integer getId() {
-        return id;
-    }
-
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public String getUserPwd() {
-        return userPwd;
-    }
-
     public void setUserPwd(String userPwd) {
         this.userPwd = userPwd;
-    }
-
-    public String getUserPhone() {
-        return userPhone;
     }
 
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
     }
 
-    public String getRealName() {
-        return realName;
-    }
-
     public void setRealName(String realName) {
         this.realName = realName;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
     }
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
 
-    public String getEmailCode() {
-        return emailCode;
-    }
-
     public void setEmailCode(String emailCode) {
         this.emailCode = emailCode;
-    }
-
-    public Integer getGender() {
-        return gender;
     }
 
     public void setGender(Integer gender) {
         this.gender = gender;
     }
 
-    public String getCardNum() {
-        return cardNum;
-    }
-
     public void setCardNum(String cardNum) {
         this.cardNum = cardNum;
-    }
-
-    public Integer getStatus() {
-        return status;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public LocalDateTime getEffectiveDate() {
-        return effectiveDate;
-    }
-
     public void setEffectiveDate(LocalDateTime effectiveDate) {
         this.effectiveDate = effectiveDate;
-    }
-
-    public Integer getUserType() {
-        return userType;
     }
 
     public void setUserType(Integer userType) {
         this.userType = userType;
     }
 
-    public LocalDateTime getBirth() {
-        return birth;
-    }
-
     public void setBirth(LocalDateTime birth) {
         this.birth = birth;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public Integer getPerfectStatus() {
-        return perfectStatus;
-    }
-
     public void setPerfectStatus(Integer perfectStatus) {
         this.perfectStatus = perfectStatus;
-    }
-
-    public Integer getIsDelete() {
-        return isDelete;
     }
 
     public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-    }
-
-    public LocalDateTime getLastAccessTime() {
-        return lastAccessTime;
     }
 
     public void setLastAccessTime(LocalDateTime lastAccessTime) {
         this.lastAccessTime = lastAccessTime;
     }
 
-    public Integer getVersion() {
-        return version;
-    }
-
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
     }
 
     public void setGroups(List<Group> groups) {
@@ -337,8 +255,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {return true;}
-        if (o == null || getClass() != o.getClass()) {return false;}
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return id.equals(user.id) &&
                 userName.equals(user.userName) &&
