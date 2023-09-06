@@ -168,12 +168,12 @@
 <script>
     $(function () {
         $("#myTab").bootstrapTable({
-            url: "../../static/js/demo/organization/orgList.json",
+            url: "/owep/organization/orgTable",
             toolbar: '#toolbar', // 工具按钮用哪个容器
             pagination: true, //是否显示分页
             striped: true, //是否启用行间隔色
             cache: false,
-            method: "post",
+            method: "get",
             sortable: true, //是否启用排序
             sortOrder: "asc", // 排序方式
             sidePagination: "client", // 分页方式：client客户端分页，server服务端分页（*）
@@ -184,25 +184,25 @@
             strictSearch: false,                 //查询时是否严格匹配, true表示严格匹配，false表示模糊匹配
             clickToSelect: true, //是否选中
             /* showRefresh:true,*/
-            uniqueId: "ID",
+            uniqueId: "instituteId",
             columns: [{
                 field: 'checked',
                 checkbox: true, /* 是否添加复选框*/
                 //跟据返回每行的数据
                 formatter: function (value, row, index) {
-                    return row.id;
+                    return row.instituteId;
                 }
             },
                 {
-                    field: 'institutional_name',
+                    field: 'instituteName',
                     title: '机构名称'
                 },
                 {
-                    field: 'institutional_type',
+                    field: 'instituteType',
                     title: '机构类型'
                 },
                 {
-                    field: 'creation_time',
+                    field: 'createTime',
                     title: '创建时间',
                 },
                 {
