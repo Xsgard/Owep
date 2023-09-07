@@ -36,7 +36,7 @@ public class OrgInstitute implements Serializable {
     /***
      *是否逻辑删除，1表示未删除，0表示已删除
      */
-    private Integer delete;
+    private Integer isDelete;
 
     /***
      * 从分支机构中获取数据
@@ -58,11 +58,11 @@ public class OrgInstitute implements Serializable {
     public OrgInstitute() {
     }
 
-    public OrgInstitute(Integer id, String instituteName, Integer instituteType, Integer delete, List<BranchInstitute> branchInstitutes, Integer version, LocalDateTime createTime, LocalDateTime lastAccessTime) {
+    public OrgInstitute(Integer id, String instituteName, Integer instituteType, Integer isDelete, List<BranchInstitute> branchInstitutes, Integer version, LocalDateTime createTime, LocalDateTime lastAccessTime) {
         this.id = id;
         this.instituteName = instituteName;
         this.instituteType = instituteType;
-        this.delete = delete;
+        this.isDelete = isDelete;
         this.branchInstitutes = branchInstitutes;
         this.version = version;
         this.createTime = createTime;
@@ -75,7 +75,7 @@ public class OrgInstitute implements Serializable {
                 "id=" + id +
                 ", instituteName='" + instituteName + '\'' +
                 ", instituteType=" + instituteType +
-                ", delete=" + delete +
+                ", isDelete=" + isDelete +
                 ", branchInstitutes=" + branchInstitutes +
                 ", version=" + version +
                 ", createTime=" + createTime +
@@ -91,7 +91,7 @@ public class OrgInstitute implements Serializable {
         return Objects.equals(id, that.id) &&
                 Objects.equals(instituteName, that.instituteName) &&
                 Objects.equals(instituteType, that.instituteType) &&
-                Objects.equals(delete, that.delete) &&
+                Objects.equals(isDelete, that.isDelete) &&
                 Objects.equals(branchInstitutes, that.branchInstitutes) &&
                 Objects.equals(version, that.version) &&
                 Objects.equals(createTime, that.createTime) &&
@@ -100,7 +100,7 @@ public class OrgInstitute implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, instituteName, instituteType, delete, branchInstitutes, version, createTime, lastAccessTime);
+        return Objects.hash(id, instituteName, instituteType, isDelete, branchInstitutes, version, createTime, lastAccessTime);
     }
 
     public void setId(Integer id) {
@@ -115,8 +115,8 @@ public class OrgInstitute implements Serializable {
         this.instituteType = instituteType;
     }
 
-    public void setDelete(Integer delete) {
-        this.delete = delete;
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public void setBranchInstitutes(List<BranchInstitute> branchInstitutes) {
