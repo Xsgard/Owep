@@ -57,6 +57,7 @@ public class OrganizationController {
         return R.ok("修改成功！");
     }
 
+    //机构-删除
     @GetMapping("/delete")
     @ResponseBody
     public R deleteOrg(Integer id) {
@@ -68,7 +69,8 @@ public class OrganizationController {
         return R.ok("删除成功！");
     }
 
-    @GetMapping("/deleteByIds")
+    //机构-批量删除
+    @PostMapping("/deleteByIds")
     @ResponseBody
     public R deleteOrgByIds(List<Serializable> ids) {
         try {
@@ -79,6 +81,7 @@ public class OrganizationController {
         return R.ok("删除成功！");
     }
 
+    //机构-查询
     @PostMapping("/query")
     @ResponseBody
     public R query(OrgInstituteDTO dto) {
@@ -86,6 +89,7 @@ public class OrganizationController {
         return R.ok().put("data", orgInstituteDTOS);
     }
 
+    //机构-添加
     @PostMapping("/addOrgInstitute")
     @ResponseBody
     public R addOrg(@RequestBody OrgInstitute orgInstitute) {
