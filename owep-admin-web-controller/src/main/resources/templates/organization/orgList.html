@@ -416,10 +416,11 @@
         })
         //删除
         $('#delete').click(function () {
-            let idList = $('#myTab').bootstrapTable('getAllSelections');
-            console.log(idList);
-            let ids = JSON.stringify(idList);
-            if (idList.length === 0) {
+            let rows = $('#myTab').bootstrapTable('getAllSelections');
+            console.log(rows);
+            let ids = [];
+            rows.forEach(item => ids.push(item.id))
+            if (rows.length === 0) {
                 alert("请至少选择一个")
             } else {
                 if (confirm("确定删除这些数据么")) {
@@ -428,7 +429,7 @@
                     $.ajax({
                         url: '/owep/organization/deleteByIds',
                         method: "post",
-                        data: idList,
+                        data: ids,
                         dataType: "json",
                         async: "true",
                         contentType: "application/json",
