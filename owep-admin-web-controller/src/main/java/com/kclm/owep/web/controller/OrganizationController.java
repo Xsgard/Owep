@@ -1,7 +1,9 @@
 package com.kclm.owep.web.controller;
 
+import com.kclm.owep.dto.BranchTableDTO;
 import com.kclm.owep.dto.OrgInstituteDTO;
 import com.kclm.owep.entity.OrgInstitute;
+import com.kclm.owep.service.BranchInstituteService;
 import com.kclm.owep.service.OrgInstituteService;
 import com.kclm.owep.utils.exceptions.BusinessException;
 import com.kclm.owep.utils.util.R;
@@ -26,6 +28,8 @@ public class OrganizationController {
 
     @Autowired
     private OrgInstituteService orgInstituteService;
+    @Autowired
+    private BranchInstituteService branchInstituteService;
 
     @GetMapping("/orgList")
     public String toOrgListPage() {
@@ -35,6 +39,13 @@ public class OrganizationController {
     @GetMapping("/branchList")
     public String toBranchListPage() {
         return "organization/branchList";
+    }
+
+    @GetMapping("/branchTable")
+    @ResponseBody
+    public R getBranchTable() {
+        List<BranchTableDTO> branchTable = branchInstituteService.getBranchTable();
+        return R.ok().put("data", branchTable);
     }
 
     //机构-获取机构列表信息
