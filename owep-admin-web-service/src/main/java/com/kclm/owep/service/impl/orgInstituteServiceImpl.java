@@ -63,6 +63,8 @@ public class orgInstituteServiceImpl implements OrgInstituteService {
 
     @Override
     public void addOrg(OrgInstitute orgInstitute) {
+        orgInstitute.setIsDelete(1);
+
         int save = orgInstituteMapper.save(orgInstitute);
         if (save < 1)
             throw new BusinessException("新增失败！");
