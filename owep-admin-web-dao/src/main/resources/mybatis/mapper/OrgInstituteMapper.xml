@@ -9,10 +9,10 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="institute_name" jdbcType="VARCHAR" property="instituteName"/>
         <result column="institute_type" jdbcType="INTEGER" property="instituteType"/>
-        <result column="is_delete" jdbcType="INTEGER" property="delete"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
         <result column="version" jdbcType="INTEGER" property="version"/>
-        <result column="create_time" jdbcType="DATE" property="createTime"/>
-        <result column="last_access_time" jdbcType="DATE" property="lastAccessTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="last_access_time" jdbcType="TIMESTAMP" property="lastAccessTime"/>
     </resultMap>
     <!--封装表字段名，方便后续简写使用-->
     <sql id="Base_Column_List">
@@ -34,37 +34,37 @@
             <if test="instituteType!=null">
                 institute_type,
             </if>
-            <if test="delete !=null">
+            <if test="isDelete !=null">
                 is_delete,
             </if>
             <if test="version!=null">
                 version,
             </if>
-            <if test="createTime!=null and createTime!='' ">
-                method,
+            <if test="createTime!=null">
+                create_time,
             </if>
-            <if test="lastAccessTime !=null and lastAccessTime!='' ">
-                request_url,
+            <if test="lastAccessTime !=null">
+                last_access_time,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="instituteName!=null and instituteName !=''">
-                #{instituteName},
+                #{instituteName,jdbcType=VARCHAR},
             </if>
             <if test="instituteType!=null">
-                #{instituteType},
+                #{instituteType,jdbcType=INTEGER},
             </if>
-            <if test="delete !=null">
-                #{delete},
+            <if test="isDelete !=null">
+                #{isDelete,jdbcType=INTEGER},
             </if>
             <if test="version!=null">
-                #{version},
+                #{version,jdbcType=INTEGER},
             </if>
-            <if test="createTime!=null and createTime!='' ">
-                #{createTime},
+            <if test="createTime!=null">
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="lastAccessTime !=null and lastAccessTime!='' ">
-                #{lastAccessTime},
+            <if test="lastAccessTime !=null ">
+                #{lastAccessTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -78,17 +78,17 @@
             <if test="instituteType!=null">
                 institute_type=#{instituteType},
             </if>
-            <if test="delete !=null">
-                is_delete=#{delete},
+            <if test="isDelete !=null">
+                is_delete=#{isDelete},
             </if>
             <if test="version!=null">
                 version=#{version},
             </if>
-            <if test="createTime!=null and createTime!='' ">
-                method=#{createTime},
+            <if test="createTime!=null">
+                create_time=#{createTime},
             </if>
             <if test="lastAccessTime !=null and lastAccessTime!='' ">
-                request_url=#{lastAccessTime},
+                last_access_time=#{lastAccessTime},
             </if>
         </set>
         where id=#{id,jdbcType=INTEGER}
