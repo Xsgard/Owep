@@ -21,6 +21,9 @@ public interface OrgInstituteMapper extends BaseMapper<OrgInstitute> {
     @Select("select * from t_org_institute where is_delete=1;")
     List<OrgInstitute> getAllOrgInstitute();
 
+    @Select("select institute_name from t_org_institute where id=#{id};")
+    String getOrgNameById(Integer id);
+
     @Select("select id,institute_name,institute_type,create_time from t_org_institute where is_delete=1;")
     List<OrgInstitute> getOrgInstituteTable();
 
