@@ -10,7 +10,8 @@
     <title>H+ 智慧教育平台 - 分支机构</title>
 
     <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
-    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <meta name="description"
+          content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
 
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
@@ -23,7 +24,8 @@
           rel="stylesheet">
     <link href="../../static/css/animate.css" th:href="@{/static/css/animate.css}" rel="stylesheet">
     <link href="../../static/css/style.css?v=4.1.0" th:href="@{/static/css/style.css(v='4.1.0')}" rel="stylesheet">
-    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="../../static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"
+          th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}">
     <!-- 弹出框插件 -->
     <link href="../../static/css/plugins/sweetalert/sweetalert.css"
           th:href="@{/static/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
@@ -93,7 +95,8 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control org">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                            <button type="button" class="btn btn-white dropdown-toggle"
+                                                    data-toggle="dropdown">
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -140,18 +143,19 @@
                         </div>
                         <div class="form-group form-inline">
                             <label class="col-md-2 control-label ">所属机构</label>
-                         <!--   <div class="col-md-4">
-                                <div class="input-group-btn">
-                                    <input type="text" class="form-control organization" autocomplete="off">
-                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                    </button>
-                                </div>-->
+                            <!--   <div class="col-md-4">
+                                   <div class="input-group-btn">
+                                       <input type="text" class="form-control organization" autocomplete="off">
+                                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                           <span class="caret"></span>
+                                       </button>
+                                   </div>-->
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <input type="text" class="form-control org">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                        <button type="button" class="btn btn-white dropdown-toggle"
+                                                data-toggle="dropdown">
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -182,17 +186,21 @@
 <!-- 自定义js -->
 <script src="../../static/js/content.js?v=1.0.0" th:src="@{/static/js/content.js(v='1.0.0')}"></script>
 <!--bootstrap-table-->
-<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
-<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-<script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+<script src="../../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"
+        th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script src="../../static/js/plugins/suggest/bootstrap-suggest.min.js"
+        th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
 <!-- 弹出框插件 -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
         th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <script>
     $(function () {
         $("#myTab").bootstrapTable({
-            url: "/owep/organization/branchList",
+            url: "/owep/organization/branchTable",
             toolbar: '#toolbar', // 工具按钮用哪个容器
             pagination: true,
             cache: false,
@@ -258,7 +266,7 @@
                     }
                 }]
         });
-         $(".org").bsSuggest({
+        $(".org").bsSuggest({
             indexId: 2,
             indexKey: 1,
             data: {
