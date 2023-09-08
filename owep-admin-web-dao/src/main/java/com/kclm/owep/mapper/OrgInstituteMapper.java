@@ -35,5 +35,5 @@ public interface OrgInstituteMapper extends BaseMapper<OrgInstitute> {
 
     @Select("select * from t_org_institute where institute_name=#{instituteName} " +
             "and institute_type=#{instituteType};")
-    List<OrgInstitute> queryOrgList(String instituteName,Integer instituteType);
+    List<OrgInstitute> queryOrgList(@Param("instituteName") String instituteName, @Param("instituteType") Integer instituteType);
 }
