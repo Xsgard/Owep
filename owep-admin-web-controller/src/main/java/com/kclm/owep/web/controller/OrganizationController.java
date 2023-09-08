@@ -95,9 +95,9 @@ public class OrganizationController {
     //机构-查询
     @PostMapping("/query")
     @ResponseBody
-    public R query(OrgInstituteDTO dto) {
-        List<OrgInstituteDTO> orgInstituteDTOS = orgInstituteService.queryList(dto);
-        return R.ok().put("data", orgInstituteDTOS);
+    public R query(@RequestBody OrgInstituteDTO dto) {
+        List<OrgInstituteDTO> orgInstituteDTO = orgInstituteService.queryList(dto);
+        return R.ok().put("data", orgInstituteDTO);
     }
 
     //机构-添加
