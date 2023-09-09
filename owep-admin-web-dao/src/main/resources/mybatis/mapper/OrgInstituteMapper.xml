@@ -70,7 +70,7 @@
     </insert>
 
     <update id="update" parameterType="com.kclm.owep.entity.OrgInstitute">
-        update t_system_config
+        update t_org_institute
         <set>
             <if test="instituteName!=null and instituteName !=''">
                 institute_name=#{instituteName},
