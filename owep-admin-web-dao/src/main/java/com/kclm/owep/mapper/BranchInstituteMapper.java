@@ -21,4 +21,7 @@ public interface BranchInstituteMapper extends BaseMapper<BranchInstitute> {
     @Results(@Result(property = "orgInstitute.id", column = "fk_org_id"))
     @Select("select * from t_branch_institute;")
     List<BranchInstitute> getBranchList();
+
+    @Update("update t_branch_institute set branch_name = #{branchName} where id=#{id};")
+    int editBranch(@Param("branchName") String branchName, @Param("id") Integer id);
 }
