@@ -48,7 +48,7 @@
         <div class="form-group">
             <label>&nbsp;&nbsp;所属机构:</label>
             <div class="input-group">
-                <input type="text" class="form-control org">
+                <input type="text" class="form-control org" id="query_org">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -79,21 +79,15 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">分支名称</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" placeholder="请输入机构名称">
+                                    <input type="text" class="form-control" id="branch_name"
+                                           placeholder="请输入分支名称">
                                 </div>
                             </div>
                             <div class="form-group form-inline">
                                 <label class="col-md-2 control-label ">所属机构</label>
-                                <!--   <div class="col-md-4">
-                                       <div class="input-group-btn">
-                                           <input type="text" class="form-control organization" autocomplete="off">
-                                           <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                               <span class="caret"></span>
-                                           </button>
-                                       </div>-->
                                 <div class="col-md-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control org">
+                                        <input type="text" class="form-control org" id="add_org">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-white dropdown-toggle"
                                                     data-toggle="dropdown">
@@ -112,7 +106,7 @@
                                     关闭
                                 </button>
                                 <button type="submit" class="btn btn-primary"
-                                        id="update_teacher_btn">保存
+                                        id="save_branch_btn">保存
                                 </button>
                             </div>
                         </div>
@@ -138,37 +132,21 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">分支名称</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="branch_content">
                             </div>
                         </div>
                         <div class="form-group form-inline">
                             <label class="col-md-2 control-label ">所属机构</label>
-                            <!--   <div class="col-md-4">
-                                   <div class="input-group-btn">
-                                       <input type="text" class="form-control organization" autocomplete="off">
-                                       <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
-                                           <span class="caret"></span>
-                                       </button>
-                                   </div>-->
                             <div class="col-md-4">
                                 <div class="input-group">
-                                    <input type="text" class="form-control org">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-white dropdown-toggle"
-                                                data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                        </ul>
-                                    </div>
-                                    <!-- /btn-group -->
+                                    <input type="text" class="form-control org" id="org_content" disabled>
                                 </div>
                             </div>
                         </div>
                         <!--footer-->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary">保存</button>
+                            <button type="button" class="btn btn-primary" id="save_edit">保存</button>
                         </div>
                     </div>
                 </div>
@@ -196,7 +174,7 @@
         th:src="@{/static/js/plugins/suggest/bootstrap-suggest.min.js}"></script>
 <!-- 弹出框插件 -->
 <script src="../../static/js/plugins/sweetalert/sweetalert.min.js"
-        th:href="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
+        th:src="@{/static/js/plugins/sweetalert/sweetalert.min.js}"></script>
 <script>
     $(function () {
         $("#myTab").bootstrapTable({
@@ -252,17 +230,67 @@
                     },
                     events: {
                         'click a[title=删除]': function (e, value, row, index) {
-                            swal({
-                                title: "您确定要删除小信息吗",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "删除",
-                                closeOnConfirm: false
-                            }, function () {
-                                swal("删除成功 !", "您已经永远删除信息", "success");
+                            $.ajax({
+                                url: '/owep/organization/branch/delete?id=' + row.instituteId,
+                                method: 'get',
+                                success: function (data) {
+                                    if (data.code === 0) {
+                                        setTimeout(function () {
+                                            swal("修改成功！", data.msg, "success")
+                                        }, 100);
+                                        setTimeout(function () {
+                                            window.location.reload();
+                                        }, 2000);
+                                    } else {
+                                        setTimeout(function () {
+                                            swal("修改失败！", data.msg, "success")
+                                        }, 100);
+                                    }
+                                },
+                                error: function (jqXHR) {
+                                    swal("同步失败！", "请稍后重试", "error");
+                                }
                             });
                         },
+                        'click a[title=修改]': function (e, value, row, index) {
+                            $("#branch_content").val(row.branchName);
+                            $('#org_content').val(row.subsidiaryOrgan);
+                            //保存修改
+                            $('#save_edit').click(function () {
+                                let branchName = $("#branch_content").val();
+                                //修改后的数据
+                                let branchData = {
+                                    id: row.id,
+                                    branchName: branchName,
+                                    subsidiaryOrgan: row.subsidiaryOrgan
+                                }
+                                //修改请求
+                                $.ajax({
+                                    url: '/owep/organization/branch/edit',
+                                    method: 'post',
+                                    data: JSON.stringify(branchData),
+                                    dataType: "json",   //期望服务端返回的数据类型
+                                    contentType: "application/json",
+                                    success: function (data) {
+                                        if (data.code === 0) {
+                                            setTimeout(function () {
+                                                swal("修改成功！", data.msg, "success")
+                                            }, 100);
+                                            setTimeout(function () {
+                                                window.location.reload();
+                                            }, 2000);
+                                        } else {
+                                            setTimeout(function () {
+                                                swal("修改失败！", data.msg, "success")
+                                            }, 100);
+                                        }
+                                    },
+                                    error: function (jqXHR) {
+                                        swal("同步失败！", "请稍后重试", "error");
+                                    }
+                                })
+                            })
+                        }
                     }
                 }]
         });
@@ -298,39 +326,126 @@
                 ]
             }
         });
-        //删除
+        //查询
+        $("#query").click(function () {
+            let branchName = $("#name").val();
+            let instituteName = $("#query_org").val();
+            let instituteType;
+            if (instituteName === "快程乐码")
+                instituteType = 2;
+            if (instituteName === "萍乡学院")
+                instituteType = 1;
+
+            if (instituteType === undefined) {
+                alert("没有匹配的组织机构");
+                return;
+            }
+
+            let queryData = {
+                branchName: branchName,
+                instituteType: instituteType,
+            };
+            console.log(queryData);
+            $.ajax({
+                method: "post",
+                url: "/owep/organization/query",
+                async: "false",
+                data: queryData, //不转为JSON 单独接收两个参数
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    if (data.code === 0)
+                        $('#myTab').bootstrapTable("load", data.data);
+                    else
+                        alert("查询失败");
+                },
+                error: function (jqXRH) {
+                    console.log(jqXRH);
+                    alert("查询失败");
+                }
+            });
+        })
+
+        //新增
+        $('#save_branch_btn').click(function () {
+            let branchName = $('#branch_name').val();
+            let orgName = $('#add_org').val();
+            console.log(branchName + "============" + orgName);
+            let branch = {
+                branchName: branchName,
+                subsidiaryOrgan: orgName
+            };
+            $.ajax({
+                method: "post",
+                url: "/owep/organization/branch/addBranch",
+                async: "true",
+                data: JSON.stringify(branch),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    if (data.code === 0) {
+                        setTimeout(function () {
+                            swal("添加成功", data.msg, "success");
+                        }, 100)
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        setTimeout(function () {
+                            swal("添加失败", data.msg, "error");
+                        }, 100)
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                },
+                error: function (jqXRH) {
+                    swal("添加失败", jqXRH.msg, "error");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+        })
+        //批量删除
         $('#delete').click(function () {
-            let idlist = $('#myTab').bootstrapTable('getAllSelections');
-            console.log(idlist);
-            let ids = JSON.stringify(idlist);
-            if (idlist.length === 0) {
+            let rows = $('#myTab').bootstrapTable('getAllSelections');
+            console.log(rows);
+            let ids = [];
+            rows.forEach(item => ids.push(item.id))
+            if (rows.length === 0) {
                 alert("请至少选择一个")
             } else {
                 if (confirm("确定删除这些数据么")) {
                     alert("删除:" + ids);
-                    window.location.reload();
                     //ajax发送异步请求
-                    /*$.ajax({
-                        url:  appName,
+                    $.ajax({
+                        url: '/owep/organization/branch/deleteByIds',
                         method: "post",
-                        data: idlist,
-                        dataType: "text",
+                        data: ids,
+                        dataType: "json",
                         async: "true",
                         contentType: "application/json",
                         success: function (data) {
-                            /!*重新加载本页面*!/
-                            alert(data);
-                            window.location.reload();
+                            if (data.code === 0) {
+                                setTimeout(function () {
+                                    swal("修改成功！", data.msg, "success")
+                                }, 100);
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                setTimeout(function () {
+                                    swal("修改失败！", data.msg, "success")
+                                }, 100);
+                            }
                         },
-                        error: function (jqXRH) {
-                            console.log(jqXRH);
-                            alert("删除失败")
+                        error: function (jqXHR) {
+                            swal("同步失败！", "请稍后重试", "error");
                         }
-                    })*/
+                    })
                 }
             }
-
-
         });
 
     });
