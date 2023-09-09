@@ -1,7 +1,9 @@
 package com.kclm.owep.web.controller;
 
+import com.kclm.owep.dto.BranchInstituteDTO;
 import com.kclm.owep.dto.BranchTableDTO;
 import com.kclm.owep.dto.OrgInstituteDTO;
+import com.kclm.owep.entity.BranchInstitute;
 import com.kclm.owep.entity.OrgInstitute;
 import com.kclm.owep.service.BranchInstituteService;
 import com.kclm.owep.service.OrgInstituteService;
@@ -46,6 +48,50 @@ public class OrganizationController {
     public R getBranchTable() {
         List<BranchTableDTO> branchTable = branchInstituteService.getBranchTable();
         return R.ok().put("data", branchTable);
+    }
+
+    @PostMapping("/branch/addBranch")
+    @ResponseBody
+    public R addBranch(@RequestBody BranchTableDTO dto) {
+        try {
+            branchInstituteService.addBranch(dto);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("新增成功！");
+    }
+
+    @GetMapping("/branch/delete")
+    @ResponseBody
+    public R deleteBranch(Integer id) {
+        try {
+            branchInstituteService.deleteBranch(id);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("删除成功！");
+    }
+
+    @PostMapping("/branch/deleteByIds")
+    @ResponseBody
+    public R deleteBranchByIds(List<Serializable> ids) {
+        try {
+            branchInstituteService.deleteByIds(ids);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("删除成功！");
+    }
+
+    @PostMapping("/branch/edit")
+    @ResponseBody
+    public R editBranch(@RequestBody BranchInstitute branchInstitute) {
+        try {
+            branchInstituteService.editBranch(branchInstitute);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
+        return R.ok("修改成功！");
     }
 
     //机构-获取机构列表信息
